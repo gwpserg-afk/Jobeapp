@@ -3,45 +3,47 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { authClient } from "@/lib/auth";
 import { useRouter } from "expo-router";
 import { useTheme, fonts, radius, spacing } from "@/lib/theme";
-
-const STATS = [
-  { label: "Vues", value: "248" },
-  { label: "Candidatures", value: "12" },
-  { label: "Connexions", value: "89" },
-];
+import { useI18n } from "@/lib/i18n";
 
 export default function Profile() {
   const router = useRouter();
   const { data: session } = authClient.useSession();
   const { colors, isDark, toggle } = useTheme();
+  const { t, lang, setLang } = useI18n();
   const user = session?.user;
+
+  const STATS = [
+    { label: t.views, value: "248" },
+    { label: t.applications, value: "12" },
+    { label: t.connections, value: "89" },
+  ];
+
+  const MENU = [
+    { emoji: "✏️", label: t.editProfile },
+    { emoji: "🎓", label: t.experience },
+    { emoji: "🛡️", label: t.identity },
+    { emoji: "💎", label: t.premium },
+    { emoji: "🔔", label: t.notifications },
+    { emoji: "🔒", label: t.security },
+  ];
 
   async function handleLogout() {
     await authClient.signOut();
     router.replace("/(auth)/welcome");
   }
 
-  const MENU = [
-    { emoji: "✏️", label: "Modifier le profil", action: undefined },
-    { emoji: "🎓", label: "Expériences & Diplômes", action: undefined },
-    { emoji: "🛡️", label: "Vérification d'identité", action: undefined },
-    { emoji: "💎", label: "Passer Premium", action: undefined },
-    { emoji: "🔔", label: "Notifications", action: undefined },
-    { emoji: "🌐", label: "Langue", action: undefined },
-    { emoji: "🔒", label: "Sécurité", action: undefined },
-  ];
-
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.bg }]} edges={["top"]}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Header */}
+        {/* Avatar + name */}
         <View style={styles.profileHeader}>
           <View style={[styles.avatarLarge, { backgroundColor: colors.primaryDim, borderColor: colors.primary }]}>
             <Text style={[styles.avatarText, { color: colors.primary }]}>{(user?.name ?? "U")[0]}</Text>
           </View>
-          <Text style={[styles.name, { color: colors.textPrimary }]}>{user?.name ?? "Votre nom"}</Text>
+          <Text style={[styles.name, { color: colors.textPrimary }]}>{user?.name ?? t.yourName}</Text>
           <Text style={[styles.email, { color: colors.textMuted }]}>{user?.email ?? ""}</Text>
 
+          {/* Stats */}
           <View style={[styles.stats, { borderBottomColor: colors.border }]}>
             {STATS.map((s) => (
               <View key={s.label} style={styles.stat}>
@@ -54,13 +56,13 @@ export default function Profile() {
           {/* Profile completion */}
           <View style={[styles.completionCard, { backgroundColor: colors.bgCard, borderColor: colors.border }]}>
             <View style={styles.completionTop}>
-              <Text style={[styles.completionLabel, { color: colors.textSecondary }]}>Profil complété à 45%</Text>
+              <Text style={[styles.completionLabel, { color: colors.textSecondary }]}>{t.profileComplete} 45%</Text>
               <Text style={[styles.completionPct, { color: colors.primary }]}>45%</Text>
             </View>
             <View style={[styles.progressBar, { backgroundColor: colors.bgElevated }]}>
               <View style={[styles.progressFill, { backgroundColor: colors.primary, width: "45%" }]} />
             </View>
-            <Text style={[styles.completionHint, { color: colors.textMuted }]}>Ajoutez votre CV pour augmenter vos chances</Text>
+            <Text style={[styles.completionHint, { color: colors.textMuted }]}>{t.cvHint}</Text>
           </View>
         </View>
 
@@ -69,7 +71,7 @@ export default function Profile() {
           {/* Dark/Light toggle */}
           <View style={[styles.menuRow, { borderBottomColor: colors.border }]}>
             <Text style={styles.menuEmoji}>{isDark ? "🌙" : "☀️"}</Text>
-            <Text style={[styles.menuLabel, { color: colors.textPrimary }]}>{isDark ? "Mode sombre" : "Mode clair"}</Text>
+            <Text style={[styles.menuLabel, { color: colors.textPrimary }]}>{isDark ? t.darkMode : t.lightMode}</Text>
             <Switch
               value={isDark}
               onValueChange={toggle}
@@ -78,8 +80,31 @@ export default function Profile() {
             />
           </View>
 
+          {/* Language selector */}
+          <View style={[styles.menuRow, { borderBottomColor: colors.border }]}>
+            <Text style={styles.menuEmoji}>🌐</Text>
+            <Text style={[styles.menuLabel, { color: colors.textPrimary }]}>{t.language}</Text>
+            <View style={styles.langPicker}>
+              {(["fr", "en", "zh"] as const).map((l) => (
+                <TouchableOpacity
+                  key={l}
+                  onPress={() => setLang(l)}
+                  style={[styles.langChip, lang === l && { backgroundColor: colors.primaryDim }]}
+                >
+                  <Text style={[styles.langChipText, { color: lang === l ? colors.primary : colors.textMuted }]}>
+                    {l === "fr" ? "FR" : l === "en" ? "EN" : "中文"}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+
           {MENU.map((item) => (
-            <TouchableOpacity key={item.label} style={[styles.menuRow, { borderBottomColor: colors.border }]} activeOpacity={0.7}>
+            <TouchableOpacity
+              key={item.label}
+              style={[styles.menuRow, { borderBottomColor: colors.border }]}
+              activeOpacity={0.7}
+            >
               <Text style={styles.menuEmoji}>{item.emoji}</Text>
               <Text style={[styles.menuLabel, { color: colors.textPrimary }]}>{item.label}</Text>
               <Text style={[styles.menuArrow, { color: colors.textMuted }]}>›</Text>
@@ -87,8 +112,12 @@ export default function Profile() {
           ))}
         </View>
 
-        <TouchableOpacity style={[styles.logoutBtn, { borderColor: colors.error, marginHorizontal: spacing.xl }]} onPress={handleLogout} activeOpacity={0.8}>
-          <Text style={[styles.logoutText, { color: colors.error }]}>Se déconnecter</Text>
+        <TouchableOpacity
+          style={[styles.logoutBtn, { borderColor: colors.error, marginHorizontal: spacing.xl }]}
+          onPress={handleLogout}
+          activeOpacity={0.8}
+        >
+          <Text style={[styles.logoutText, { color: colors.error }]}>{t.logout}</Text>
         </TouchableOpacity>
         <View style={{ height: spacing.xxl }} />
       </ScrollView>
@@ -119,6 +148,9 @@ const styles = StyleSheet.create({
   menuEmoji: { fontSize: 20, width: 28, textAlign: "center" },
   menuLabel: { flex: 1, fontSize: fonts.sizes.base },
   menuArrow: { fontSize: 20 },
+  langPicker: { flexDirection: "row", gap: 4 },
+  langChip: { paddingHorizontal: 8, paddingVertical: 4, borderRadius: radius.full },
+  langChipText: { fontSize: fonts.sizes.xs, fontWeight: fonts.weights.bold },
   logoutBtn: { marginTop: spacing.xl, marginBottom: spacing.xxl, borderRadius: radius.full, borderWidth: 1, paddingVertical: 14, alignItems: "center" },
   logoutText: { fontSize: fonts.sizes.base, fontWeight: fonts.weights.semibold },
 });

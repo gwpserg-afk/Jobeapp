@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Jobé — Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="qrcode.min.js"></script>
   <style>
     :root[data-theme="dark"] {
       --bg: #0D0D0F;
@@ -26,6 +26,7 @@
       --yellow: #E09B3A;
       --yellow-dim: rgba(224,155,58,0.1);
       --shadow: 0 4px 24px rgba(0,0,0,0.4);
+      --scrim: rgba(0,0,0,0.6);
     }
     :root[data-theme="light"] {
       --bg: #F4F4F8;
@@ -47,6 +48,7 @@
       --yellow: #D97706;
       --yellow-dim: rgba(217,119,6,0.08);
       --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --scrim: rgba(0,0,0,0.4);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -59,6 +61,7 @@
       min-height: 100vh;
       font-size: 14px;
       transition: background 0.2s, color 0.2s;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* ── SIDEBAR ── */
@@ -71,8 +74,8 @@
       flex-direction: column;
       position: fixed;
       top: 0; left: 0; bottom: 0;
-      z-index: 50;
-      transition: background 0.2s;
+      z-index: 60;
+      transition: transform 0.25s ease, background 0.2s;
     }
     .sidebar-logo {
       padding: 24px 20px 20px;
@@ -98,6 +101,7 @@
       display: flex;
       flex-direction: column;
       gap: 2px;
+      overflow-y: auto;
     }
     .nav-section {
       font-size: 10px;
@@ -127,6 +131,16 @@
     .nav-item:hover { background: var(--elevated); color: var(--text); }
     .nav-item.active { background: var(--green-dim); color: var(--green); font-weight: 600; }
     .nav-icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+    .nav-badge {
+      margin-left: auto;
+      font-size: 10px;
+      font-weight: 700;
+      background: var(--elevated);
+      color: var(--muted);
+      border-radius: 6px;
+      padding: 1px 6px;
+    }
+    .nav-item.active .nav-badge { background: var(--green-border); color: var(--green); }
     .sidebar-bottom {
       padding: 12px 10px;
       border-top: 1px solid var(--border);
@@ -142,13 +156,14 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      min-width: 0;
     }
 
     /* ── TOPBAR ── */
     .topbar {
       background: var(--sidebar);
       border-bottom: 1px solid var(--border);
-      padding: 0 32px;
+      padding: 0 24px;
       height: 56px;
       display: flex;
       align-items: center;
@@ -157,39 +172,49 @@
       top: 0;
       z-index: 40;
       transition: background 0.2s;
+      gap: 10px;
     }
-    .topbar-left {
-      display: flex;
+    .topbar-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .hamburger {
+      display: none;
+      background: var(--elevated);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 34px; height: 34px;
+      cursor: pointer;
+      color: var(--text);
+      font-size: 16px;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
+      flex-shrink: 0;
     }
     .page-title {
       font-size: 15px;
       font-weight: 600;
       color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .topbar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .lang-group { display: flex; gap: 2px; background: var(--elevated); border: 1px solid var(--border); border-radius: 9px; padding: 2px; }
     .lang-btn {
-      background: var(--elevated);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 5px 10px;
+      background: none;
+      border: none;
+      border-radius: 7px;
+      padding: 4px 9px;
       font-size: 12px;
       font-weight: 600;
       color: var(--sub);
       cursor: pointer;
       transition: all 0.15s;
     }
-    .lang-btn.active, .lang-btn:hover { background: var(--green-dim); color: var(--green); border-color: var(--green-border); }
+    .lang-btn.active { background: var(--green-dim); color: var(--green); }
     .theme-btn {
       background: var(--elevated);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 5px 10px;
+      border-radius: 9px;
+      width: 34px; height: 34px;
       font-size: 14px;
       cursor: pointer;
       transition: all 0.15s;
@@ -206,106 +231,69 @@
       background: var(--green-dim);
       border: 1px solid var(--green-border);
       border-radius: 999px;
-      padding: 4px 12px;
+      padding: 5px 12px;
     }
     .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-    /* ── CONTENT ── */
-    .content {
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
+    /* ── SCRIM (mobile) ── */
+    .scrim {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--scrim);
+      z-index: 55;
+      backdrop-filter: blur(2px);
     }
+    .scrim.show { display: block; }
 
-    /* ── PAGE SECTIONS ── */
-    .page { display: none; }
-    .page.active { display: contents; }
+    /* ── CONTENT ── */
+    .content { padding: 28px 24px; display: flex; flex-direction: column; gap: 26px; }
+    .page { display: none; animation: fade 0.25s ease; }
+    .page.active { display: flex; flex-direction: column; gap: 26px; }
+    @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
     /* ── SECTION HEADER ── */
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 16px;
-    }
-    .section-title {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
+    .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 14px; }
+    .section-title { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); }
 
     /* ── STAT CARDS ── */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
     .stat-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 20px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
       gap: 6px;
-      transition: background 0.2s;
+      transition: transform 0.15s, border-color 0.15s, background 0.2s;
     }
+    .stat-card:hover { transform: translateY(-2px); border-color: var(--border-light); }
     .stat-label { font-size: 12px; color: var(--muted); font-weight: 500; }
     .stat-value { font-size: 28px; font-weight: 800; letter-spacing: -1px; color: var(--text); line-height: 1; }
-    .stat-change {
-      font-size: 12px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
+    .stat-change { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
     .stat-change.up { color: var(--green); }
     .stat-change.neutral { color: var(--muted); }
 
-    /* ── TWO COL ── */
+    /* ── GRID ── */
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
 
     /* ── CARD ── */
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      transition: background 0.2s;
-    }
-    .card-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-    .card-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px; transition: background 0.2s; }
+    .card-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .card-sub { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+    .card-head-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+    .col-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
-    /* ── QR CARD ── */
-    .qr-section {
-      display: flex;
-      gap: 24px;
-      align-items: flex-start;
-    }
-    .qr-box {
-      background: #fff;
-      border-radius: 12px;
-      padding: 12px;
-      flex-shrink: 0;
-    }
-    .qr-info { flex: 1; }
-    .qr-url-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
+    /* ── QR ── */
+    .qr-section { display: flex; gap: 24px; align-items: flex-start; }
+    .qr-box { background: #fff; border-radius: 12px; padding: 12px; flex-shrink: 0; }
+    .qr-info { flex: 1; min-width: 0; }
+    .qr-url-row { display: flex; gap: 8px; margin-bottom: 14px; }
     .qr-input {
-      flex: 1;
+      flex: 1; min-width: 0;
       background: var(--elevated);
       border: 1px solid var(--border);
       border-radius: 10px;
@@ -318,339 +306,218 @@
     }
     .qr-input:focus { border-color: var(--green); }
     .qr-btn {
-      background: var(--green);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 9px 14px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: opacity 0.15s;
+      background: var(--green); color: #fff; border: none; border-radius: 10px;
+      padding: 9px 14px; font-size: 12px; font-weight: 700; cursor: pointer;
+      white-space: nowrap; transition: opacity 0.15s;
     }
     .qr-btn:hover { opacity: 0.85; }
     .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-    .chip {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: var(--elevated);
-      color: var(--muted);
-    }
+    .chip { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--elevated); color: var(--muted); }
     .chip.green { background: var(--green-dim); color: var(--green); border-color: var(--green-border); }
     .chip.blue { background: var(--blue-dim); color: var(--blue); border-color: rgba(45,125,210,0.25); }
+    .chip.yellow { background: var(--yellow-dim); color: var(--yellow); border-color: rgba(224,155,58,0.25); }
 
-    /* ── ROADMAP ── */
+    /* ── ROADMAP / ROW ITEM ── */
     .roadmap-list { display: flex; flex-direction: column; gap: 10px; }
-    .road-item {
-      background: var(--elevated);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
+    .road-item { background: var(--elevated); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; }
     .road-icon { font-size: 18px; flex-shrink: 0; }
-    .road-content { flex: 1; }
+    .road-content { flex: 1; min-width: 0; }
     .road-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
-    .road-desc { font-size: 12px; color: var(--muted); }
-    .road-badge {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      flex-shrink: 0;
-    }
+    .road-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .road-badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; flex-shrink: 0; }
     .road-badge.done { background: var(--green-dim); color: var(--green); }
     .road-badge.now { background: var(--blue-dim); color: var(--blue); }
     .road-badge.next { background: var(--elevated); color: var(--muted); border: 1px solid var(--border); }
 
-    /* ── PROGRESS BARS ── */
+    /* ── PROGRESS ── */
     .progress-item { margin-bottom: 14px; }
-    .progress-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: var(--sub);
-    }
+    .progress-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--sub); }
     .progress-label span:last-child { color: var(--text); }
-    .progress-bar {
-      height: 6px;
-      background: var(--elevated);
-      border-radius: 999px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      border-radius: 999px;
-      background: var(--green);
-      transition: width 1s ease;
-    }
+    .progress-bar { height: 6px; background: var(--elevated); border-radius: 999px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 999px; background: var(--green); transition: width 1s ease; }
     .progress-fill.blue { background: var(--blue); }
     .progress-fill.yellow { background: var(--yellow); }
 
-    /* ── STACK TAGS ── */
+    /* ── TAGS ── */
     .tag-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-    .tag {
-      background: var(--elevated);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 6px 12px;
-      font-size: 12px;
-      color: var(--sub);
-      font-weight: 500;
-    }
+    .tag { background: var(--elevated); border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; font-size: 12px; color: var(--sub); font-weight: 500; }
 
-    /* ── ACTIVITY FEED ── */
+    /* ── ACTIVITY / LIST ── */
     .activity-list { display: flex; flex-direction: column; }
-    .activity-item {
-      display: flex;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-      align-items: flex-start;
-    }
+    .activity-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
     .activity-item:last-child { border-bottom: none; }
-    .activity-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      margin-top: 5px;
-      flex-shrink: 0;
-    }
+    .activity-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
     .activity-dot.green { background: var(--green); }
     .activity-dot.blue { background: var(--blue); }
     .activity-dot.yellow { background: var(--yellow); }
-    .activity-text { font-size: 13px; color: var(--sub); line-height: 1.5; flex: 1; }
+    .activity-text { font-size: 13px; color: var(--sub); line-height: 1.5; flex: 1; min-width: 0; }
     .activity-text strong { color: var(--text); }
+    .activity-note { color: var(--muted); font-size: 11px; }
     .activity-time { font-size: 11px; color: var(--muted); white-space: nowrap; padding-top: 2px; }
+    .mini-chip { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
 
-    /* ── LINKS / RESOURCES ── */
+    /* ── TASK CHECKLIST ── */
+    .task-progress-bar { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px 20px; }
+    .task-progress-bar .progress-bar { flex: 1; height: 8px; }
+    .task-pct { font-size: 18px; font-weight: 800; color: var(--green); letter-spacing: -0.5px; min-width: 46px; text-align: right; }
+    .task-progress-label { font-size: 12px; font-weight: 600; color: var(--sub); white-space: nowrap; }
+    .task-item {
+      background: var(--elevated); border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px 14px; display: flex; align-items: flex-start; gap: 11px; cursor: pointer;
+      transition: border-color 0.15s, background 0.15s; border-left-width: 3px;
+    }
+    .task-item:hover { border-color: var(--border-light); }
+    .task-check {
+      width: 18px; height: 18px; border-radius: 6px; border: 2px solid var(--muted);
+      flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s; font-size: 11px; color: #fff;
+    }
+    .task-item.checked .task-check { background: var(--green); border-color: var(--green); }
+    .task-item.checked .road-title { text-decoration: line-through; color: var(--muted); }
+    .task-item.checked .road-desc { opacity: 0.6; }
+    .task-body { flex: 1; min-width: 0; }
+    .task-meta { display: flex; align-items: center; gap: 6px; margin-top: 7px; }
+
+    /* ── LINKS ── */
     .link-grid { display: flex; flex-direction: column; gap: 8px; }
     .link-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      background: var(--elevated);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      text-decoration: none;
-      color: var(--sub);
-      font-size: 13px;
-      font-weight: 500;
-      transition: all 0.15s;
+      display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+      background: var(--elevated); border: 1px solid var(--border); border-radius: 10px;
+      text-decoration: none; color: var(--sub); font-size: 13px; font-weight: 500; transition: all 0.15s;
     }
     .link-item:hover { background: var(--green-dim); color: var(--green); border-color: var(--green-border); }
-    .link-icon { font-size: 16px; }
-    .link-arrow { margin-left: auto; opacity: 0.5; font-size: 12px; }
+    .link-icon { font-size: 16px; flex-shrink: 0; }
+    .link-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .link-arrow { margin-left: auto; opacity: 0.5; font-size: 12px; flex-shrink: 0; }
 
-    /* ── FOOTER BAR ── */
-    .footer-bar {
-      margin-top: auto;
-      padding: 16px 32px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 11px;
-      color: var(--muted);
-    }
+    /* ── FOOTER ── */
+    .footer-bar { margin-top: auto; padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); gap: 12px; flex-wrap: wrap; }
 
+    /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .three-col { grid-template-columns: 1fr 1fr; }
+      .three-col { grid-template-columns: 1fr; }
     }
-    @media (max-width: 768px) {
-      .sidebar { display: none; }
+    @media (max-width: 860px) {
+      .sidebar { transform: translateX(-100%); box-shadow: var(--shadow); }
+      .sidebar.open { transform: translateX(0); }
       .main { margin-left: 0; }
-      .content { padding: 20px; }
-      .stats-grid { grid-template-columns: 1fr 1fr; }
-      .two-col, .three-col { grid-template-columns: 1fr; }
+      .hamburger { display: flex; }
+      .content { padding: 20px 16px; }
+      .two-col { grid-template-columns: 1fr; }
       .qr-section { flex-direction: column; }
+      .qr-box { align-self: center; }
+      .status-dot span:not(.dot) { display: none; }
+      .status-dot { padding: 7px; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .topbar { padding: 0 14px; }
+      .lang-btn { padding: 4px 7px; }
+      .card { padding: 18px; }
     }
   </style>
 </head>
 <body>
 
+<!-- SCRIM for mobile sidebar -->
+<div class="scrim" id="scrim" onclick="closeSidebar()"></div>
+
 <!-- SIDEBAR -->
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
   <div class="sidebar-logo">
     <div class="logo-text">Job<span>é</span></div>
-    <div class="logo-sub" data-i18n="dashboard">Dashboard interne</div>
+    <div class="logo-sub" data-i18n="dashboard">Internal Dashboard</div>
   </div>
-  <nav class="sidebar-nav">
-    <div class="nav-section" data-i18n="nav_overview">Vue d'ensemble</div>
-    <button class="nav-item active" onclick="showPage('overview', this)">
-      <span class="nav-icon">◎</span> <span data-i18n="nav_home">Accueil</span>
-    </button>
-    <button class="nav-item" onclick="showPage('app', this)">
-      <span class="nav-icon">📱</span> <span data-i18n="nav_app">Application</span>
-    </button>
-    <button class="nav-item" onclick="showPage('roadmap', this)">
-      <span class="nav-icon">🗺</span> <span data-i18n="nav_roadmap">Roadmap</span>
-    </button>
-
-    <div class="nav-section" data-i18n="nav_product">Produit</div>
-    <button class="nav-item" onclick="showPage('design', this)">
-      <span class="nav-icon">✦</span> <span data-i18n="nav_design">Design & Brand</span>
-    </button>
-    <button class="nav-item" onclick="showPage('stack', this)">
-      <span class="nav-icon">⚙</span> <span data-i18n="nav_stack">Stack</span>
-    </button>
-
-    <div class="nav-section" data-i18n="nav_growth">Croissance</div>
-    <button class="nav-item" onclick="showPage('marketing', this)">
-      <span class="nav-icon">📣</span> <span data-i18n="nav_marketing">Marketing</span>
-    </button>
-    <button class="nav-item" onclick="showPage('links', this)">
-      <span class="nav-icon">🔗</span> <span data-i18n="nav_links">Liens & Ressources</span>
-    </button>
-  </nav>
+  <nav class="sidebar-nav" id="sidebar-nav"><!-- rendered by JS --></nav>
   <div class="sidebar-bottom">
-    <div style="font-size:11px;color:var(--muted);padding:4px 10px;" data-i18n="confidential">Confidentiel · Fondateurs seulement</div>
+    <div style="font-size:11px;color:var(--muted);padding:4px 10px;" data-i18n="confidential">Confidential · Founders only</div>
   </div>
 </aside>
 
 <!-- MAIN -->
 <div class="main">
-  <!-- TOPBAR -->
   <header class="topbar">
     <div class="topbar-left">
-      <span class="page-title" id="page-title">Vue d'ensemble</span>
+      <button class="hamburger" onclick="openSidebar()" aria-label="Menu">☰</button>
+      <span class="page-title" id="page-title">Overview</span>
     </div>
     <div class="topbar-right">
-      <button class="lang-btn active" onclick="setLang('fr')">FR</button>
-      <button class="lang-btn" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" onclick="setLang('zh')">中文</button>
+      <div class="lang-group">
+        <button class="lang-btn" data-lang="fr" onclick="setLang('fr')">FR</button>
+        <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
+      </div>
       <button class="theme-btn" onclick="toggleTheme()" id="theme-btn">☀️</button>
-      <div class="status-dot"><span class="dot"></span><span data-i18n="online">App en ligne</span></div>
+      <div class="status-dot"><span class="dot"></span><span data-i18n="online">App online</span></div>
     </div>
   </header>
 
-  <!-- CONTENT -->
   <div class="content">
 
-    <!-- ═══ PAGE: OVERVIEW ═══ -->
+    <!-- ═══ OVERVIEW ═══ -->
     <div class="page active" id="page-overview">
-
       <div>
-        <div class="section-header">
-          <span class="section-title" data-i18n="kpis">KPIs · Juillet 2026</span>
-        </div>
+        <div class="section-header"><span class="section-title" data-i18n="kpis">KPIs · July 2026</span></div>
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-label" data-i18n="build_progress">Avancement build</div>
-            <div class="stat-value" style="color:var(--green)">32%</div>
-            <div class="stat-change up">↑ Phase 2 en cours</div>
+            <div class="stat-label" data-i18n="build_progress">Build progress</div>
+            <div class="stat-value" style="color:var(--green)">15%</div>
+            <div class="stat-change up">↑ <span data-i18n="kpi_phase2">Phase 2 in progress</span></div>
           </div>
           <div class="stat-card">
-            <div class="stat-label" data-i18n="screens_done">Écrans terminés</div>
-            <div class="stat-value">8</div>
-            <div class="stat-change neutral">/ 24 au total</div>
+            <div class="stat-label" data-i18n="screens_done">Screens done</div>
+            <div class="stat-value">0</div>
+            <div class="stat-change neutral"><span data-i18n="kpi_screens">7 in progress · 24 total</span></div>
           </div>
           <div class="stat-card">
             <div class="stat-label" data-i18n="deadline">Deadline</div>
-            <div class="stat-value" style="color:var(--yellow)">48j</div>
-            <div class="stat-change neutral">Fin juillet 2026</div>
+            <div class="stat-value" style="color:var(--yellow)" id="countdown">—</div>
+            <div class="stat-change neutral"><span data-i18n="kpi_deadline">End of July 2026</span></div>
           </div>
           <div class="stat-card">
-            <div class="stat-label" data-i18n="target_market">Marché cible</div>
+            <div class="stat-label" data-i18n="target_market">Target market</div>
             <div class="stat-value" style="color:var(--blue)">4</div>
-            <div class="stat-change neutral">Pays · Sénégal first</div>
+            <div class="stat-change neutral"><span data-i18n="kpi_market">Countries · Senegal first</span></div>
           </div>
         </div>
       </div>
 
       <div class="two-col">
-        <!-- Activity -->
         <div class="card">
-          <div class="card-title" data-i18n="recent_activity">Activité récente</div>
-          <div class="card-sub" data-i18n="recent_sub">Dernières mises à jour du projet</div>
-          <div class="activity-list">
-            <div class="activity-item">
-              <div class="activity-dot green"></div>
-              <div class="activity-text"><strong data-i18n="act1">Redesign welcome screen</strong> — Cal AI style, dark immersif</div>
-              <div class="activity-time">Aujourd'hui</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-dot green"></div>
-              <div class="activity-text"><strong data-i18n="act2">i18n FR/EN/中文</strong> — Zustand store, 3 langues</div>
-              <div class="activity-time">Aujourd'hui</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-dot blue"></div>
-              <div class="activity-text"><strong data-i18n="act3">Fix crash expo-network</strong> — patch dynamic import</div>
-              <div class="activity-time">Aujourd'hui</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-dot blue"></div>
-              <div class="activity-text"><strong data-i18n="act4">Dark mode par défaut</strong> — theme Zustand store</div>
-              <div class="activity-time">Hier</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-dot yellow"></div>
-              <div class="activity-text"><strong data-i18n="act5">Logo intégré</strong> — logo-dark.png + logo-light.png</div>
-              <div class="activity-time">Hier</div>
-            </div>
-          </div>
+          <div class="card-title" data-i18n="recent_activity">Recent activity</div>
+          <div class="card-sub" data-i18n="recent_sub">Latest project updates</div>
+          <div class="activity-list" id="activity-list"></div>
         </div>
 
-        <!-- Phase progress -->
         <div class="card">
-          <div class="card-title" data-i18n="phase_progress">Avancement par phase</div>
-          <div class="card-sub" data-i18n="phase_sub">Objectif : launch fin juillet</div>
-
-          <div class="progress-item">
-            <div class="progress-label"><span data-i18n="phase1">Phase 1 · Fondations</span><span>100%</span></div>
-            <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
-          </div>
-          <div class="progress-item">
-            <div class="progress-label"><span data-i18n="phase2">Phase 2 · Design & UI</span><span>55%</span></div>
-            <div class="progress-bar"><div class="progress-fill" style="width:55%"></div></div>
-          </div>
-          <div class="progress-item">
-            <div class="progress-label"><span data-i18n="phase3">Phase 3 · Features</span><span>10%</span></div>
-            <div class="progress-bar"><div class="progress-fill blue" style="width:10%"></div></div>
-          </div>
-          <div class="progress-item">
-            <div class="progress-label"><span data-i18n="phase4">Phase 4 · Launch</span><span>5%</span></div>
-            <div class="progress-bar"><div class="progress-fill yellow" style="width:5%"></div></div>
-          </div>
-
+          <div class="card-title" data-i18n="phase_progress">Progress by phase</div>
+          <div class="card-sub" data-i18n="phase_sub">Target: launch end of July</div>
+          <div id="phase-list"></div>
           <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
-            <div class="progress-label" style="margin-bottom:8px"><span data-i18n="overall">Avancement global</span><span style="color:var(--green)">32%</span></div>
-            <div class="progress-bar" style="height:10px"><div class="progress-fill" style="width:32%"></div></div>
+            <div class="progress-label" style="margin-bottom:8px"><span data-i18n="overall">Overall progress</span><span style="color:var(--green)">15%</span></div>
+            <div class="progress-bar" style="height:10px"><div class="progress-fill" style="width:15%"></div></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ═══ PAGE: APP ═══ -->
+    <!-- ═══ APP ═══ -->
     <div class="page" id="page-app">
       <div class="card">
-        <div class="card-title" data-i18n="test_app">Tester l'application mobile</div>
-        <div class="card-sub" data-i18n="test_sub">Scannez avec Expo Go (iOS ou Android). Mettez à jour l'URL tunnel si elle change.</div>
+        <div class="card-title" data-i18n="test_app">Test the mobile app</div>
+        <div class="card-sub" data-i18n="test_sub">Scan with Expo Go (iOS or Android). Update the tunnel URL if it changes.</div>
         <div class="qr-section">
-          <div class="qr-box">
-            <canvas id="qr-canvas" width="168" height="168"></canvas>
-          </div>
+          <div class="qr-box"><canvas id="qr-canvas" width="168" height="168"></canvas></div>
           <div class="qr-info">
-            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">Expo Go · Tunnel ngrok</div>
-            <div style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6" data-i18n="qr_desc">
-              Ouvrez Expo Go sur votre téléphone et scannez ce QR code. L'URL tunnel change à chaque redémarrage du serveur — collez la nouvelle URL ci-dessous.
-            </div>
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">Expo Go · ngrok tunnel</div>
+            <div style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6" data-i18n="qr_desc">Open Expo Go and scan. The URL changes on every restart — paste the new one below.</div>
             <div class="qr-url-row">
               <input class="qr-input" id="expo-url" type="text" value="exp://0jfi-_q-anonymous-8081.exp.direct" />
-              <button class="qr-btn" onclick="updateQR()" data-i18n="update">Mettre à jour</button>
+              <button class="qr-btn" onclick="updateQR()" data-i18n="update">Update</button>
             </div>
             <div class="chips">
-              <span class="chip green" data-i18n="server_online">● Serveur actif</span>
+              <span class="chip green" data-i18n="server_online">● Server online</span>
               <span class="chip blue">Expo SDK 54</span>
               <span class="chip">iOS</span>
               <span class="chip">Android</span>
@@ -662,341 +529,645 @@
 
       <div class="two-col">
         <div class="card">
-          <div class="card-title" data-i18n="screens_title">Écrans terminés</div>
-          <div class="card-sub">8 / 24</div>
-          <div class="activity-list">
-            <div class="activity-item"><div class="activity-dot green"></div><div class="activity-text">Welcome screen</div><div class="activity-time chip green" style="font-size:10px" data-i18n="done">Fait</div></div>
-            <div class="activity-item"><div class="activity-dot green"></div><div class="activity-text">Sign in / OTP</div><div class="activity-time chip green" style="font-size:10px" data-i18n="done">Fait</div></div>
-            <div class="activity-item"><div class="activity-dot green"></div><div class="activity-text">Sign up</div><div class="activity-time chip green" style="font-size:10px" data-i18n="done">Fait</div></div>
-            <div class="activity-item"><div class="activity-dot green"></div><div class="activity-text">Home feed</div><div class="activity-time chip green" style="font-size:10px" data-i18n="done">Fait</div></div>
-            <div class="activity-item"><div class="activity-dot green"></div><div class="activity-text">Jobs search</div><div class="activity-time chip green" style="font-size:10px" data-i18n="done">Fait</div></div>
-            <div class="activity-item"><div class="activity-dot green"></div><div class="activity-text">Messages</div><div class="activity-time chip green" style="font-size:10px" data-i18n="done">Fait</div></div>
-            <div class="activity-item"><div class="activity-dot green"></div><div class="activity-text">Profile</div><div class="activity-time chip green" style="font-size:10px" data-i18n="done">Fait</div></div>
-            <div class="activity-item"><div class="activity-dot blue"></div><div class="activity-text">Recruiter dashboard</div><div class="activity-time chip" style="font-size:10px;background:var(--blue-dim);color:var(--blue);border-color:rgba(45,125,210,0.2)" data-i18n="in_progress">En cours</div></div>
-          </div>
+          <div class="card-title" data-i18n="screens_title">Completed screens</div>
+          <div class="card-sub" id="screens-count">8 / 24</div>
+          <div class="activity-list" id="screens-list"></div>
         </div>
         <div class="card">
           <div class="card-title" data-i18n="backend_title">Backend · API</div>
           <div class="card-sub">Hono + Bun · Port 3000</div>
-          <div class="activity-list">
-            <div class="activity-item"><div class="activity-dot green"></div><div class="activity-text">Auth endpoints (Better Auth)</div><div class="activity-time chip green" style="font-size:10px" data-i18n="done">Fait</div></div>
-            <div class="activity-item"><div class="activity-dot green"></div><div class="activity-text">Prisma + SQLite</div><div class="activity-time chip green" style="font-size:10px" data-i18n="done">Fait</div></div>
-            <div class="activity-item"><div class="activity-dot green"></div><div class="activity-text">Cloudflare tunnel</div><div class="activity-time chip green" style="font-size:10px" data-i18n="done">Fait</div></div>
-            <div class="activity-item"><div class="activity-dot yellow"></div><div class="activity-text">Jobs API</div><div class="activity-time chip" style="font-size:10px;background:var(--yellow-dim);color:var(--yellow)" data-i18n="next">À venir</div></div>
-            <div class="activity-item"><div class="activity-dot yellow"></div><div class="activity-text">Messaging WebSocket</div><div class="activity-time chip" style="font-size:10px;background:var(--yellow-dim);color:var(--yellow)" data-i18n="next">À venir</div></div>
-            <div class="activity-item"><div class="activity-dot yellow"></div><div class="activity-text">AI matching (OpenAI)</div><div class="activity-time chip" style="font-size:10px;background:var(--yellow-dim);color:var(--yellow)" data-i18n="next">À venir</div></div>
-          </div>
+          <div class="activity-list" id="backend-list"></div>
         </div>
       </div>
     </div>
 
-    <!-- ═══ PAGE: ROADMAP ═══ -->
+    <!-- ═══ ROADMAP ═══ -->
     <div class="page" id="page-roadmap">
       <div class="card">
-        <div class="card-title" data-i18n="roadmap_title">Roadmap · Fin juillet 2026</div>
-        <div class="card-sub" data-i18n="roadmap_sub">4 phases pour un lancement complet en production</div>
-        <div class="roadmap-list">
-          <div class="road-item">
-            <div class="road-icon">✅</div>
-            <div class="road-content">
-              <div class="road-title" data-i18n="r1_title">Phase 1 — Fondations</div>
-              <div class="road-desc" data-i18n="r1_desc">Expo Router, auth OTP, dark/light mode, backend Hono, Prisma, tunnels, i18n FR/EN/ZH</div>
-            </div>
-            <div class="road-badge done" data-i18n="done">Fait</div>
-          </div>
-          <div class="road-item">
-            <div class="road-icon">🎨</div>
-            <div class="road-content">
-              <div class="road-title" data-i18n="r2_title">Phase 2 — Design & UI</div>
-              <div class="road-desc" data-i18n="r2_desc">Welcome Cal AI style, home feed immersif, jobs search, profil candidat, logo & branding</div>
-            </div>
-            <div class="road-badge now" data-i18n="in_progress">En cours</div>
-          </div>
-          <div class="road-item">
-            <div class="road-icon">⚡</div>
-            <div class="road-content">
-              <div class="road-title" data-i18n="r3_title">Phase 3 — Fonctionnalités clés</div>
-              <div class="road-desc" data-i18n="r3_desc">Dashboard recruteur, messagerie temps réel, matching IA, upload CV, notifications push</div>
-            </div>
-            <div class="road-badge next" data-i18n="next">À venir</div>
-          </div>
-          <div class="road-item">
-            <div class="road-icon">🚀</div>
-            <div class="road-content">
-              <div class="road-title" data-i18n="r4_title">Phase 4 — Launch</div>
-              <div class="road-desc" data-i18n="r4_desc">Site marketing jobeapp.com, App Store + Play Store, campagne Sénégal, premium, analytics</div>
-            </div>
-            <div class="road-badge next" data-i18n="next">À venir</div>
-          </div>
-        </div>
+        <div class="card-title" data-i18n="roadmap_title">Roadmap · End of July 2026</div>
+        <div class="card-sub" data-i18n="roadmap_sub">4 phases for a full production launch</div>
+        <div class="roadmap-list" id="roadmap-list"></div>
       </div>
     </div>
 
-    <!-- ═══ PAGE: DESIGN ═══ -->
+    <!-- ═══ DESIGN ═══ -->
     <div class="page" id="page-design">
       <div class="two-col">
         <div class="card">
-          <div class="card-title" data-i18n="colors_title">Palette de couleurs</div>
-          <div class="card-sub" data-i18n="colors_sub">Vert primaire · Bleu secondaire · Jamais or</div>
-          <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
-            <div style="display:flex;align-items:center;gap:12px">
-              <div style="width:36px;height:36px;border-radius:8px;background:#1DB954;flex-shrink:0"></div>
-              <div><div style="font-size:13px;font-weight:600;color:var(--text)">#1DB954</div><div style="font-size:11px;color:var(--muted)">Primary Green (dark)</div></div>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <div style="width:36px;height:36px;border-radius:8px;background:#16A34A;flex-shrink:0"></div>
-              <div><div style="font-size:13px;font-weight:600;color:var(--text)">#16A34A</div><div style="font-size:11px;color:var(--muted)">Primary Green (light)</div></div>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <div style="width:36px;height:36px;border-radius:8px;background:#2D7DD2;flex-shrink:0"></div>
-              <div><div style="font-size:13px;font-weight:600;color:var(--text)">#2D7DD2</div><div style="font-size:11px;color:var(--muted)">Blue Secondary (dark)</div></div>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <div style="width:36px;height:36px;border-radius:8px;background:#0D0D0F;border:1px solid #232328;flex-shrink:0"></div>
-              <div><div style="font-size:13px;font-weight:600;color:var(--text)">#0D0D0F</div><div style="font-size:11px;color:var(--muted)">Background Dark</div></div>
-            </div>
-          </div>
+          <div class="card-title" data-i18n="colors_title">Color palette</div>
+          <div class="card-sub" data-i18n="colors_sub">Primary green · Secondary blue · Never gold</div>
+          <div id="colors-list" style="display:flex;flex-direction:column;gap:10px;margin-top:4px"></div>
         </div>
         <div class="card">
-          <div class="card-title" data-i18n="design_refs">Références design</div>
-          <div class="card-sub" data-i18n="design_refs_sub">Inspiration UI/UX pour l'application</div>
-          <div class="activity-list">
-            <div class="activity-item"><div class="activity-dot green"></div><div class="activity-text"><strong>Cal AI</strong> — Bold typography, clean dark, minimal</div></div>
-            <div class="activity-item"><div class="activity-dot green"></div><div class="activity-text"><strong>Cluely</strong> — Immersive dark, floating UI, premium feel</div></div>
-            <div class="activity-item"><div class="activity-dot blue"></div><div class="activity-text"><strong>Linear</strong> — Tight spacing, sharp type hierarchy</div></div>
-            <div class="activity-item"><div class="activity-dot blue"></div><div class="activity-text"><strong>Coinbase</strong> — Bold numbers, trust signals</div></div>
-          </div>
+          <div class="card-title" data-i18n="design_refs">Design references</div>
+          <div class="card-sub" data-i18n="design_refs_sub">UI/UX inspiration</div>
+          <div class="activity-list" id="refs-list"></div>
           <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
-            <div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:10px" data-i18n="fonts">Typographie</div>
-            <div class="chips">
-              <span class="chip">SF Pro (iOS)</span>
-              <span class="chip">Segoe UI (Android)</span>
-              <span class="chip green">Weight 800 headlines</span>
-              <span class="chip">Letter-spacing −1px</span>
-            </div>
+            <div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:10px" data-i18n="fonts">Typography</div>
+            <div class="chips" id="fonts-list"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ═══ PAGE: STACK ═══ -->
+    <!-- ═══ STACK ═══ -->
     <div class="page" id="page-stack">
       <div class="three-col">
         <div class="card">
           <div class="card-title" data-i18n="frontend">Frontend · Mobile</div>
           <div class="card-sub">React Native</div>
           <div class="tag-grid">
-            <span class="tag">Expo SDK 54</span>
-            <span class="tag">React Native 0.81</span>
-            <span class="tag">Expo Router</span>
-            <span class="tag">TypeScript</span>
-            <span class="tag">Zustand</span>
-            <span class="tag">React Query</span>
-            <span class="tag">expo-linear-gradient</span>
-            <span class="tag">expo-blur</span>
-            <span class="tag">Better Auth Client</span>
+            <span class="tag">Expo SDK 54</span><span class="tag">React Native 0.81</span><span class="tag">Expo Router</span>
+            <span class="tag">TypeScript</span><span class="tag">Zustand</span><span class="tag">React Query</span>
+            <span class="tag">expo-linear-gradient</span><span class="tag">expo-blur</span><span class="tag">Better Auth Client</span>
           </div>
         </div>
         <div class="card">
           <div class="card-title" data-i18n="backend_stack">Backend · API</div>
           <div class="card-sub">Node / Bun</div>
           <div class="tag-grid">
-            <span class="tag">Hono</span>
-            <span class="tag">Bun runtime</span>
-            <span class="tag">Prisma ORM</span>
-            <span class="tag">SQLite (dev)</span>
-            <span class="tag">Better Auth</span>
-            <span class="tag">OpenAI API</span>
+            <span class="tag">Hono</span><span class="tag">Bun runtime</span><span class="tag">Prisma ORM</span>
+            <span class="tag">SQLite (dev)</span><span class="tag">Better Auth</span><span class="tag">OpenAI API</span>
             <span class="tag">Cloudflare Tunnel</span>
           </div>
         </div>
         <div class="card">
-          <div class="card-title" data-i18n="infra">Infra & Outils</div>
+          <div class="card-title" data-i18n="infra">Infra & Tools</div>
           <div class="card-sub">DevOps</div>
           <div class="tag-grid">
-            <span class="tag">Vercel</span>
-            <span class="tag">GitHub</span>
-            <span class="tag">ngrok tunnel</span>
-            <span class="tag">Expo Go</span>
-            <span class="tag">Claude Code</span>
+            <span class="tag">Vercel</span><span class="tag">GitHub</span><span class="tag">ngrok tunnel</span>
+            <span class="tag">Expo Go</span><span class="tag">Claude Code</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ═══ PAGE: MARKETING ═══ -->
+    <!-- ═══ MARKETING ═══ -->
     <div class="page" id="page-marketing">
       <div class="two-col">
         <div class="card">
-          <div class="card-title" data-i18n="market_title">Marché cible</div>
-          <div class="card-sub" data-i18n="market_sub">Sénégal first · Expansion Afrique de l'Ouest</div>
-          <div class="activity-list">
-            <div class="activity-item"><div class="activity-dot green"></div><div class="activity-text"><strong>🇸🇳 Sénégal</strong> — Marché principal · Dakar focus</div><div class="activity-time chip green" style="font-size:10px">Actif</div></div>
-            <div class="activity-item"><div class="activity-dot blue"></div><div class="activity-text"><strong>🇨🇮 Côte d'Ivoire</strong> — Phase 2 expansion</div><div class="activity-time chip" style="font-size:10px;background:var(--blue-dim);color:var(--blue)" data-i18n="next">À venir</div></div>
-            <div class="activity-item"><div class="activity-dot yellow"></div><div class="activity-text"><strong>🇲🇱 Mali</strong> — Phase 3</div><div class="activity-time chip" style="font-size:10px;background:var(--yellow-dim);color:var(--yellow)" data-i18n="planned">Planifié</div></div>
-            <div class="activity-item"><div class="activity-dot yellow"></div><div class="activity-text"><strong>🇬🇳 Guinée</strong> — Phase 3</div><div class="activity-time chip" style="font-size:10px;background:var(--yellow-dim);color:var(--yellow)" data-i18n="planned">Planifié</div></div>
-          </div>
+          <div class="card-title" data-i18n="market_title">Target market</div>
+          <div class="card-sub" data-i18n="market_sub">Senegal first · West Africa expansion</div>
+          <div class="activity-list" id="markets-list"></div>
         </div>
         <div class="card">
-          <div class="card-title" data-i18n="channels_title">Canaux marketing</div>
-          <div class="card-sub" data-i18n="channels_sub">Stratégie de lancement</div>
-          <div class="activity-list">
-            <div class="activity-item"><div class="activity-dot yellow"></div><div class="activity-text"><strong>TikTok / Instagram</strong> — Contenus emploi Sénégal</div></div>
-            <div class="activity-item"><div class="activity-dot yellow"></div><div class="activity-text"><strong>WhatsApp</strong> — Groupes emploi, partage viral</div></div>
-            <div class="activity-item"><div class="activity-dot yellow"></div><div class="activity-text"><strong>LinkedIn</strong> — Côté recruteurs B2B</div></div>
-            <div class="activity-item"><div class="activity-dot yellow"></div><div class="activity-text"><strong>App Store / Play Store</strong> — SEO app store</div></div>
-            <div class="activity-item"><div class="activity-dot yellow"></div><div class="activity-text"><strong>Partenariats</strong> — Universités, écoles Dakar</div></div>
-          </div>
+          <div class="card-title" data-i18n="channels_title">Marketing channels</div>
+          <div class="card-sub" data-i18n="channels_sub">Launch strategy</div>
+          <div class="activity-list" id="channels-list"></div>
         </div>
       </div>
     </div>
 
-    <!-- ═══ PAGE: LINKS ═══ -->
+    <!-- ═══ TASKS ═══ -->
+    <div class="page" id="page-tasks">
+      <div class="task-progress-bar">
+        <span class="task-progress-label" data-i18n="task_progress">Task completion</span>
+        <div class="progress-bar"><div class="progress-fill" id="task-fill" style="width:0%"></div></div>
+        <span class="task-pct" id="task-pct">0%</span>
+      </div>
+      <div class="three-col">
+        <div class="card">
+          <div class="card-head-row"><div class="col-dot" style="background:var(--red)"></div><div class="card-title" style="margin:0" data-i18n="col_todo">Blocked / To Do</div></div>
+          <div style="display:flex;flex-direction:column;gap:8px" id="todo-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-head-row"><div class="col-dot" style="background:var(--blue)"></div><div class="card-title" style="margin:0" data-i18n="col_progress">In Progress</div></div>
+          <div style="display:flex;flex-direction:column;gap:8px" id="progress-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-head-row"><div class="col-dot" style="background:var(--green)"></div><div class="card-title" style="margin:0" data-i18n="col_done">Done</div></div>
+          <div style="display:flex;flex-direction:column;gap:8px" id="done-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ LINKS ═══ -->
     <div class="page" id="page-links">
       <div class="card">
-        <div class="card-title" data-i18n="links_title">Liens & Ressources</div>
-        <div class="card-sub" data-i18n="links_sub">Tous les liens importants du projet</div>
-        <div class="link-grid">
-          <a class="link-item" href="https://jobeapp.com" target="_blank">
-            <span class="link-icon">🌐</span> jobeapp.com — Site marketing
-            <span class="link-arrow">↗</span>
-          </a>
-          <a class="link-item" href="https://github.com" target="_blank">
-            <span class="link-icon">⚙</span> GitHub — Dépôt de code (à configurer)
-            <span class="link-arrow">↗</span>
-          </a>
-          <a class="link-item" href="https://vercel.com" target="_blank">
-            <span class="link-icon">▲</span> Vercel — Hébergement dashboard
-            <span class="link-arrow">↗</span>
-          </a>
-          <div class="link-item" style="cursor:default;opacity:0.6">
-            <span class="link-icon">📱</span> App Expo — exp://0jfi-_q-anonymous-8081.exp.direct
-          </div>
-          <a class="link-item" href="https://expo.dev" target="_blank">
-            <span class="link-icon">⬡</span> Expo Dev — Build & distribution
-            <span class="link-arrow">↗</span>
-          </a>
-        </div>
+        <div class="card-title" data-i18n="links_title">Links & Resources</div>
+        <div class="card-sub" data-i18n="links_sub">All important project links</div>
+        <div class="link-grid" id="links-list"></div>
       </div>
     </div>
 
-  </div><!-- end content -->
+  </div>
 
   <div class="footer-bar">
-    <span>Job<span style="color:var(--green)">é</span> · Dashboard interne · 2026</span>
-    <span data-i18n="footer_conf">Confidentiel · Fondateurs seulement</span>
+    <span>Job<span style="color:var(--green)">é</span> · <span data-i18n="footer_brand">Internal Dashboard</span> · 2026</span>
+    <span data-i18n="footer_conf">Confidential · Founders only</span>
   </div>
 </div>
 
 <script>
-// ── TRANSLATIONS ──
-const i18n = {
-  fr: {
-    dashboard:"Dashboard interne", nav_overview:"Vue d'ensemble", nav_home:"Accueil", nav_app:"Application",
-    nav_roadmap:"Roadmap", nav_product:"Produit", nav_design:"Design & Brand", nav_stack:"Stack",
-    nav_growth:"Croissance", nav_marketing:"Marketing", nav_links:"Liens & Ressources",
-    confidential:"Confidentiel · Fondateurs seulement", online:"App en ligne", kpis:"KPIs · Juillet 2026",
-    build_progress:"Avancement build", screens_done:"Écrans terminés", deadline:"Deadline",
-    target_market:"Marché cible", recent_activity:"Activité récente", recent_sub:"Dernières mises à jour",
-    act1:"Redesign welcome screen", act2:"i18n FR/EN/中文", act3:"Fix crash expo-network",
-    act4:"Dark mode par défaut", act5:"Logo intégré",
-    phase_progress:"Avancement par phase", phase_sub:"Objectif : launch fin juillet",
-    phase1:"Phase 1 · Fondations", phase2:"Phase 2 · Design & UI",
-    phase3:"Phase 3 · Features", phase4:"Phase 4 · Launch", overall:"Avancement global",
-    test_app:"Tester l'application mobile", test_sub:"Scannez avec Expo Go (iOS ou Android).",
-    qr_desc:"Ouvrez Expo Go et scannez. L'URL change à chaque redémarrage — collez la nouvelle ci-dessous.",
-    server_online:"● Serveur actif", update:"Mettre à jour",
-    screens_title:"Écrans terminés", backend_title:"Backend · API",
-    done:"Fait", in_progress:"En cours", next:"À venir", planned:"Planifié",
-    roadmap_title:"Roadmap · Fin juillet 2026", roadmap_sub:"4 phases pour un lancement complet",
-    r1_title:"Phase 1 — Fondations", r1_desc:"Expo Router, auth OTP, dark/light mode, backend Hono, Prisma, tunnels, i18n FR/EN/ZH",
-    r2_title:"Phase 2 — Design & UI", r2_desc:"Welcome Cal AI style, home feed immersif, jobs search, profil candidat",
-    r3_title:"Phase 3 — Fonctionnalités", r3_desc:"Dashboard recruteur, messagerie, matching IA, notifications",
-    r4_title:"Phase 4 — Launch", r4_desc:"Site jobeapp.com, App Store, campagne Sénégal, premium",
-    colors_title:"Palette de couleurs", colors_sub:"Vert primaire · Bleu secondaire · Jamais or",
-    design_refs:"Références design", design_refs_sub:"Inspiration UI/UX",
-    fonts:"Typographie", frontend:"Frontend · Mobile", backend_stack:"Backend · API", infra:"Infra & Outils",
-    market_title:"Marché cible", market_sub:"Sénégal first · Expansion Afrique de l'Ouest",
-    channels_title:"Canaux marketing", channels_sub:"Stratégie de lancement",
-    links_title:"Liens & Ressources", links_sub:"Tous les liens importants",
-    footer_conf:"Confidentiel · Fondateurs seulement"
-  },
+/* ════════════════════════════════════════════════════════════
+   SINGLE SOURCE OF TRUTH — every visible string lives here,
+   per language. Nothing is hardcoded in the HTML body.
+   ════════════════════════════════════════════════════════════ */
+
+// Brand names / proper nouns that are identical in all languages
+const BRAND = {
+  refs: [
+    { name: "Cal AI", dot: "green" }, { name: "Cluely", dot: "green" },
+    { name: "Linear", dot: "blue" }, { name: "Coinbase", dot: "blue" }
+  ],
+  markets: [
+    { flag: "🇸🇳", name: "Sénégal", dot: "green" }, { flag: "🇨🇮", name: "Côte d'Ivoire", dot: "blue" },
+    { flag: "🇲🇱", name: "Mali", dot: "yellow" }, { flag: "🇬🇳", name: "Guinée", dot: "yellow" }
+  ],
+  channels: [
+    { name: "TikTok / Instagram" }, { name: "WhatsApp" }, { name: "LinkedIn" },
+    { name: "App Store / Play Store" }, { name: "Partnerships" }
+  ],
+  colors: [
+    { hex: "#1DB954" }, { hex: "#16A34A" }, { hex: "#2D7DD2", }, { hex: "#0D0D0F", border: true }
+  ],
+  fonts: ["SF Pro (iOS)", "Segoe UI (Android)", "Weight 800 headlines", "Letter-spacing −1px"],
+  links: [
+    { icon: "🌐", href: "https://jobeapp.com", key: "link_site" },
+    { icon: "⚙", href: "https://github.com/gwpserg-afk/Jobeapp", key: "link_github" },
+    { icon: "▲", href: "https://vercel.com", key: "link_vercel" },
+    { icon: "📱", href: null, key: "link_expo" },
+    { icon: "⬡", href: "https://expo.dev", key: "link_expodev" }
+  ]
+};
+
+const NAV = [
+  { section: "nav_overview" },
+  { id: "overview", icon: "◎", key: "nav_home" },
+  { id: "app", icon: "📱", key: "nav_app" },
+  { id: "roadmap", icon: "🗺", key: "nav_roadmap" },
+  { section: "nav_product" },
+  { id: "design", icon: "✦", key: "nav_design" },
+  { id: "stack", icon: "⚙", key: "nav_stack" },
+  { section: "nav_growth" },
+  { id: "tasks", icon: "✓", key: "nav_tasks", badgeId: "nav-task-badge" },
+  { id: "marketing", icon: "📣", key: "nav_marketing" },
+  { id: "links", icon: "🔗", key: "nav_links" }
+];
+
+const T = {
   en: {
     dashboard:"Internal Dashboard", nav_overview:"Overview", nav_home:"Home", nav_app:"Application",
     nav_roadmap:"Roadmap", nav_product:"Product", nav_design:"Design & Brand", nav_stack:"Stack",
-    nav_growth:"Growth", nav_marketing:"Marketing", nav_links:"Links & Resources",
-    confidential:"Confidential · Founders only", online:"App online", kpis:"KPIs · July 2026",
-    build_progress:"Build progress", screens_done:"Screens done", deadline:"Deadline",
-    target_market:"Target market", recent_activity:"Recent activity", recent_sub:"Latest project updates",
-    act1:"Redesign welcome screen", act2:"i18n FR/EN/中文", act3:"Fix expo-network crash",
-    act4:"Dark mode by default", act5:"Logo integrated",
-    phase_progress:"Progress by phase", phase_sub:"Target: launch end of July",
-    phase1:"Phase 1 · Foundations", phase2:"Phase 2 · Design & UI",
-    phase3:"Phase 3 · Features", phase4:"Phase 4 · Launch", overall:"Overall progress",
-    test_app:"Test the mobile app", test_sub:"Scan with Expo Go (iOS or Android).",
+    nav_growth:"Growth", nav_tasks:"Tasks", nav_marketing:"Marketing", nav_links:"Links & Resources",
+    confidential:"Confidential · Founders only", online:"App online",
+    kpis:"KPIs · July 2026", build_progress:"Build progress", screens_done:"Screens done",
+    deadline:"Deadline", target_market:"Target market",
+    kpi_phase2:"Phase 2 in progress", kpi_screens:"7 in progress · 24 total",
+    kpi_deadline:"End of July 2026", kpi_market:"Countries · Senegal first",
+    recent_activity:"Recent activity", recent_sub:"Latest project updates",
+    phase_progress:"Progress by phase", phase_sub:"Target: launch end of July", overall:"Overall progress",
+    test_app:"Test the mobile app", test_sub:"Scan with Expo Go (iOS or Android). Update the tunnel URL if it changes.",
     qr_desc:"Open Expo Go and scan. The URL changes on every restart — paste the new one below.",
     server_online:"● Server online", update:"Update",
     screens_title:"Completed screens", backend_title:"Backend · API",
-    done:"Done", in_progress:"In progress", next:"Coming", planned:"Planned",
+    done:"Done", in_progress:"In progress", next:"Coming", planned:"Planned", active:"Active",
     roadmap_title:"Roadmap · End of July 2026", roadmap_sub:"4 phases for a full production launch",
-    r1_title:"Phase 1 — Foundations", r1_desc:"Expo Router, OTP auth, dark/light mode, Hono backend, Prisma, tunnels, i18n",
-    r2_title:"Phase 2 — Design & UI", r2_desc:"Cal AI welcome screen, immersive feed, jobs search, candidate profile",
-    r3_title:"Phase 3 — Key Features", r3_desc:"Recruiter dashboard, messaging, AI matching, notifications",
-    r4_title:"Phase 4 — Launch", r4_desc:"jobeapp.com site, App Store, Senegal campaign, premium",
     colors_title:"Color palette", colors_sub:"Primary green · Secondary blue · Never gold",
-    design_refs:"Design references", design_refs_sub:"UI/UX inspiration",
-    fonts:"Typography", frontend:"Frontend · Mobile", backend_stack:"Backend · API", infra:"Infra & Tools",
+    design_refs:"Design references", design_refs_sub:"UI/UX inspiration", fonts:"Typography",
+    frontend:"Frontend · Mobile", backend_stack:"Backend · API", infra:"Infra & Tools",
     market_title:"Target market", market_sub:"Senegal first · West Africa expansion",
     channels_title:"Marketing channels", channels_sub:"Launch strategy",
+    task_progress:"Task completion", col_todo:"Blocked / To Do", col_progress:"In Progress", col_done:"Done",
     links_title:"Links & Resources", links_sub:"All important project links",
-    footer_conf:"Confidential · Founders only"
+    footer_brand:"Internal Dashboard", footer_conf:"Confidential · Founders only",
+    day:"d", days_left:"left",
+    // phase bars
+    phases:[
+      {label:"Phase 1 · Foundations", pct:100, color:""},
+      {label:"Phase 2 · Design & UI", pct:30, color:""},
+      {label:"Phase 3 · Features", pct:10, color:"blue"},
+      {label:"Phase 4 · Launch", pct:5, color:"yellow"}
+    ],
+    activity:[
+      {strong:"Redesign welcome screen", note:"Cal AI style, dark immersive", dot:"green", time:"Today"},
+      {strong:"i18n FR/EN/中文", note:"Zustand store, 3 languages", dot:"green", time:"Today"},
+      {strong:"Fix expo-network crash", note:"patch dynamic import", dot:"blue", time:"Today"},
+      {strong:"Dark mode by default", note:"theme Zustand store", dot:"blue", time:"Yesterday"},
+      {strong:"Logo integrated", note:"logo-dark.png + logo-light.png", dot:"yellow", time:"Yesterday"}
+    ],
+    screens:[
+      {name:"Welcome screen", note:"design done, logic ~30%", status:"in_progress"},
+      {name:"Sign in / OTP", note:"UI shell only", status:"in_progress"},
+      {name:"Sign up", note:"UI shell only", status:"in_progress"},
+      {name:"Home feed", note:"mock data, ~30%", status:"in_progress"},
+      {name:"Jobs search", note:"mock data, ~30%", status:"in_progress"},
+      {name:"Messages", note:"mock data, ~30%", status:"in_progress"},
+      {name:"Profile", note:"UI shell, ~30%", status:"in_progress"},
+      {name:"Recruiter dashboard", note:"", status:"next"}
+    ],
+    backend:[
+      {name:"Auth endpoints (Better Auth)", status:"done"},
+      {name:"Prisma + SQLite", status:"done"},
+      {name:"Cloudflare tunnel", status:"done"},
+      {name:"Jobs API", status:"next"},
+      {name:"Messaging WebSocket", status:"next"},
+      {name:"AI matching (OpenAI)", status:"next"}
+    ],
+    roadmap:[
+      {icon:"✅", title:"Phase 1 — Foundations", desc:"Expo Router, OTP auth, dark/light mode, Hono backend, Prisma, tunnels, i18n FR/EN/ZH", badge:"done"},
+      {icon:"🎨", title:"Phase 2 — Design & UI", desc:"Cal AI welcome screen, immersive home feed, jobs search, candidate profile, logo & branding", badge:"in_progress"},
+      {icon:"⚡", title:"Phase 3 — Key Features", desc:"Recruiter dashboard, real-time messaging, AI matching, CV upload, push notifications", badge:"next"},
+      {icon:"🚀", title:"Phase 4 — Launch", desc:"jobeapp.com marketing site, App Store + Play Store, Senegal campaign, premium, analytics", badge:"next"}
+    ],
+    refs:["Bold typography, clean dark, minimal","Immersive dark, floating UI, premium feel","Tight spacing, sharp type hierarchy","Bold numbers, trust signals"],
+    colorNames:["Primary Green (dark)","Primary Green (light)","Blue Secondary","Background Dark"],
+    markets:["Main market · Dakar focus","Phase 2 expansion","Phase 3","Phase 3"],
+    marketStatus:["active","next","planned","planned"],
+    channels:["Job content for Senegal","Job groups, viral sharing","Recruiter B2B side","App store SEO","Universities, Dakar schools"],
+    links:{link_site:"jobeapp.com — Marketing site", link_github:"GitHub — Code repository", link_vercel:"Vercel — Dashboard hosting", link_expo:"Expo app — tunnel URL", link_expodev:"Expo Dev — Build & distribution"},
+    tasks:{
+      todo:[
+        {id:"t-github", title:"Connect GitHub → Vercel", desc:"Push repo, link to Vercel for auto-deploy on every commit", color:"red"},
+        {id:"t-subdomain", title:"Set up team.jobeapp.com", desc:"Add subdomain DNS → point to Vercel for this dashboard", color:"red"},
+        {id:"t-recruiter", title:"Recruiter dashboard screens", desc:"Post job, view applications, candidate search", color:"muted"},
+        {id:"t-messaging", title:"Real messaging (WebSocket)", desc:"Replace mock messages with live chat", color:"muted"},
+        {id:"t-ai", title:"AI job matching (OpenAI)", desc:"Connect OpenAI to match candidates with jobs", color:"muted"}
+      ],
+      progress:[
+        {id:"t-welcome", title:"Welcome screen", desc:"Cal AI style — design done, need onboarding flow", pct:"30%", color:"blue"},
+        {id:"t-feed", title:"Home feed", desc:"Mock data — need real API, create post, stories", pct:"30%", color:"blue"},
+        {id:"t-jobs", title:"Jobs search", desc:"Mock data — need real jobs API, filters, detail screen", pct:"30%", color:"blue"},
+        {id:"t-profile", title:"Profile screen", desc:"UI shell — need CV upload, edit flow, real stats", pct:"30%", color:"blue"},
+        {id:"t-dashboard", title:"Internal dashboard", desc:"This page — ongoing improvements", pct:"70%", color:"blue"}
+      ],
+      done:[
+        {id:"t-tunnel", title:"Expo Go tunnel working", desc:"App loads on phone via ngrok tunnel", color:"green"},
+        {id:"t-vibecode", title:"Remove Vibecode dependencies", desc:"Clean codebase, no legacy imports", color:"green"},
+        {id:"t-crashes", title:"Fix app crashes", desc:"expo-network patch, reanimated removed", color:"green"},
+        {id:"t-darkmode", title:"Dark mode + theme system", desc:"Zustand store, green/blue palette, default dark", color:"green"},
+        {id:"t-i18n", title:"FR / EN / 中文 i18n", desc:"Full 3-language system across all screens", color:"green"},
+        {id:"t-logo", title:"Logo integrated", desc:"logo-dark.png + logo-light.png switching", color:"green"},
+        {id:"t-backend", title:"Backend + auth working", desc:"Hono + Prisma + Better Auth email OTP", color:"green"}
+      ]
+    },
+    pageTitles:{overview:"Overview", app:"Mobile App", roadmap:"Roadmap", design:"Design & Brand", stack:"Tech Stack", marketing:"Marketing", links:"Links", tasks:"Tasks"}
   },
+
+  fr: {
+    dashboard:"Dashboard interne", nav_overview:"Vue d'ensemble", nav_home:"Accueil", nav_app:"Application",
+    nav_roadmap:"Roadmap", nav_product:"Produit", nav_design:"Design & Brand", nav_stack:"Stack",
+    nav_growth:"Croissance", nav_tasks:"Tâches", nav_marketing:"Marketing", nav_links:"Liens & Ressources",
+    confidential:"Confidentiel · Fondateurs seulement", online:"App en ligne",
+    kpis:"KPIs · Juillet 2026", build_progress:"Avancement build", screens_done:"Écrans terminés",
+    deadline:"Deadline", target_market:"Marché cible",
+    kpi_phase2:"Phase 2 en cours", kpi_screens:"7 en cours · 24 total",
+    kpi_deadline:"Fin juillet 2026", kpi_market:"Pays · Sénégal d'abord",
+    recent_activity:"Activité récente", recent_sub:"Dernières mises à jour du projet",
+    phase_progress:"Avancement par phase", phase_sub:"Objectif : lancement fin juillet", overall:"Avancement global",
+    test_app:"Tester l'application mobile", test_sub:"Scannez avec Expo Go (iOS ou Android). Mettez à jour l'URL tunnel si elle change.",
+    qr_desc:"Ouvrez Expo Go et scannez. L'URL change à chaque redémarrage — collez la nouvelle ci-dessous.",
+    server_online:"● Serveur actif", update:"Mettre à jour",
+    screens_title:"Écrans terminés", backend_title:"Backend · API",
+    done:"Fait", in_progress:"En cours", next:"À venir", planned:"Planifié", active:"Actif",
+    roadmap_title:"Roadmap · Fin juillet 2026", roadmap_sub:"4 phases pour un lancement complet en production",
+    colors_title:"Palette de couleurs", colors_sub:"Vert primaire · Bleu secondaire · Jamais or",
+    design_refs:"Références design", design_refs_sub:"Inspiration UI/UX", fonts:"Typographie",
+    frontend:"Frontend · Mobile", backend_stack:"Backend · API", infra:"Infra & Outils",
+    market_title:"Marché cible", market_sub:"Sénégal d'abord · Expansion Afrique de l'Ouest",
+    channels_title:"Canaux marketing", channels_sub:"Stratégie de lancement",
+    task_progress:"Tâches complétées", col_todo:"Bloqué / À faire", col_progress:"En cours", col_done:"Terminé",
+    links_title:"Liens & Ressources", links_sub:"Tous les liens importants du projet",
+    footer_brand:"Dashboard interne", footer_conf:"Confidentiel · Fondateurs seulement",
+    day:"j", days_left:"restants",
+    phases:[
+      {label:"Phase 1 · Fondations", pct:100, color:""},
+      {label:"Phase 2 · Design & UI", pct:30, color:""},
+      {label:"Phase 3 · Fonctionnalités", pct:10, color:"blue"},
+      {label:"Phase 4 · Launch", pct:5, color:"yellow"}
+    ],
+    activity:[
+      {strong:"Redesign écran d'accueil", note:"style Cal AI, dark immersif", dot:"green", time:"Aujourd'hui"},
+      {strong:"i18n FR/EN/中文", note:"store Zustand, 3 langues", dot:"green", time:"Aujourd'hui"},
+      {strong:"Fix crash expo-network", note:"patch import dynamique", dot:"blue", time:"Aujourd'hui"},
+      {strong:"Mode sombre par défaut", note:"store Zustand thème", dot:"blue", time:"Hier"},
+      {strong:"Logo intégré", note:"logo-dark.png + logo-light.png", dot:"yellow", time:"Hier"}
+    ],
+    screens:[
+      {name:"Écran d'accueil", note:"design fait, logique ~30%", status:"in_progress"},
+      {name:"Connexion / OTP", note:"coquille UI uniquement", status:"in_progress"},
+      {name:"Inscription", note:"coquille UI uniquement", status:"in_progress"},
+      {name:"Fil d'actualité", note:"données fictives, ~30%", status:"in_progress"},
+      {name:"Recherche d'emplois", note:"données fictives, ~30%", status:"in_progress"},
+      {name:"Messages", note:"données fictives, ~30%", status:"in_progress"},
+      {name:"Profil", note:"coquille UI, ~30%", status:"in_progress"},
+      {name:"Dashboard recruteur", note:"", status:"next"}
+    ],
+    backend:[
+      {name:"Endpoints auth (Better Auth)", status:"done"},
+      {name:"Prisma + SQLite", status:"done"},
+      {name:"Tunnel Cloudflare", status:"done"},
+      {name:"API Emplois", status:"next"},
+      {name:"Messagerie WebSocket", status:"next"},
+      {name:"Matching IA (OpenAI)", status:"next"}
+    ],
+    roadmap:[
+      {icon:"✅", title:"Phase 1 — Fondations", desc:"Expo Router, auth OTP, mode sombre/clair, backend Hono, Prisma, tunnels, i18n FR/EN/ZH", badge:"done"},
+      {icon:"🎨", title:"Phase 2 — Design & UI", desc:"Écran d'accueil style Cal AI, fil immersif, recherche d'emplois, profil candidat, logo & branding", badge:"in_progress"},
+      {icon:"⚡", title:"Phase 3 — Fonctionnalités clés", desc:"Dashboard recruteur, messagerie temps réel, matching IA, upload CV, notifications push", badge:"next"},
+      {icon:"🚀", title:"Phase 4 — Launch", desc:"Site marketing jobeapp.com, App Store + Play Store, campagne Sénégal, premium, analytics", badge:"next"}
+    ],
+    refs:["Typographie bold, dark épuré, minimal","Dark immersif, UI flottante, sensation premium","Espacement serré, hiérarchie typographique nette","Chiffres bold, signaux de confiance"],
+    colorNames:["Vert primaire (sombre)","Vert primaire (clair)","Bleu secondaire","Fond sombre"],
+    markets:["Marché principal · focus Dakar","Expansion phase 2","Phase 3","Phase 3"],
+    marketStatus:["active","next","planned","planned"],
+    channels:["Contenus emploi Sénégal","Groupes emploi, partage viral","Côté recruteurs B2B","SEO app store","Universités, écoles Dakar"],
+    links:{link_site:"jobeapp.com — Site marketing", link_github:"GitHub — Dépôt de code", link_vercel:"Vercel — Hébergement dashboard", link_expo:"App Expo — URL tunnel", link_expodev:"Expo Dev — Build & distribution"},
+    tasks:{
+      todo:[
+        {id:"t-github", title:"Connecter GitHub → Vercel", desc:"Push du repo, lier à Vercel pour auto-déploiement à chaque commit", color:"red"},
+        {id:"t-subdomain", title:"Configurer team.jobeapp.com", desc:"Ajouter le DNS du sous-domaine → pointer vers Vercel pour ce dashboard", color:"red"},
+        {id:"t-recruiter", title:"Écrans dashboard recruteur", desc:"Publier une offre, voir les candidatures, recherche de candidats", color:"muted"},
+        {id:"t-messaging", title:"Messagerie réelle (WebSocket)", desc:"Remplacer les messages fictifs par un chat en direct", color:"muted"},
+        {id:"t-ai", title:"Matching IA (OpenAI)", desc:"Connecter OpenAI pour matcher candidats et emplois", color:"muted"}
+      ],
+      progress:[
+        {id:"t-welcome", title:"Écran d'accueil", desc:"Style Cal AI — design fait, flux d'onboarding à faire", pct:"30%", color:"blue"},
+        {id:"t-feed", title:"Fil d'actualité", desc:"Données fictives — API réelle, création de post, stories", pct:"30%", color:"blue"},
+        {id:"t-jobs", title:"Recherche d'emplois", desc:"Données fictives — API réelle, filtres, écran détail", pct:"30%", color:"blue"},
+        {id:"t-profile", title:"Écran profil", desc:"Coquille UI — upload CV, flux d'édition, vraies stats", pct:"30%", color:"blue"},
+        {id:"t-dashboard", title:"Dashboard interne", desc:"Cette page — améliorations continues", pct:"70%", color:"blue"}
+      ],
+      done:[
+        {id:"t-tunnel", title:"Tunnel Expo Go fonctionnel", desc:"L'app se charge sur le téléphone via le tunnel ngrok", color:"green"},
+        {id:"t-vibecode", title:"Retirer dépendances Vibecode", desc:"Codebase propre, aucun import legacy", color:"green"},
+        {id:"t-crashes", title:"Corriger les crashs de l'app", desc:"patch expo-network, reanimated retiré", color:"green"},
+        {id:"t-darkmode", title:"Mode sombre + système de thème", desc:"Store Zustand, palette vert/bleu, sombre par défaut", color:"green"},
+        {id:"t-i18n", title:"i18n FR / EN / 中文", desc:"Système 3 langues complet sur tous les écrans", color:"green"},
+        {id:"t-logo", title:"Logo intégré", desc:"bascule logo-dark.png + logo-light.png", color:"green"},
+        {id:"t-backend", title:"Backend + auth fonctionnels", desc:"Hono + Prisma + Better Auth OTP email", color:"green"}
+      ]
+    },
+    pageTitles:{overview:"Vue d'ensemble", app:"Application mobile", roadmap:"Roadmap", design:"Design & Brand", stack:"Stack technique", marketing:"Marketing", links:"Liens", tasks:"Tâches"}
+  },
+
   zh: {
     dashboard:"内部仪表板", nav_overview:"概览", nav_home:"首页", nav_app:"应用程序",
     nav_roadmap:"路线图", nav_product:"产品", nav_design:"设计与品牌", nav_stack:"技术栈",
-    nav_growth:"增长", nav_marketing:"市场营销", nav_links:"链接与资源",
-    confidential:"保密 · 仅创始人", online:"应用在线", kpis:"KPI · 2026年7月",
-    build_progress:"构建进度", screens_done:"已完成页面", deadline:"截止日期",
-    target_market:"目标市场", recent_activity:"最新动态", recent_sub:"项目最新更新",
-    act1:"重新设计欢迎页面", act2:"国际化 FR/EN/中文", act3:"修复expo-network崩溃",
-    act4:"默认深色模式", act5:"集成Logo",
-    phase_progress:"各阶段进度", phase_sub:"目标：7月底发布",
-    phase1:"第1阶段 · 基础", phase2:"第2阶段 · 设计与UI",
-    phase3:"第3阶段 · 功能", phase4:"第4阶段 · 发布", overall:"总体进度",
-    test_app:"测试移动应用", test_sub:"使用Expo Go扫描（iOS或Android）。",
+    nav_growth:"增长", nav_tasks:"任务", nav_marketing:"市场营销", nav_links:"链接与资源",
+    confidential:"保密 · 仅创始人", online:"应用在线",
+    kpis:"KPI · 2026年7月", build_progress:"构建进度", screens_done:"已完成页面",
+    deadline:"截止日期", target_market:"目标市场",
+    kpi_phase2:"第2阶段进行中", kpi_screens:"7个进行中 · 共24个",
+    kpi_deadline:"2026年7月底", kpi_market:"国家 · 塞内加尔优先",
+    recent_activity:"最新动态", recent_sub:"项目最新更新",
+    phase_progress:"各阶段进度", phase_sub:"目标：7月底发布", overall:"总体进度",
+    test_app:"测试移动应用", test_sub:"使用Expo Go扫描（iOS或Android）。如隧道URL变化请更新。",
     qr_desc:"打开Expo Go并扫描。每次重启服务器URL会改变，请在下方粘贴新的URL。",
     server_online:"● 服务器在线", update:"更新",
     screens_title:"已完成页面", backend_title:"后端 · API",
-    done:"完成", in_progress:"进行中", next:"即将", planned:"计划中",
+    done:"完成", in_progress:"进行中", next:"即将", planned:"计划中", active:"活跃",
     roadmap_title:"路线图 · 2026年7月底", roadmap_sub:"4个阶段完整生产发布",
-    r1_title:"第1阶段 — 基础", r1_desc:"Expo Router、OTP认证、深/浅色模式、Hono后端、Prisma、隧道、国际化",
-    r2_title:"第2阶段 — 设计与UI", r2_desc:"Cal AI风格欢迎页、沉浸式动态流、职位搜索、候选人简介",
-    r3_title:"第3阶段 — 核心功能", r3_desc:"招聘方仪表板、实时消息、AI匹配、推送通知",
-    r4_title:"第4阶段 — 发布", r4_desc:"jobeapp.com网站、App Store、塞内加尔推广、高级版",
     colors_title:"颜色方案", colors_sub:"主色绿色 · 辅色蓝色 · 不用金色",
-    design_refs:"设计参考", design_refs_sub:"UI/UX灵感",
-    fonts:"排版", frontend:"前端 · 移动端", backend_stack:"后端 · API", infra:"基础设施与工具",
+    design_refs:"设计参考", design_refs_sub:"UI/UX灵感", fonts:"排版",
+    frontend:"前端 · 移动端", backend_stack:"后端 · API", infra:"基础设施与工具",
     market_title:"目标市场", market_sub:"塞内加尔优先 · 西非扩张",
     channels_title:"营销渠道", channels_sub:"发布策略",
+    task_progress:"任务完成度", col_todo:"受阻 / 待办", col_progress:"进行中", col_done:"已完成",
     links_title:"链接与资源", links_sub:"所有重要项目链接",
-    footer_conf:"保密 · 仅创始人"
+    footer_brand:"内部仪表板", footer_conf:"保密 · 仅创始人",
+    day:"天", days_left:"剩余",
+    phases:[
+      {label:"第1阶段 · 基础", pct:100, color:""},
+      {label:"第2阶段 · 设计与UI", pct:30, color:""},
+      {label:"第3阶段 · 功能", pct:10, color:"blue"},
+      {label:"第4阶段 · 发布", pct:5, color:"yellow"}
+    ],
+    activity:[
+      {strong:"重新设计欢迎页面", note:"Cal AI 风格，深色沉浸式", dot:"green", time:"今天"},
+      {strong:"国际化 FR/EN/中文", note:"Zustand 存储，3种语言", dot:"green", time:"今天"},
+      {strong:"修复 expo-network 崩溃", note:"修补动态导入", dot:"blue", time:"今天"},
+      {strong:"默认深色模式", note:"主题 Zustand 存储", dot:"blue", time:"昨天"},
+      {strong:"集成 Logo", note:"logo-dark.png + logo-light.png", dot:"yellow", time:"昨天"}
+    ],
+    screens:[
+      {name:"欢迎页面", note:"设计完成，逻辑约30%", status:"in_progress"},
+      {name:"登录 / OTP", note:"仅UI框架", status:"in_progress"},
+      {name:"注册", note:"仅UI框架", status:"in_progress"},
+      {name:"动态流", note:"模拟数据，约30%", status:"in_progress"},
+      {name:"职位搜索", note:"模拟数据，约30%", status:"in_progress"},
+      {name:"消息", note:"模拟数据，约30%", status:"in_progress"},
+      {name:"个人资料", note:"UI框架，约30%", status:"in_progress"},
+      {name:"招聘方仪表板", note:"", status:"next"}
+    ],
+    backend:[
+      {name:"认证端点 (Better Auth)", status:"done"},
+      {name:"Prisma + SQLite", status:"done"},
+      {name:"Cloudflare 隧道", status:"done"},
+      {name:"职位 API", status:"next"},
+      {name:"消息 WebSocket", status:"next"},
+      {name:"AI 匹配 (OpenAI)", status:"next"}
+    ],
+    roadmap:[
+      {icon:"✅", title:"第1阶段 — 基础", desc:"Expo Router、OTP认证、深/浅色模式、Hono后端、Prisma、隧道、国际化 FR/EN/ZH", badge:"done"},
+      {icon:"🎨", title:"第2阶段 — 设计与UI", desc:"Cal AI风格欢迎页、沉浸式动态流、职位搜索、候选人简介、Logo与品牌", badge:"in_progress"},
+      {icon:"⚡", title:"第3阶段 — 核心功能", desc:"招聘方仪表板、实时消息、AI匹配、简历上传、推送通知", badge:"next"},
+      {icon:"🚀", title:"第4阶段 — 发布", desc:"jobeapp.com营销网站、App Store + Play Store、塞内加尔推广、高级版、分析", badge:"next"}
+    ],
+    refs:["粗体排版，简洁深色，极简","深色沉浸式，浮动UI，高级质感","紧凑间距，清晰的字体层次","粗体数字，信任信号"],
+    colorNames:["主绿色（深色）","主绿色（浅色）","辅助蓝色","深色背景"],
+    markets:["主要市场 · 达喀尔重点","第2阶段扩张","第3阶段","第3阶段"],
+    marketStatus:["active","next","planned","planned"],
+    channels:["塞内加尔职位内容","求职群组，病毒式分享","招聘方 B2B","应用商店 SEO","达喀尔大学与院校"],
+    links:{link_site:"jobeapp.com — 营销网站", link_github:"GitHub — 代码仓库", link_vercel:"Vercel — 仪表板托管", link_expo:"Expo 应用 — 隧道URL", link_expodev:"Expo Dev — 构建与分发"},
+    tasks:{
+      todo:[
+        {id:"t-github", title:"连接 GitHub → Vercel", desc:"推送仓库，链接到Vercel实现每次提交自动部署", color:"red"},
+        {id:"t-subdomain", title:"设置 team.jobeapp.com", desc:"添加子域名DNS → 指向Vercel托管此仪表板", color:"red"},
+        {id:"t-recruiter", title:"招聘方仪表板页面", desc:"发布职位、查看申请、候选人搜索", color:"muted"},
+        {id:"t-messaging", title:"实时消息 (WebSocket)", desc:"用实时聊天替换模拟消息", color:"muted"},
+        {id:"t-ai", title:"AI 职位匹配 (OpenAI)", desc:"连接OpenAI匹配候选人与职位", color:"muted"}
+      ],
+      progress:[
+        {id:"t-welcome", title:"欢迎页面", desc:"Cal AI风格 — 设计完成，需要引导流程", pct:"30%", color:"blue"},
+        {id:"t-feed", title:"动态流", desc:"模拟数据 — 需要真实API、发帖、故事", pct:"30%", color:"blue"},
+        {id:"t-jobs", title:"职位搜索", desc:"模拟数据 — 需要真实职位API、筛选、详情页", pct:"30%", color:"blue"},
+        {id:"t-profile", title:"个人资料页", desc:"UI框架 — 需要简历上传、编辑流程、真实数据", pct:"30%", color:"blue"},
+        {id:"t-dashboard", title:"内部仪表板", desc:"此页面 — 持续改进中", pct:"70%", color:"blue"}
+      ],
+      done:[
+        {id:"t-tunnel", title:"Expo Go 隧道正常", desc:"应用通过ngrok隧道在手机上加载", color:"green"},
+        {id:"t-vibecode", title:"移除 Vibecode 依赖", desc:"干净的代码库，无遗留导入", color:"green"},
+        {id:"t-crashes", title:"修复应用崩溃", desc:"expo-network补丁，移除reanimated", color:"green"},
+        {id:"t-darkmode", title:"深色模式 + 主题系统", desc:"Zustand存储，绿/蓝配色，默认深色", color:"green"},
+        {id:"t-i18n", title:"FR / EN / 中文 国际化", desc:"所有页面完整的3语言系统", color:"green"},
+        {id:"t-logo", title:"集成 Logo", desc:"logo-dark.png + logo-light.png 切换", color:"green"},
+        {id:"t-backend", title:"后端 + 认证正常", desc:"Hono + Prisma + Better Auth 邮箱OTP", color:"green"}
+      ]
+    },
+    pageTitles:{overview:"概览", app:"移动应用", roadmap:"路线图", design:"设计与品牌", stack:"技术栈", marketing:"市场营销", links:"链接", tasks:"任务"}
   }
 };
 
-let currentLang = localStorage.getItem('lang') || 'fr';
+/* ── STATE ── */
+let currentLang = localStorage.getItem('lang') || 'en';
+let currentPage = 'overview';
+const checked = JSON.parse(localStorage.getItem('task-checked') || '{}');
 
+const statusClass = { done:'green', in_progress:'blue', next:'yellow', planned:'yellow', active:'green' };
+function badgeStyle(status) {
+  const c = statusClass[status] || 'muted';
+  return `background:var(--${c}-dim);color:var(--${c})`;
+}
+function el(html) { const d = document.createElement('div'); d.innerHTML = html.trim(); return d.firstChild; }
+function esc(s) { return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+
+/* ── RENDER NAV ── */
+function renderNav() {
+  const t = T[currentLang];
+  const nav = document.getElementById('sidebar-nav');
+  nav.innerHTML = '';
+  NAV.forEach(item => {
+    if (item.section) {
+      nav.appendChild(el(`<div class="nav-section">${esc(t[item.section])}</div>`));
+    } else {
+      const badge = item.badgeId ? `<span class="nav-badge" id="${item.badgeId}"></span>` : '';
+      const btn = el(`<button class="nav-item${item.id===currentPage?' active':''}"><span class="nav-icon">${item.icon}</span> <span>${esc(t[item.key])}</span>${badge}</button>`);
+      btn.onclick = () => showPage(item.id);
+      nav.appendChild(btn);
+    }
+  });
+  updateTaskBadge();
+}
+
+/* ── RENDER ALL DATA-DRIVEN LISTS ── */
+function renderContent() {
+  const t = T[currentLang];
+
+  // Activity
+  document.getElementById('activity-list').innerHTML = t.activity.map(a =>
+    `<div class="activity-item"><div class="activity-dot ${a.dot}"></div><div class="activity-text"><strong>${esc(a.strong)}</strong> — ${esc(a.note)}</div><div class="activity-time">${esc(a.time)}</div></div>`
+  ).join('');
+
+  // Phases
+  document.getElementById('phase-list').innerHTML = t.phases.map(p =>
+    `<div class="progress-item"><div class="progress-label"><span>${esc(p.label)}</span><span>${p.pct}%</span></div><div class="progress-bar"><div class="progress-fill ${p.color}" style="width:${p.pct}%"></div></div></div>`
+  ).join('');
+
+  // Screens
+  document.getElementById('screens-list').innerHTML = t.screens.map(s => {
+    const note = s.note ? ` <span class="activity-note">— ${esc(s.note)}</span>` : '';
+    const dot = s.status==='next' ? 'yellow' : 'blue';
+    return `<div class="activity-item"><div class="activity-dot ${dot}"></div><div class="activity-text">${esc(s.name)}${note}</div><div class="mini-chip" style="${badgeStyle(s.status)}">${esc(t[s.status])}</div></div>`;
+  }).join('');
+
+  // Backend
+  document.getElementById('backend-list').innerHTML = t.backend.map(b =>
+    `<div class="activity-item"><div class="activity-dot ${statusClass[b.status]}"></div><div class="activity-text">${esc(b.name)}</div><div class="mini-chip" style="${badgeStyle(b.status)}">${esc(t[b.status])}</div></div>`
+  ).join('');
+
+  // Roadmap
+  document.getElementById('roadmap-list').innerHTML = t.roadmap.map(r =>
+    `<div class="road-item"><div class="road-icon">${r.icon}</div><div class="road-content"><div class="road-title">${esc(r.title)}</div><div class="road-desc">${esc(r.desc)}</div></div><div class="road-badge ${r.badge==='done'?'done':r.badge==='in_progress'?'now':'next'}">${esc(t[r.badge])}</div></div>`
+  ).join('');
+
+  // Colors
+  document.getElementById('colors-list').innerHTML = BRAND.colors.map((c,i) =>
+    `<div style="display:flex;align-items:center;gap:12px"><div style="width:36px;height:36px;border-radius:8px;background:${c.hex};${c.border?'border:1px solid #232328;':''}flex-shrink:0"></div><div><div style="font-size:13px;font-weight:600;color:var(--text)">${c.hex}</div><div style="font-size:11px;color:var(--muted)">${esc(t.colorNames[i])}</div></div></div>`
+  ).join('');
+
+  // Design refs
+  document.getElementById('refs-list').innerHTML = BRAND.refs.map((r,i) =>
+    `<div class="activity-item"><div class="activity-dot ${r.dot}"></div><div class="activity-text"><strong>${esc(r.name)}</strong> — ${esc(t.refs[i])}</div></div>`
+  ).join('');
+
+  // Fonts
+  document.getElementById('fonts-list').innerHTML = BRAND.fonts.map((f,i) =>
+    `<span class="chip${i===2?' green':''}">${esc(f)}</span>`
+  ).join('');
+
+  // Markets
+  document.getElementById('markets-list').innerHTML = BRAND.markets.map((m,i) => {
+    const st = t.marketStatus[i];
+    return `<div class="activity-item"><div class="activity-dot ${m.dot}"></div><div class="activity-text"><strong>${m.flag} ${esc(m.name)}</strong> — ${esc(t.markets[i])}</div><div class="mini-chip" style="${badgeStyle(st)}">${esc(t[st])}</div></div>`;
+  }).join('');
+
+  // Channels
+  document.getElementById('channels-list').innerHTML = BRAND.channels.map((c,i) =>
+    `<div class="activity-item"><div class="activity-dot yellow"></div><div class="activity-text"><strong>${esc(c.name)}</strong> — ${esc(t.channels[i])}</div></div>`
+  ).join('');
+
+  // Links
+  document.getElementById('links-list').innerHTML = BRAND.links.map(l => {
+    const label = `<span class="link-icon">${l.icon}</span><span class="link-label">${esc(t.links[l.key])}</span>`;
+    if (l.href) return `<a class="link-item" href="${l.href}" target="_blank">${label}<span class="link-arrow">↗</span></a>`;
+    return `<div class="link-item" style="cursor:default;opacity:0.6">${label}</div>`;
+  }).join('');
+
+  renderTasks();
+}
+
+/* ── TASKS (interactive checkboxes) ── */
+function taskItemHTML(task, isDone) {
+  const on = isDone || checked[task.id];
+  const pct = task.pct ? `<div class="task-meta"><span class="road-badge now">${task.pct}</span></div>` : '';
+  return `<div class="task-item${on?' checked':''}" data-id="${task.id}" style="border-left-color:var(--${task.color})">
+    <div class="task-check">✓</div>
+    <div class="task-body"><div class="road-title">${esc(task.title)}</div><div class="road-desc">${esc(task.desc)}</div>${pct}</div>
+  </div>`;
+}
+function renderTasks() {
+  const t = T[currentLang];
+  document.getElementById('todo-list').innerHTML = t.tasks.todo.map(x => taskItemHTML(x,false)).join('');
+  document.getElementById('progress-list').innerHTML = t.tasks.progress.map(x => taskItemHTML(x,false)).join('');
+  document.getElementById('done-list').innerHTML = t.tasks.done.map(x => taskItemHTML(x,true)).join('');
+  document.querySelectorAll('.task-item').forEach(item => {
+    item.onclick = () => toggleTask(item.dataset.id);
+  });
+  updateTaskProgress();
+}
+function toggleTask(id) {
+  checked[id] = !checked[id];
+  localStorage.setItem('task-checked', JSON.stringify(checked));
+  renderTasks();
+  updateTaskBadge();
+}
+function allTaskIds() {
+  const t = T.en.tasks; // ids are language-independent
+  return [...t.todo, ...t.progress, ...t.done].map(x => x.id);
+}
+function countDone() {
+  return allTaskIds().filter(id => {
+    // "done" column tasks count as complete even without explicit check
+    const isDoneCol = T.en.tasks.done.some(x => x.id === id);
+    return isDoneCol || checked[id];
+  }).length;
+}
+function updateTaskProgress() {
+  const total = allTaskIds().length;
+  const done = countDone();
+  const pct = Math.round(done/total*100);
+  const fill = document.getElementById('task-fill');
+  if (fill) fill.style.width = pct + '%';
+  const lbl = document.getElementById('task-pct');
+  if (lbl) lbl.textContent = pct + '%';
+}
+function updateTaskBadge() {
+  const badge = document.getElementById('nav-task-badge');
+  if (!badge) return;
+  const openCount = allTaskIds().length - countDone();
+  badge.textContent = openCount;
+  badge.style.display = openCount ? '' : 'none';
+}
+
+/* ── LANG ── */
 function setLang(lang) {
   currentLang = lang;
   localStorage.setItem('lang', lang);
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+  document.documentElement.setAttribute('lang', lang);
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  // static [data-i18n] spans
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (i18n[lang][key]) el.textContent = i18n[lang][key];
+    if (T[lang][key] !== undefined) el.textContent = T[lang][key];
   });
+  renderNav();
+  renderContent();
+  updateCountdown();
+  document.getElementById('page-title').textContent = T[lang].pageTitles[currentPage];
 }
 
-// ── THEME ──
+/* ── THEME ── */
 function toggleTheme() {
   const html = document.documentElement;
   const isDark = html.getAttribute('data-theme') === 'dark';
@@ -1005,26 +1176,32 @@ function toggleTheme() {
   localStorage.setItem('theme', isDark ? 'light' : 'dark');
 }
 
-// ── NAV ──
-const pageTitles = {
-  overview: { fr:'Vue d\'ensemble', en:'Overview', zh:'概览' },
-  app: { fr:'Application mobile', en:'Mobile App', zh:'移动应用' },
-  roadmap: { fr:'Roadmap', en:'Roadmap', zh:'路线图' },
-  design: { fr:'Design & Brand', en:'Design & Brand', zh:'设计与品牌' },
-  stack: { fr:'Stack technique', en:'Tech Stack', zh:'技术栈' },
-  marketing: { fr:'Marketing', en:'Marketing', zh:'市场营销' },
-  links: { fr:'Liens & Ressources', en:'Links', zh:'链接' }
-};
-
-function showPage(id, btn) {
+/* ── NAV / PAGES ── */
+function showPage(id) {
+  currentPage = id;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('page-title').textContent = pageTitles[id][currentLang];
+  document.querySelectorAll('.nav-item').forEach((b,i) => {});
+  renderNav();
+  document.getElementById('page-title').textContent = T[currentLang].pageTitles[id];
+  closeSidebar();
+  window.scrollTo(0,0);
 }
 
-// ── QR ──
+/* ── MOBILE SIDEBAR ── */
+function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('scrim').classList.add('show'); }
+function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('scrim').classList.remove('show'); }
+
+/* ── COUNTDOWN ── */
+function updateCountdown() {
+  const target = new Date('2026-07-31T23:59:59');
+  const now = new Date();
+  const days = Math.max(0, Math.ceil((target - now) / 86400000));
+  const cd = document.getElementById('countdown');
+  if (cd) cd.textContent = days + T[currentLang].day;
+}
+
+/* ── QR ── */
 function updateQR() {
   const url = document.getElementById('expo-url').value.trim();
   if (!url) return;
@@ -1033,21 +1210,19 @@ function updateQR() {
   localStorage.setItem('expo-url', url);
 }
 
-// ── INIT ──
+/* ── INIT ── */
 window.addEventListener('load', () => {
-  // restore theme
   const savedTheme = localStorage.getItem('theme') || 'dark';
   document.documentElement.setAttribute('data-theme', savedTheme);
   document.getElementById('theme-btn').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 
-  // restore lang
-  const savedLang = localStorage.getItem('lang') || 'fr';
-  setLang(savedLang);
-
-  // restore QR URL
   const savedUrl = localStorage.getItem('expo-url');
   if (savedUrl) document.getElementById('expo-url').value = savedUrl;
+
+  setLang(currentLang);
   updateQR();
+  updateCountdown();
+  setInterval(updateCountdown, 3600000); // refresh hourly
 });
 </script>
 </body>
