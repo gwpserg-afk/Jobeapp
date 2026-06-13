@@ -1,0 +1,467 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Better Auth tables (required)
+model User {
+  id            String    @id
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  sessions      Session[]
+  accounts      Account[]
+  phoneNumbers  PhoneNumber[]
+
+  // Jobe specific
+  accountType        String    @default("candidate") // candidate, recruiter, admin
+  phone              String?
+  isVerified         Boolean   @default(false)
+  isGoldVerified     Boolean   @default(false)
+  isPremium          Boolean   @default(false)
+  premiumExpiresAt   DateTime?
+  languagePreference String    @default("fr")
+  isActive           Boolean   @default(true)
+  lastActiveAt       DateTime?
+
+  // Profile relations
+  candidateProfile CandidateProfile?
+  company          Company?
+  sentMessages     Message[]      @relation("SentMessages")
+  receivedMessages Message[]      @relation("ReceivedMessages")
+  notifications    Notification[]
+  savedJobs        SavedJob[]
+  posts            Post[]
+  postLikes    PostLike[]
+  postComments PostComment[]
+  postReposts  PostRepost[]
+  profileViewsGiven    ProfileView[] @relation("ProfileViewsGiven")
+  profileViewsReceived ProfileView[] @relation("ProfileViewsReceived")
+  reportsMade          Report[]      @relation("ReportsMade")
+
+  // Credits
+  credits              Int           @default(5)
+  creditTransactions   CreditTransaction[]
+  promotions           Promotion[]
+  identityVerifications IdentityVerification[] @relation("IdentityVerifications")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Candidate Profile
+model CandidateProfile {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName           String   @default("")
+  profilePhotoUrl    String?
+  dateOfBirth        String?
+  city               String   @default("Dakar")
+  neighborhood       String?
+  headline           String?
+  bio                String?
+  availabilityStatus String   @default("available") // available, soon, unavailable
+  availabilityDate   String?
+  introVideoUrl      String?
+  cvUrl              String?
+  cvFileId           String?
+  profileVisibility  String   @default("public") // public, recruiters_only, private
+  profileCompletePct Int      @default(0)
+
+  // Relations
+  skills              CandidateSkill[]
+  experiences         CandidateExperience[]
+  education           CandidateEducation[]
+  portfolio           PortfolioItem[]
+  recommendations     Recommendation[]
+  applications        Application[]
+  languages           CandidateLanguage[]
+  savedByRecruiters   SavedCandidate[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CandidateSkill {
+  id               String           @id @default(cuid())
+  candidateId      String
+  candidate        CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  skillName        String
+  skillLevel       String           @default("intermediate") // beginner, intermediate, expert
+  endorsementCount Int              @default(0)
+  isVerified       Boolean          @default(false)
+  createdAt        DateTime         @default(now())
+}
+
+model CandidateExperience {
+  id          String           @id @default(cuid())
+  candidateId String
+  candidate   CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  companyName String
+  roleTitle   String
+  startDate   String
+  endDate     String?
+  isCurrent   Boolean          @default(false)
+  isInformal  Boolean          @default(false)
+  description String?
+  createdAt   DateTime         @default(now())
+}
+
+model CandidateEducation {
+  id              String           @id @default(cuid())
+  candidateId     String
+  candidate       CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  institutionName String
+  degreeLevel     String
+  fieldOfStudy    String?
+  startYear       String?
+  endYear         String?
+  isCurrent       Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+}
+
+model CandidateLanguage {
+  id          String           @id @default(cuid())
+  candidateId String
+  candidate   CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  language    String
+  level       String           @default("intermediate") // beginner, intermediate, fluent, native
+  createdAt   DateTime         @default(now())
+}
+
+model PortfolioItem {
+  id          String           @id @default(cuid())
+  candidateId String
+  candidate   CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  imageUrl    String
+  caption     String?
+  createdAt   DateTime         @default(now())
+}
+
+model Recommendation {
+  id                      String           @id @default(cuid())
+  candidateId             String
+  candidate               CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  recommenderName         String
+  recommenderCompany      String?
+  recommenderRelationship String?
+  testimonialText         String
+  isApproved              Boolean          @default(false)
+  createdAt               DateTime         @default(now())
+}
+
+// Company / Recruiter
+model Company {
+  id          String @id @default(cuid())
+  userId      String @unique
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName String
+  logoUrl     String?
+  bannerUrl   String?
+  sector      String?
+  sizeRange   String? // 1-10, 11-50, 51-200, 200+
+  description String?
+  website     String?
+  isVerified  Boolean @default(false)
+  contactName String?
+  location    String?
+
+  // Relations
+  jobListings     JobListing[]
+  savedCandidates SavedCandidate[]
+  teamMembers     CompanyTeamMember[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CompanyTeamMember {
+  id           String   @id @default(cuid())
+  companyId    String
+  company      Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name         String
+  role         String?
+  photoUrl     String?
+  order        Int      @default(0)
+  isPinned     Boolean  @default(false)
+  linkedUserId String?
+  createdAt    DateTime @default(now())
+}
+
+// Job Listings
+model JobListing {
+  id                   String  @id @default(cuid())
+  companyId            String
+  company              Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  title                String
+  category             String?
+  contractType         String  @default("cdd") // cdi, cdd, stage, freelance, temps_partiel
+  locationCity         String  @default("Dakar")
+  locationNeighborhood String?
+  workMode             String  @default("presentiel") // presentiel, hybride, teletravail
+  salaryMin            Int?
+  salaryMax            Int?
+  salaryNegotiable     Boolean @default(true)
+  description          String
+  requiredExperience   String? // none, 1-2, 3-5, 5+
+  requiredEducation    String?
+  deadline             String?
+  maxApplicants        Int?
+  isBoosted            Boolean @default(false)
+  isUrgent             Boolean @default(false)
+  isActive             Boolean @default(true)
+  viewCount            Int     @default(0)
+
+  // Relations
+  requiredSkills JobRequiredSkill[]
+  applications   Application[]
+  savedBy        SavedJob[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model JobRequiredSkill {
+  id        String     @id @default(cuid())
+  jobId     String
+  job       JobListing @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  skillName String
+  isRequired Boolean   @default(true)
+  createdAt DateTime   @default(now())
+}
+
+// Applications
+model Application {
+  id             String           @id @default(cuid())
+  jobId          String
+  job            JobListing       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  candidateId    String
+  candidate      CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  coverMessage   String?
+  status         String           @default("pending") // pending, viewed, interview, rejected, accepted
+  recruiterNotes String?
+  appliedAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+}
+
+// Messages
+model Message {
+  id            String   @id @default(cuid())
+  senderId      String
+  sender        User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiverId    String
+  receiver      User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+  jobId         String?
+  content       String
+  attachmentUrl String?
+  isRead        Boolean  @default(false)
+  sentAt        DateTime @default(now())
+}
+
+// Saved Items
+model SavedJob {
+  id      String     @id @default(cuid())
+  userId  String
+  user    User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobId   String
+  job     JobListing @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  savedAt DateTime   @default(now())
+
+  @@unique([userId, jobId])
+}
+
+model SavedCandidate {
+  id          String           @id @default(cuid())
+  companyId   String
+  company     Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  candidateId String
+  candidate   CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  notes       String?
+  savedAt     DateTime         @default(now())
+
+  @@unique([companyId, candidateId])
+}
+
+// Notifications
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String // job_match, profile_view, application_update, message, recommendation
+  title     String
+  body      String
+  dataJson  String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model PhoneOtp {
+  id        String   @id @default(cuid())
+  phone     String   @unique
+  otp       String
+  expiresAt DateTime
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+// Better Auth phoneNumber plugin table
+model PhoneNumber {
+  id          String   @id
+  phoneNumber String   @unique
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verified    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content   String
+  imageUrl  String?
+  isPinned  Boolean  @default(false)
+  isHidden  Boolean  @default(false)
+  isBoosted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  likes     PostLike[]
+  comments  PostComment[]
+  reposts   PostRepost[]
+}
+
+model PostLike {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+}
+
+model PostComment {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  content   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model PostRepost {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+}
+
+model ProfileView {
+  id           String   @id @default(cuid())
+  viewerId     String
+  viewedUserId String
+  createdAt    DateTime @default(now())
+  viewer       User     @relation("ProfileViewsGiven", fields: [viewerId], references: [id], onDelete: Cascade)
+  viewedUser   User     @relation("ProfileViewsReceived", fields: [viewedUserId], references: [id], onDelete: Cascade)
+}
+
+model Report {
+  id         String   @id @default(cuid())
+  reporterId String
+  reporter   User     @relation("ReportsMade", fields: [reporterId], references: [id], onDelete: Cascade)
+  type       String   // "post" | "profile_image" | "comment"
+  targetId   String
+  reason     String
+  createdAt  DateTime @default(now())
+}
+
+model CreditTransaction {
+  id        String   @id @default(cuid())
+  userId    String
+  amount    Int      // positive = added, negative = spent
+  type      String   // "initial" | "purchase" | "spend" | "premium_recharge"
+  note      String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Promotion {
+  id           String   @id @default(cuid())
+  userId       String
+  businessName String
+  title        String
+  content      String
+  imageUrl     String?
+  websiteUrl   String?
+  durationDays Int
+  creditCost   Int
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model IdentityVerification {
+  id                     String    @id @default(cuid())
+  userId                 String
+  user                   User      @relation("IdentityVerifications", fields: [userId], references: [id], onDelete: Cascade)
+  nationalIdNumber       String
+  nationalIdPhotoUrl     String?
+  nationalIdBackPhotoUrl String?
+  status                 String    @default("pending") // "pending" | "verified" | "rejected"
+  createdAt              DateTime  @default(now())
+  reviewedAt             DateTime?
+}

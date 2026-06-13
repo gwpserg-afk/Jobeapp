@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl *)",
+      "Bash(ps aux *)",
+      "Bash(lsof *)",
+      "Bash(mkdir -p *)",
+      "Bash(bunx tsc *)",
+      "Bash(bunx prisma *)",
+      "Bash(/Users/serg/.bun/bin/bun x playwright screenshot *)",
+      "Bash(/Users/serg/.bun/bin/bun x playwright install *)",
+      "mcp__Claude_Preview__preview_list",
+      "mcp__Claude_Preview__preview_screenshot",
+      "mcp__Claude_Preview__preview_snapshot",
+      "mcp__Claude_Preview__preview_logs",
+      "mcp__Claude_Preview__preview_console_logs",
+      "mcp__Claude_Preview__preview_network"
+    ]
+  }
+}

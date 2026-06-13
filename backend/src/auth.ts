@@ -1,0 +1,57 @@
+import { betterAuth } from "better-auth";
+import { expo } from "@better-auth/expo";
+import { prismaAdapter } from "better-auth/adapters/prisma";
+import { emailOTP } from "better-auth/plugins";
+import { prisma } from "./prisma";
+import { env } from "./env";
+
+export const auth = betterAuth({
+  database: prismaAdapter(prisma, { provider: "sqlite" }),
+  secret: env.BETTER_AUTH_SECRET,
+  baseURL: env.BACKEND_URL,
+  emailAndPassword: {
+    enabled: true,
+  },
+  trustedOrigins: [
+    "jobe://*/*",
+    "exp://*/*",
+    "http://localhost:*",
+    "http://127.0.0.1:*",
+  ],
+  plugins: [
+    expo(),
+    emailOTP({
+      async sendVerificationOTP({ email, otp, type }) {
+        // In development, log OTP to terminal. Replace with Resend/SendGrid for production.
+        console.log(`\n📧 OTP for ${email}: ${otp} (type: ${type})\n`);
+      },
+    }),
+
+  ],
+  user: {
+    additionalFields: {
+      accountType: {
+        type: "string",
+        defaultValue: "candidate",
+        input: true,
+      },
+      phone: { type: "string", required: false, input: true },
+      isVerified: { type: "boolean", defaultValue: false },
+      isGoldVerified: { type: "boolean", defaultValue: false },
+      isPremium: { type: "boolean", defaultValue: false },
+      premiumExpiresAt: { type: "date", required: false },
+      languagePreference: { type: "string", defaultValue: "fr", input: true },
+      isActive: { type: "boolean", defaultValue: true },
+      lastActiveAt: { type: "date", required: false },
+    },
+  },
+  advanced: {
+    trustedProxyHeaders: true,
+    disableCSRFCheck: true,
+    defaultCookieAttributes: {
+      sameSite: "none",
+      secure: true,
+      partitioned: true,
+    },
+  },
+});
