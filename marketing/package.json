@@ -1,0 +1,9 @@
+{
+  "name": "jobe-marketing",
+  "version": "1.0.0",
+  "description": "Jobé — Marketing landing page",
+  "scripts": {
+    "dev": "npx serve . -l 3001 --no-clipboard",
+    "start": "npx serve . -l 3001"
+  }
+}

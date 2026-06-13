@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jobé — Trouve ton opportunité. Construis ton avenir.</title>
+  <meta name="description" content="La plateforme d'emploi n°1 pour la jeunesse francophone africaine. Matching IA, formation certifiée, gratuit pour les candidats. Disponible sur iOS et Android." />
+  <meta property="og:title" content="Jobé — Trouve ton opportunité." />
+  <meta property="og:description" content="La plateforme d'emploi n°1 pour la jeunesse francophone africaine." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ══════════════════════════════════════════
+       TOKENS
+    ══════════════════════════════════════════ */
+    :root {
+      --bg:       #09090B;
+      --surface:  #111114;
+      --elevated: #18181C;
+      --border:   #252529;
+      --border-l: #32323A;
+      --green:    #1DB954;
+      --green-d:  rgba(29,185,84,0.08);
+      --green-g:  rgba(29,185,84,0.18);
+      --blue:     #2D7DD2;
+      --blue-d:   rgba(45,125,210,0.08);
+      --text:     #F4F4F6;
+      --sub:      #9A9AA8;
+      --muted:    #52525C;
+      --r:        16px;
+      --r-sm:     10px;
+      --font:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ══════════════════════════════════════════
+       UTILITIES
+    ══════════════════════════════════════════ */
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 999px;
+      font-size: 13px; font-weight: 600; border: 1px solid;
+    }
+    .pill-green { background: var(--green-d); color: var(--green); border-color: rgba(29,185,84,0.22); }
+    .pill-blue  { background: var(--blue-d);  color: var(--blue);  border-color: rgba(45,125,210,0.22); }
+    .pill-muted { background: var(--elevated); color: var(--sub);  border-color: var(--border-l); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 26px; border-radius: 12px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      border: none; text-decoration: none;
+      transition: all 0.18s; white-space: nowrap;
+    }
+    .btn-primary  { background: var(--green); color: #000; }
+    .btn-primary:hover  { opacity: 0.86; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(29,185,84,0.25); }
+    .btn-outline  { background: transparent; color: var(--text); border: 1px solid var(--border-l); }
+    .btn-outline:hover  { background: var(--elevated); }
+    .btn-ghost    { background: var(--elevated); color: var(--text); }
+    .btn-ghost:hover    { background: var(--border); }
+
+    .label {
+      font-size: 12px; font-weight: 700; letter-spacing: 1.4px;
+      text-transform: uppercase; color: var(--green); margin-bottom: 12px;
+    }
+    h2.sh {
+      font-size: clamp(32px, 4.5vw, 56px);
+      font-weight: 900; letter-spacing: -2px; line-height: 1.06;
+    }
+    .sub-sh {
+      font-size: 18px; color: var(--sub);
+      margin-top: 14px; max-width: 540px; line-height: 1.65;
+    }
+
+    /* Scroll-triggered animation */
+    .up { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .up.in { opacity: 1; transform: none; }
+
+    /* ══════════════════════════════════════════
+       NAVBAR
+    ══════════════════════════════════════════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 66px; padding: 0 28px;
+      display: flex; align-items: center;
+      transition: background 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+      border-bottom: 1px solid transparent;
+    }
+    .nav.scrolled {
+      background: rgba(9,9,11,0.88);
+      backdrop-filter: blur(24px);
+      border-color: var(--border);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; width: 100%;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .logo {
+      font-size: 22px; font-weight: 900; letter-spacing: -0.5px;
+      color: var(--text); text-decoration: none; flex-shrink: 0;
+    }
+    .logo span { color: var(--green); }
+    .nav-links { display: flex; gap: 2px; }
+    .nav-a {
+      padding: 7px 14px; font-size: 14px; font-weight: 500;
+      color: var(--sub); text-decoration: none; border-radius: 9px;
+      transition: all 0.15s;
+    }
+    .nav-a:hover { color: var(--text); background: var(--elevated); }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .lang-box {
+      display: flex; gap: 2px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 4px;
+    }
+    .lang-b {
+      padding: 5px 10px; font-size: 12px; font-weight: 700;
+      color: var(--muted); background: none; border: none;
+      border-radius: 7px; cursor: pointer; transition: all 0.15s;
+    }
+    .lang-b.on { background: var(--elevated); color: var(--text); }
+    .nav-dl {
+      padding: 9px 20px; background: var(--green); color: #000;
+      border: none; border-radius: 10px; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: all 0.18s; text-decoration: none;
+    }
+    .nav-dl:hover { opacity: 0.86; }
+    .ham { display: none; background: none; border: none; color: var(--text); font-size: 22px; cursor: pointer; }
+
+    /* Mobile nav drawer */
+    .mobile-nav {
+      display: none; position: fixed; inset: 0; z-index: 190;
+      background: rgba(9,9,11,0.97); backdrop-filter: blur(24px);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 24px; padding: 80px 24px 40px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav .nav-a { font-size: 22px; font-weight: 700; }
+    .close-btn {
+      position: absolute; top: 20px; right: 24px;
+      background: none; border: none; color: var(--sub); font-size: 28px; cursor: pointer;
+    }
+
+    /* ══════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════ */
+    .hero {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 130px 28px 80px; overflow: hidden;
+    }
+    .hero-glow-1 {
+      position: absolute; top: -180px; left: 50%; transform: translateX(-55%);
+      width: 900px; height: 700px;
+      background: radial-gradient(ellipse, rgba(29,185,84,0.07) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .hero-glow-2 {
+      position: absolute; bottom: -80px; right: -120px;
+      width: 700px; height: 600px;
+      background: radial-gradient(ellipse, rgba(45,125,210,0.05) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 90% 80% at 50% 0%, black 40%, transparent 100%);
+    }
+
+    .hero-inner {
+      position: relative; z-index: 2;
+      max-width: 1200px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    .hero-left {}
+    .hero-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+    .hero-h1 {
+      font-size: clamp(52px, 7.5vw, 96px);
+      font-weight: 900; letter-spacing: -3px; line-height: 1.0;
+      margin-bottom: 8px;
+    }
+    .hero-h1 .g { color: var(--green); }
+    .hero-h2 {
+      font-size: clamp(52px, 7.5vw, 96px);
+      font-weight: 900; letter-spacing: -3px; line-height: 1.0;
+      color: var(--sub); margin-bottom: 24px;
+    }
+    .hero-desc {
+      font-size: 19px; color: var(--sub); max-width: 480px;
+      line-height: 1.65; margin-bottom: 36px;
+    }
+    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 52px; }
+    .hero-ctas .btn { font-size: 16px; padding: 15px 28px; }
+
+    /* Download row */
+    .dl-row {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      padding-top: 28px; border-top: 1px solid var(--border);
+    }
+    .dl-btn {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 18px;
+      background: var(--elevated); border: 1px solid var(--border-l);
+      border-radius: 12px; text-decoration: none; color: var(--text);
+      transition: all 0.18s; cursor: pointer;
+    }
+    .dl-btn:hover { background: var(--border); transform: translateY(-2px); }
+    .dl-i { font-size: 26px; }
+    .dl-sup { font-size: 10px; color: var(--muted); font-weight: 500; }
+    .dl-name { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }
+
+    /* Hero Right — App Preview */
+    .hero-phone {
+      position: relative; display: flex; justify-content: center; align-items: center;
+    }
+    .phone-shell {
+      width: 280px;
+      background: var(--surface);
+      border: 1px solid var(--border-l);
+      border-radius: 32px;
+      padding: 20px 16px;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+      position: relative;
+      overflow: hidden;
+    }
+    .phone-shell::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    }
+    .phone-notch {
+      width: 80px; height: 24px; background: var(--bg);
+      border-radius: 999px; margin: 0 auto 16px;
+      border: 1px solid var(--border);
+    }
+    .phone-screen { display: flex; flex-direction: column; gap: 10px; }
+    .phone-header { margin-bottom: 4px; }
+    .phone-greeting { font-size: 17px; font-weight: 900; letter-spacing: -0.5px; }
+    .phone-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .p-job {
+      background: var(--elevated); border: 1px solid var(--border-l);
+      border-radius: 14px; padding: 12px;
+      display: flex; gap: 10px; align-items: center;
+      transition: border-color 0.3s;
+    }
+    .p-job:hover { border-color: rgba(29,185,84,0.3); }
+    .p-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: var(--border); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 17px;
+    }
+    .p-title { font-size: 13px; font-weight: 700; }
+    .p-info { font-size: 11px; color: var(--muted); margin-top: 1px; }
+    .p-match { margin-left: auto; font-size: 12px; font-weight: 800; color: var(--green); flex-shrink: 0; }
+    .phone-tab-bar {
+      display: flex; justify-content: space-around; margin-top: 8px;
+      padding: 10px 0 0; border-top: 1px solid var(--border);
+    }
+    .p-tab { font-size: 18px; opacity: 0.4; }
+    .p-tab.on { opacity: 1; }
+    /* Floating badge on phone */
+    .phone-badge {
+      position: absolute; top: -16px; right: -24px;
+      background: var(--green); color: #000;
+      font-size: 12px; font-weight: 800;
+      padding: 8px 14px; border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(29,185,84,0.35);
+    }
+    .phone-badge-2 {
+      position: absolute; bottom: 24px; left: -28px;
+      background: var(--elevated); border: 1px solid var(--border-l);
+      color: var(--text); font-size: 12px; font-weight: 700;
+      padding: 8px 14px; border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    /* ══════════════════════════════════════════
+       STATS BAR
+    ══════════════════════════════════════════ */
+    .stats-bar {
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: var(--surface); padding: 40px 28px;
+    }
+    .stats-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+    .stat-item { display: flex; flex-direction: column; gap: 4px; }
+    .stat-n {
+      font-size: 40px; font-weight: 900; letter-spacing: -2px;
+      line-height: 1; color: var(--text);
+    }
+    .stat-l { font-size: 14px; color: var(--muted); font-weight: 500; margin-top: 4px; }
+
+    /* Dividers */
+    .div-line {
+      height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    /* ══════════════════════════════════════════
+       JOBS SECTION
+    ══════════════════════════════════════════ */
+    .section { padding: 100px 28px; }
+    .section.alt { background: var(--surface); }
+
+    .jobs-head {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 36px;
+    }
+    .job-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .j-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 24px;
+      transition: all 0.22s; cursor: pointer; position: relative; overflow: hidden;
+    }
+    .j-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    }
+    .j-card:hover {
+      border-color: var(--border-l); transform: translateY(-5px);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+    }
+    .j-co-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .j-logo {
+      width: 46px; height: 46px; border-radius: 12px;
+      background: var(--elevated); border: 1px solid var(--border-l);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .j-co { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .j-loc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .j-title { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; margin-bottom: 14px; }
+    .j-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .j-tag {
+      font-size: 12px; font-weight: 600; padding: 4px 10px;
+      border-radius: 6px; background: var(--elevated);
+      color: var(--sub); border: 1px solid var(--border);
+    }
+    .j-foot {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 16px; border-top: 1px solid var(--border);
+    }
+    .j-sal { font-size: 15px; font-weight: 700; }
+    .j-sal span { font-size: 12px; color: var(--muted); font-weight: 400; }
+    .j-match {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 13px; font-weight: 800; color: var(--green);
+      background: var(--green-d); border: 1px solid rgba(29,185,84,0.22);
+      border-radius: 8px; padding: 5px 10px;
+    }
+
+    /* ══════════════════════════════════════════
+       HOW IT WORKS
+    ══════════════════════════════════════════ */
+    .how-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; background: var(--border); border-radius: var(--r);
+      overflow: hidden; margin-top: 56px;
+    }
+    .how-item {
+      background: var(--surface); padding: 40px 32px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .how-n {
+      font-size: 64px; font-weight: 900; letter-spacing: -3px;
+      line-height: 1; color: var(--border-l);
+    }
+    .how-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: var(--elevated); border: 1px solid var(--border-l);
+      display: flex; align-items: center; justify-content: center; font-size: 24px;
+    }
+    .how-t { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; }
+    .how-d { font-size: 15px; color: var(--sub); line-height: 1.65; }
+
+    /* ══════════════════════════════════════════
+       AUDIENCE TABS
+    ══════════════════════════════════════════ */
+    .tab-row {
+      display: flex; gap: 4px;
+      background: var(--elevated); border: 1px solid var(--border);
+      border-radius: 12px; padding: 4px; width: fit-content; margin: 32px 0 52px;
+    }
+    .t-btn {
+      padding: 10px 26px; font-size: 15px; font-weight: 600;
+      color: var(--muted); background: none; border: none;
+      border-radius: 9px; cursor: pointer; transition: all 0.2s;
+    }
+    .t-btn.on { background: var(--surface); color: var(--text); }
+    .t-panel { display: none; }
+    .t-panel.on { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+
+    .ben-list { display: flex; flex-direction: column; gap: 20px; }
+    .ben-item { display: flex; gap: 14px; align-items: flex-start; }
+    .ben-ic {
+      width: 38px; height: 38px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px; flex-shrink: 0; margin-top: 2px;
+    }
+    .ben-ic.g { background: var(--green-d); border: 1px solid rgba(29,185,84,0.2); }
+    .ben-ic.b { background: var(--blue-d); border: 1px solid rgba(45,125,210,0.2); }
+    .ben-t { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+    .ben-d { font-size: 14px; color: var(--sub); }
+
+    /* App preview card (audience section) */
+    .a-preview {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 24px; padding: 28px;
+      display: flex; flex-direction: column; gap: 12px;
+      min-height: 380px; position: relative; overflow: hidden;
+    }
+    .a-preview::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+    }
+    .a-ph { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; }
+    .a-ps { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .m-card {
+      background: var(--elevated); border: 1px solid var(--border-l);
+      border-radius: 12px; padding: 13px;
+      display: flex; gap: 10px; align-items: center;
+    }
+    .m-ic {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: var(--border); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 17px;
+    }
+    .m-t { font-size: 13px; font-weight: 700; }
+    .m-i { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .m-pct { margin-left: auto; font-size: 12px; font-weight: 800; flex-shrink: 0; }
+    .m-pct.g { color: var(--green); }
+    .m-pct.b { color: var(--blue); }
+    .pbar-wrap { margin-top: auto; }
+    .pbar { height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
+    .pbar-fill { height: 100%; background: var(--green); border-radius: 999px; }
+    .pbar-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 5px; }
+
+    /* ══════════════════════════════════════════
+       BENTO FEATURES
+    ══════════════════════════════════════════ */
+    .bento {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 12px; margin-top: 56px;
+    }
+    .b-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 28px;
+      display: flex; flex-direction: column; gap: 14px;
+      transition: border-color 0.2s;
+    }
+    .b-card:hover { border-color: var(--border-l); }
+    .b-card.w2 { grid-column: span 2; }
+    .b-ic {
+      width: 48px; height: 48px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+    }
+    .b-ic.g { background: var(--green-d); }
+    .b-ic.b { background: var(--blue-d); }
+    .b-t { font-size: 17px; font-weight: 800; letter-spacing: -0.3px; }
+    .b-d { font-size: 14px; color: var(--sub); line-height: 1.65; }
+
+    /* ══════════════════════════════════════════
+       COUNTRIES
+    ══════════════════════════════════════════ */
+    .co-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 16px; margin-top: 48px;
+    }
+    .co-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 28px 22px; text-align: center;
+      transition: all 0.22s;
+    }
+    .co-card:hover { transform: translateY(-5px); }
+    .co-card.live { border-color: rgba(29,185,84,0.2); }
+    .co-card.live:hover { border-color: var(--green); box-shadow: 0 16px 40px rgba(29,185,84,0.08); }
+    .co-flag { font-size: 44px; margin-bottom: 12px; }
+    .co-name { font-size: 17px; font-weight: 800; margin-bottom: 4px; }
+    .co-st { font-size: 13px; font-weight: 600; }
+    .co-st.live { color: var(--green); }
+    .co-st.soon { color: var(--muted); }
+
+    /* ══════════════════════════════════════════
+       TESTIMONIALS
+    ══════════════════════════════════════════ */
+    .tes-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px; margin-top: 48px;
+    }
+    .tes-card {
+      background: var(--elevated); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 28px;
+    }
+    .tes-stars { font-size: 15px; margin-bottom: 16px; }
+    .tes-q { font-size: 15px; color: var(--sub); line-height: 1.72; margin-bottom: 22px; font-style: italic; }
+    .tes-author { display: flex; align-items: center; gap: 12px; }
+    .tes-av {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--border); border: 1px solid var(--border-l);
+      display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+    }
+    .tes-name { font-size: 14px; font-weight: 700; }
+    .tes-role { font-size: 12px; color: var(--muted); }
+
+    /* ══════════════════════════════════════════
+       CTA DOWNLOAD
+    ══════════════════════════════════════════ */
+    .cta-section {
+      padding: 120px 28px; text-align: center;
+      position: relative; overflow: hidden;
+      border-top: 1px solid var(--border);
+    }
+    .cta-glow {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px; height: 500px;
+      background: radial-gradient(ellipse, rgba(29,185,84,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-h {
+      font-size: clamp(40px, 5.5vw, 76px);
+      font-weight: 900; letter-spacing: -2.5px; line-height: 1.04;
+      position: relative; z-index: 1;
+    }
+    .cta-h .g { color: var(--green); }
+    .cta-sub {
+      font-size: 19px; color: var(--sub);
+      max-width: 500px; margin: 20px auto 44px;
+      position: relative; z-index: 1;
+    }
+    .store-row {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      position: relative; z-index: 1;
+    }
+    .s-btn {
+      display: flex; align-items: center; gap: 12px;
+      padding: 15px 26px;
+      background: var(--elevated); border: 1px solid var(--border-l);
+      border-radius: 14px; color: var(--text); text-decoration: none;
+      transition: all 0.2s;
+    }
+    .s-btn:hover { background: var(--border); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
+    .s-btn.primary { background: var(--green); border-color: var(--green); }
+    .s-btn.primary .s-sup,.s-btn.primary .s-nm { color: #000; }
+    .s-btn.primary:hover { opacity: 0.88; }
+    .s-ico { font-size: 30px; }
+    .s-sup { font-size: 11px; color: var(--muted); font-weight: 500; display: block; }
+    .s-nm  { font-size: 17px; font-weight: 800; letter-spacing: -0.3px; display: block; }
+    .cta-note { font-size: 13px; color: var(--muted); margin-top: 20px; position: relative; z-index: 1; }
+
+    /* ══════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════ */
+    footer { border-top: 1px solid var(--border); padding: 64px 28px 40px; }
+    .foot-inner { max-width: 1200px; margin: 0 auto; }
+    .foot-top {
+      display: grid; grid-template-columns: 2.2fr 1fr 1fr 1fr 1fr;
+      gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--border); margin-bottom: 32px;
+    }
+    .foot-brand p { font-size: 14px; color: var(--muted); margin-top: 12px; line-height: 1.65; max-width: 250px; }
+    .foot-col-h {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+    }
+    .foot-links { display: flex; flex-direction: column; gap: 11px; }
+    .foot-a { font-size: 14px; color: var(--sub); text-decoration: none; transition: color 0.15s; }
+    .foot-a:hover { color: var(--text); }
+    .foot-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 13px; color: var(--muted);
+    }
+    .soc { display: flex; gap: 10px; }
+    .soc-a {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: var(--elevated); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--sub); text-decoration: none; font-size: 15px;
+      transition: all 0.15s;
+    }
+    .soc-a:hover { background: var(--border); color: var(--text); }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .hero-inner   { grid-template-columns: 1fr; gap: 48px; }
+      .hero-phone   { justify-content: flex-start; }
+      .job-grid     { grid-template-columns: 1fr 1fr; }
+      .bento        { grid-template-columns: 1fr 1fr; }
+      .b-card.w2    { grid-column: span 2; }
+      .co-grid      { grid-template-columns: 1fr 1fr; }
+      .foot-top     { grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+      .foot-brand   { grid-column: span 2; }
+      .stats-inner  { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .ham { display: block; }
+      .hero-h1, .hero-h2 { font-size: 52px; letter-spacing: -2px; }
+      .hero-desc { font-size: 17px; }
+      .job-grid     { grid-template-columns: 1fr; }
+      .how-grid     { grid-template-columns: 1fr; }
+      .t-panel.on   { grid-template-columns: 1fr; gap: 40px; }
+      .a-preview    { display: none; }
+      .bento        { grid-template-columns: 1fr; }
+      .b-card.w2    { grid-column: span 1; }
+      .co-grid      { grid-template-columns: 1fr 1fr; }
+      .tes-grid     { grid-template-columns: 1fr; }
+      .foot-top     { grid-template-columns: 1fr 1fr; }
+      .foot-brand   { grid-column: span 2; }
+    }
+    @media (max-width: 560px) {
+      .hero { padding: 110px 20px 60px; }
+      .hero-ctas { flex-direction: column; }
+      .hero-ctas .btn { justify-content: center; }
+      .dl-row { flex-direction: column; }
+      .stats-inner { grid-template-columns: 1fr 1fr; }
+      .co-grid { grid-template-columns: 1fr 1fr; }
+      .foot-top { grid-template-columns: 1fr; }
+      .foot-brand { grid-column: span 1; }
+      .foot-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .section { padding: 72px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     NAV
+══════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">Job<span>é</span></a>
+    <div class="nav-links">
+      <a class="nav-a" href="#jobs"       data-i18n="n_jobs">Offres d'emploi</a>
+      <a class="nav-a" href="#audience"   data-i18n="n_rec">Recruteurs</a>
+      <a class="nav-a" href="#how"        data-i18n="n_how">Comment ça marche</a>
+    </div>
+    <div class="nav-right">
+      <div class="lang-box">
+        <button class="lang-b on" onclick="setLang('fr')">FR</button>
+        <button class="lang-b"    onclick="setLang('en')">EN</button>
+        <button class="lang-b"    onclick="setLang('zh')">中</button>
+      </div>
+      <a href="#download" class="nav-dl" data-i18n="n_dl">Télécharger</a>
+    </div>
+    <button class="ham" onclick="openMenu()" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="mobile-nav" id="mobile-nav">
+  <button class="close-btn" onclick="closeMenu()">✕</button>
+  <a class="nav-a" href="#jobs"     onclick="closeMenu()" data-i18n="n_jobs">Offres d'emploi</a>
+  <a class="nav-a" href="#audience" onclick="closeMenu()" data-i18n="n_rec">Recruteurs</a>
+  <a class="nav-a" href="#how"      onclick="closeMenu()" data-i18n="n_how">Comment ça marche</a>
+  <a href="#download" class="btn btn-primary" onclick="closeMenu()" data-i18n="n_dl" style="margin-top:8px">Télécharger</a>
+</div>
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-pills up">
+        <span class="pill pill-green">✦ <span data-i18n="h_p1">Matching IA gratuit</span></span>
+        <span class="pill pill-blue">🌍 <span data-i18n="h_p2">4 pays · Afrique de l'Ouest</span></span>
+      </div>
+      <h1 class="hero-h1 up" style="transition-delay:.05s">
+        <span data-i18n="h_l1">Trouve ton</span> <span class="g" data-i18n="h_l2">opportunité.</span>
+      </h1>
+      <p class="hero-h2 up" style="transition-delay:.08s" data-i18n="h_l3">Construis ton avenir.</p>
+      <p class="hero-desc up" style="transition-delay:.12s" data-i18n="h_desc">
+        La plateforme d'emploi n°1 pour la jeunesse francophone africaine. IA, formation certifiée, réseau professionnel — tout en un. Gratuit pour les candidats.
+      </p>
+      <div class="hero-ctas up" style="transition-delay:.16s">
+        <a href="#jobs" class="btn btn-primary" data-i18n="h_c1">Chercher un emploi →</a>
+        <a href="#audience" class="btn btn-outline" data-i18n="h_c2">Publier une offre</a>
+      </div>
+      <div class="dl-row up" style="transition-delay:.2s">
+        <a href="#download" class="dl-btn">
+          <span class="dl-i">🍎</span>
+          <div>
+            <div class="dl-sup" data-i18n="dl_on">Disponible sur</div>
+            <div class="dl-name">App Store</div>
+          </div>
+        </a>
+        <a href="#download" class="dl-btn">
+          <span class="dl-i">▶</span>
+          <div>
+            <div class="dl-sup" data-i18n="dl_get">Disponible sur</div>
+            <div class="dl-name">Google Play</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Phone mockup -->
+    <div class="hero-phone up" style="transition-delay:.15s">
+      <div style="position:relative">
+        <div class="phone-shell">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-header">
+              <div class="phone-greeting" data-i18n="ph_hi">Bonjour, Moussa 👋</div>
+              <div class="phone-sub" data-i18n="ph_sub">3 nouveaux matchs aujourd'hui</div>
+            </div>
+            <div class="p-job">
+              <div class="p-icon">💻</div>
+              <div>
+                <div class="p-title">Dev Full-Stack · Orange SN</div>
+                <div class="p-info">Dakar · 350k–500k FCFA</div>
+              </div>
+              <div class="p-match">97%</div>
+            </div>
+            <div class="p-job">
+              <div class="p-icon">📊</div>
+              <div>
+                <div class="p-title">Analyste Data · Wave</div>
+                <div class="p-info">Dakar · 400k FCFA</div>
+              </div>
+              <div class="p-match">93%</div>
+            </div>
+            <div class="p-job">
+              <div class="p-icon">🎨</div>
+              <div>
+                <div class="p-title">UI Designer · Expresso</div>
+                <div class="p-info">Dakar · 280k FCFA</div>
+              </div>
+              <div class="p-match">89%</div>
+            </div>
+            <div class="phone-tab-bar">
+              <span class="p-tab">🏠</span>
+              <span class="p-tab on">💼</span>
+              <span class="p-tab">💬</span>
+              <span class="p-tab">👤</span>
+            </div>
+          </div>
+        </div>
+        <div class="phone-badge" data-i18n="ph_badge">✦ Match IA 97%</div>
+        <div class="phone-badge-2" data-i18n="ph_badge2">🟢 300k candidats</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     STATS BAR
+══════════════════════════════════════ -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item up">
+      <span class="stat-n" data-count="12400" data-suf="+">0</span>
+      <span class="stat-l" data-i18n="s1">Offres d'emploi actives</span>
+    </div>
+    <div class="stat-item up" style="transition-delay:.05s">
+      <span class="stat-n" data-count="300000" data-suf="+">0</span>
+      <span class="stat-l" data-i18n="s2">Candidats inscrits</span>
+    </div>
+    <div class="stat-item up" style="transition-delay:.1s">
+      <span class="stat-n" data-count="4">0</span>
+      <span class="stat-l" data-i18n="s3">Pays couverts</span>
+    </div>
+    <div class="stat-item up" style="transition-delay:.15s">
+      <span class="stat-n" data-count="85" data-suf="%">0</span>
+      <span class="stat-l" data-i18n="s4">Taux de placement</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     FEATURED JOBS
+══════════════════════════════════════ -->
+<section class="section" id="jobs">
+  <div class="wrap">
+    <div class="jobs-head up">
+      <div>
+        <div class="label" data-i18n="jl">Offres récentes</div>
+        <h2 class="sh" data-i18n="jt">Opportunités du moment</h2>
+      </div>
+      <a href="#download" class="btn btn-outline" data-i18n="ja">Voir tout →</a>
+    </div>
+
+    <div class="job-grid">
+      <div class="j-card up">
+        <div class="j-co-row">
+          <div class="j-logo">💻</div>
+          <div>
+            <div class="j-co">Orange Sénégal</div>
+            <div class="j-loc">📍 Dakar, Plateau</div>
+          </div>
+        </div>
+        <div class="j-title" data-i18n="j1t">Développeur Web Full-Stack</div>
+        <div class="j-tags">
+          <span class="j-tag">React</span><span class="j-tag">Node.js</span>
+          <span class="j-tag">CDI</span><span class="j-tag">Temps plein</span>
+        </div>
+        <div class="j-foot">
+          <div class="j-sal">350k–500k <span>FCFA/mois</span></div>
+          <div class="j-match">✦ 97%</div>
+        </div>
+      </div>
+
+      <div class="j-card up" style="transition-delay:.05s">
+        <div class="j-co-row">
+          <div class="j-logo">📊</div>
+          <div>
+            <div class="j-co">Ecobank CI</div>
+            <div class="j-loc">📍 Abidjan, Plateau</div>
+          </div>
+        </div>
+        <div class="j-title" data-i18n="j2t">Assistant(e) Comptable</div>
+        <div class="j-tags">
+          <span class="j-tag">Finance</span><span class="j-tag">Excel</span>
+          <span class="j-tag">Stage</span><span class="j-tag">6 mois</span>
+        </div>
+        <div class="j-foot">
+          <div class="j-sal">180k–250k <span>FCFA/mois</span></div>
+          <div class="j-match">✦ 94%</div>
+        </div>
+      </div>
+
+      <div class="j-card up" style="transition-delay:.1s">
+        <div class="j-co-row">
+          <div class="j-logo">📣</div>
+          <div>
+            <div class="j-co">Jumia Mali</div>
+            <div class="j-loc">📍 Bamako, ACI</div>
+          </div>
+        </div>
+        <div class="j-title" data-i18n="j3t">Community Manager</div>
+        <div class="j-tags">
+          <span class="j-tag">Social Media</span><span class="j-tag">Créatif</span>
+          <span class="j-tag">CDD</span><span class="j-tag">Présentiel</span>
+        </div>
+        <div class="j-foot">
+          <div class="j-sal">200k–300k <span>FCFA/mois</span></div>
+          <div class="j-match">✦ 91%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="up" style="text-align:center;margin-top:36px;transition-delay:.1s">
+      <a href="#download" class="btn btn-primary" data-i18n="j_app_cta">Voir toutes les offres dans l'app →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     HOW IT WORKS
+══════════════════════════════════════ -->
+<section class="section alt" id="how">
+  <div class="wrap">
+    <div class="up" style="text-align:center">
+      <div class="label" data-i18n="hl">Simple. Rapide. Efficace.</div>
+      <h2 class="sh" style="text-align:center" data-i18n="ht">Comment ça marche</h2>
+      <p class="sub-sh" style="margin:14px auto 0;text-align:center" data-i18n="hs">Trois étapes pour trouver ton prochain emploi — ou ton prochain talent.</p>
+    </div>
+    <div class="how-grid up" style="transition-delay:.1s">
+      <div class="how-item">
+        <div class="how-n">01</div>
+        <div class="how-icon">👤</div>
+        <div class="how-t" data-i18n="h1t">Crée ton profil</div>
+        <div class="how-d" data-i18n="h1d">5 minutes suffisent. Ajoute tes compétences, ton CV et tes préférences. L'IA analyse ton profil pour mieux te matcher.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-n">02</div>
+        <div class="how-icon">🤖</div>
+        <div class="how-t" data-i18n="h2t">Découvre tes matchs</div>
+        <div class="how-d" data-i18n="h2d">Notre algorithme sélectionne les meilleures offres pour toi. Plus de tri manuel — les opportunités viennent à toi avec un score de compatibilité.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-n">03</div>
+        <div class="how-icon">🚀</div>
+        <div class="how-t" data-i18n="h3t">Postule &amp; décroche</div>
+        <div class="how-d" data-i18n="h3d">Un clic pour postuler. Suis tes candidatures en temps réel et reçois des notifications à chaque étape du processus.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     AUDIENCE TABS
+══════════════════════════════════════ -->
+<section class="section" id="audience">
+  <div class="wrap">
+    <div class="up">
+      <div class="label" data-i18n="al">Pour vous</div>
+      <h2 class="sh" data-i18n="at">La plateforme pour tous</h2>
+    </div>
+    <div class="tab-row up" style="transition-delay:.05s">
+      <button class="t-btn on" onclick="tab('cand',this)" data-i18n="tc">👤 Candidats</button>
+      <button class="t-btn"    onclick="tab('rec',this)"  data-i18n="tr">🏢 Recruteurs</button>
+    </div>
+
+    <!-- Candidates -->
+    <div class="t-panel on" id="tp-cand">
+      <div class="ben-list up">
+        <div class="ben-item">
+          <div class="ben-ic g">🤖</div>
+          <div><div class="ben-t" data-i18n="c1t">Matching IA personnalisé</div>
+          <div class="ben-d" data-i18n="c1d">Notre IA analyse ton profil et te propose uniquement des offres qui correspondent vraiment à ton niveau et tes aspirations.</div></div>
+        </div>
+        <div class="ben-item">
+          <div class="ben-ic g">⚡</div>
+          <div><div class="ben-t" data-i18n="c2t">Postulation en 1 clic</div>
+          <div class="ben-d" data-i18n="c2d">Ton profil complet remplace la lettre de motivation. Postule en quelques secondes, sans friction.</div></div>
+        </div>
+        <div class="ben-item">
+          <div class="ben-ic g">🎓</div>
+          <div><div class="ben-t" data-i18n="c3t">Formation certifiée intégrée</div>
+          <div class="ben-d" data-i18n="c3d">Accède à des formations certifiées pour booster tes compétences et te démarquer auprès des recruteurs.</div></div>
+        </div>
+        <div class="ben-item">
+          <div class="ben-ic g">💚</div>
+          <div><div class="ben-t" data-i18n="c4t">100% gratuit pour les candidats</div>
+          <div class="ben-d" data-i18n="c4d">Aucun frais caché. Jobé est et restera entièrement gratuit pour tous les chercheurs d'emploi.</div></div>
+        </div>
+        <a href="#download" class="btn btn-primary" style="width:fit-content;margin-top:8px" data-i18n="c_cta">Télécharger Jobé gratuitement →</a>
+      </div>
+      <div class="a-preview">
+        <div>
+          <div class="a-ph" data-i18n="ph_hi">Bonjour, Moussa 👋</div>
+          <div class="a-ps" data-i18n="ph_sub">3 nouveaux matchs aujourd'hui</div>
+        </div>
+        <div class="m-card">
+          <div class="m-ic">💻</div>
+          <div><div class="m-t">Dev Full-Stack · Orange SN</div><div class="m-i">Dakar · 350k–500k FCFA</div></div>
+          <div class="m-pct g">97%</div>
+        </div>
+        <div class="m-card">
+          <div class="m-ic">📊</div>
+          <div><div class="m-t">Analyste Data · Wave</div><div class="m-i">Dakar · 400k FCFA</div></div>
+          <div class="m-pct g">93%</div>
+        </div>
+        <div class="m-card">
+          <div class="m-ic">🎨</div>
+          <div><div class="m-t">UI Designer · Expresso</div><div class="m-i">Dakar · 280k FCFA</div></div>
+          <div class="m-pct g">89%</div>
+        </div>
+        <div class="pbar-wrap">
+          <div class="pbar"><div class="pbar-fill" style="width:78%"></div></div>
+          <div class="pbar-row"><span data-i18n="prof_c">Profil complété</span><span>78%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recruiters -->
+    <div class="t-panel" id="tp-rec">
+      <div class="ben-list up">
+        <div class="ben-item">
+          <div class="ben-ic b">🎯</div>
+          <div><div class="ben-t" data-i18n="r1t">Accès à 300k+ talents pré-qualifiés</div>
+          <div class="ben-d" data-i18n="r1d">Publiez votre offre et atteignez instantanément des centaines de milliers de candidats qualifiés à travers l'Afrique de l'Ouest.</div></div>
+        </div>
+        <div class="ben-item">
+          <div class="ben-ic b">🔍</div>
+          <div><div class="ben-t" data-i18n="r2t">Filtres avancés</div>
+          <div class="ben-d" data-i18n="r2d">Filtrez par compétences, localisation, niveau d'études, expérience et score de compatibilité IA pour trouver le profil idéal.</div></div>
+        </div>
+        <div class="ben-item">
+          <div class="ben-ic b">📈</div>
+          <div><div class="ben-t" data-i18n="r3t">Analytics en temps réel</div>
+          <div class="ben-d" data-i18n="r3d">Suivez les vues, candidatures et conversions de chaque offre dans votre dashboard recruteur intuitif.</div></div>
+        </div>
+        <div class="ben-item">
+          <div class="ben-ic b">💬</div>
+          <div><div class="ben-t" data-i18n="r4t">Messagerie avec traduction IA</div>
+          <div class="ben-d" data-i18n="r4d">Communiquez directement avec les candidats. Notre IA traduit automatiquement en FR, EN et 中文.</div></div>
+        </div>
+        <a href="#download" class="btn btn-outline" style="width:fit-content;margin-top:8px" data-i18n="r_cta">Commencer à recruter →</a>
+      </div>
+      <div class="a-preview" style="border-color:rgba(45,125,210,0.2)">
+        <div>
+          <div class="a-ph" data-i18n="rec_h">Dashboard Recruteur</div>
+          <div class="a-ps" data-i18n="rec_s">48 candidatures · 3 postes actifs</div>
+        </div>
+        <div class="m-card">
+          <div class="m-ic">👤</div>
+          <div><div class="m-t">Aminata D. · Dev Web</div><div class="m-i">Dakar · 4 ans exp · Bac+3</div></div>
+          <div class="m-pct b">96%</div>
+        </div>
+        <div class="m-card">
+          <div class="m-ic">👤</div>
+          <div><div class="m-t">Seydou K. · Dev Backend</div><div class="m-i">Dakar · 3 ans exp · Bac+5</div></div>
+          <div class="m-pct b">91%</div>
+        </div>
+        <div class="m-card">
+          <div class="m-ic">👤</div>
+          <div><div class="m-t">Fatou B. · UX Designer</div><div class="m-i">Dakar · 2 ans exp · Bac+4</div></div>
+          <div class="m-pct b">88%</div>
+        </div>
+        <div style="margin-top:auto;padding:14px;background:var(--blue-d);border-radius:12px;border:1px solid rgba(45,125,210,0.15)">
+          <div style="font-size:13px;font-weight:700" data-i18n="rec_k">Temps moyen jusqu'au 1er match :</div>
+          <div style="font-size:22px;font-weight:900;letter-spacing:-1px;color:var(--blue);margin-top:4px">2 heures</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FEATURES BENTO
+══════════════════════════════════════ -->
+<section class="section alt">
+  <div class="wrap">
+    <div class="up" style="text-align:center">
+      <div class="label" data-i18n="fl">Tout ce dont tu as besoin</div>
+      <h2 class="sh" style="text-align:center" data-i18n="ft">Fonctionnalités</h2>
+    </div>
+    <div class="bento">
+      <div class="b-card w2 up">
+        <div class="b-ic g">🤖</div>
+        <div class="b-t" data-i18n="f1t">Matching IA avancé</div>
+        <div class="b-d" data-i18n="f1d">Notre modèle d'IA propriétaire analyse plus de 50 paramètres pour créer des matchs candidat-emploi ultra-précis. Score de compatibilité visible pour chaque offre — tu sais exactement pourquoi tu es recommandé.</div>
+      </div>
+      <div class="b-card up" style="transition-delay:.05s">
+        <div class="b-ic g">⚡</div>
+        <div class="b-t" data-i18n="f2t">Postulation rapide</div>
+        <div class="b-d" data-i18n="f2d">1 profil, des centaines d'offres. Postule en un seul clic.</div>
+      </div>
+      <div class="b-card up" style="transition-delay:.1s">
+        <div class="b-ic b">📊</div>
+        <div class="b-t" data-i18n="f3t">Suivi temps réel</div>
+        <div class="b-d" data-i18n="f3d">Suis chaque candidature de l'envoi jusqu'à l'entretien.</div>
+      </div>
+      <div class="b-card up" style="transition-delay:.05s">
+        <div class="b-ic g">🎓</div>
+        <div class="b-t" data-i18n="f4t">Formation certifiée</div>
+        <div class="b-d" data-i18n="f4d">Accède aux formations partenaires pour booster tes compétences et décrocher plus d'offres.</div>
+      </div>
+      <div class="b-card w2 up" style="transition-delay:.1s">
+        <div class="b-ic b">💬</div>
+        <div class="b-t" data-i18n="f5t">Messagerie avec traduction IA</div>
+        <div class="b-d" data-i18n="f5d">Communique directement avec les recruteurs. Notre IA traduit automatiquement entre le français, l'anglais et le mandarin — parfait pour les entreprises internationales implantées en Afrique de l'Ouest.</div>
+      </div>
+      <div class="b-card up" style="transition-delay:.05s">
+        <div class="b-ic b">🌐</div>
+        <div class="b-t" data-i18n="f6t">Réseau professionnel</div>
+        <div class="b-d" data-i18n="f6d">Connecte-toi avec des professionnels et entreprises de toute la sous-région.</div>
+      </div>
+      <div class="b-card up" style="transition-delay:.1s">
+        <div class="b-ic g">🔔</div>
+        <div class="b-t" data-i18n="f7t">Alertes emploi</div>
+        <div class="b-d" data-i18n="f7d">Notifications push dès qu'une offre correspond à tes critères.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     COUNTRIES
+══════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="up" style="text-align:center">
+      <div class="label" data-i18n="cl">Couverture géographique</div>
+      <h2 class="sh" style="text-align:center" data-i18n="ct">Présent partout où tu es</h2>
+      <p class="sub-sh" style="margin:14px auto 0;text-align:center" data-i18n="cs">Expansion continue dans toute l'Afrique francophone.</p>
+    </div>
+    <div class="co-grid">
+      <div class="co-card live up">
+        <div class="co-flag">🇸🇳</div>
+        <div class="co-name">Sénégal</div>
+        <div class="co-st live" data-i18n="c_sn">● Actif · Dakar focus</div>
+      </div>
+      <div class="co-card live up" style="transition-delay:.05s">
+        <div class="co-flag">🇨🇮</div>
+        <div class="co-name">Côte d'Ivoire</div>
+        <div class="co-st live" data-i18n="c_ci">● Actif · Abidjan</div>
+      </div>
+      <div class="co-card live up" style="transition-delay:.1s">
+        <div class="co-flag">🇲🇱</div>
+        <div class="co-name">Mali</div>
+        <div class="co-st live" data-i18n="c_ml">● Actif · Bamako</div>
+      </div>
+      <div class="co-card live up" style="transition-delay:.15s">
+        <div class="co-flag">🇬🇳</div>
+        <div class="co-name">Guinée</div>
+        <div class="co-st live" data-i18n="c_gn">● Actif · Conakry</div>
+      </div>
+      <div class="co-card up" style="transition-delay:.2s;opacity:.45">
+        <div class="co-flag">🇨🇲</div>
+        <div class="co-name">Cameroun</div>
+        <div class="co-st soon" data-i18n="c_soon">Bientôt disponible</div>
+      </div>
+      <div class="co-card up" style="transition-delay:.25s;opacity:.45">
+        <div class="co-flag">🇧🇫</div>
+        <div class="co-name">Burkina Faso</div>
+        <div class="co-st soon" data-i18n="c_soon">Bientôt disponible</div>
+      </div>
+      <div class="co-card up" style="transition-delay:.3s;opacity:.45">
+        <div class="co-flag">🇨🇬</div>
+        <div class="co-name">Congo DRC</div>
+        <div class="co-st soon" data-i18n="c_soon">Bientôt disponible</div>
+      </div>
+      <div class="co-card up" style="transition-delay:.35s;opacity:.4;border-style:dashed">
+        <div class="co-flag">🌍</div>
+        <div class="co-name" data-i18n="c_more">Et plus…</div>
+        <div class="co-st soon" data-i18n="c_exp">Expansion continue</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     TESTIMONIALS
+══════════════════════════════════════ -->
+<section class="section alt">
+  <div class="wrap">
+    <div class="up" style="text-align:center">
+      <div class="label" data-i18n="tl">Ils ont trouvé leur voie</div>
+      <h2 class="sh" style="text-align:center" data-i18n="tt">Ce qu'ils disent de Jobé</h2>
+    </div>
+    <div class="tes-grid">
+      <div class="tes-card up">
+        <div class="tes-stars">⭐⭐⭐⭐⭐</div>
+        <p class="tes-q" data-i18n="q1">"J'ai trouvé mon CDI en 2 semaines. L'IA m'a proposé des offres qui correspondaient exactement à mon profil. Je n'aurais jamais pensé décrocher un poste aussi vite à Dakar."</p>
+        <div class="tes-author">
+          <div class="tes-av">👨🏿</div>
+          <div><div class="tes-name">Mamadou S.</div><div class="tes-role" data-i18n="q1r">Dev Web · Dakar, Sénégal</div></div>
+        </div>
+      </div>
+      <div class="tes-card up" style="transition-delay:.05s">
+        <div class="tes-stars">⭐⭐⭐⭐⭐</div>
+        <p class="tes-q" data-i18n="q2">"En tant que RH chez une startup d'Abidjan, on a reçu 40+ candidatures qualifiées en 48h après publication. La qualité des profils est incomparable avec d'autres plateformes."</p>
+        <div class="tes-author">
+          <div class="tes-av">👩🏿</div>
+          <div><div class="tes-name">Aïcha K.</div><div class="tes-role" data-i18n="q2r">DRH · Abidjan, Côte d'Ivoire</div></div>
+        </div>
+      </div>
+      <div class="tes-card up" style="transition-delay:.1s">
+        <div class="tes-stars">⭐⭐⭐⭐⭐</div>
+        <p class="tes-q" data-i18n="q3">"La formation certifiée m'a aidée à acquérir les compétences manquantes. 3 mois plus tard, j'ai décroché un stage chez Wave à Dakar. Merci Jobé !"</p>
+        <div class="tes-author">
+          <div class="tes-av">👩🏿</div>
+          <div><div class="tes-name">Fatou D.</div><div class="tes-role" data-i18n="q3r">Stagiaire Data · Dakar, Sénégal</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     APP DOWNLOAD CTA
+══════════════════════════════════════ -->
+<section class="cta-section" id="download">
+  <div class="cta-glow"></div>
+  <div class="wrap">
+    <div class="up">
+      <div class="label" style="display:flex;justify-content:center" data-i18n="dl_label">Disponible maintenant</div>
+      <h2 class="cta-h">
+        <span data-i18n="dl_h1">Commence dès aujourd'hui.</span><br>
+        <span class="g" data-i18n="dl_h2">Gratuitement.</span>
+      </h2>
+      <p class="cta-sub" data-i18n="dl_sub">Télécharge Jobé et trouve ton opportunité en moins de 5 minutes. Gratuit pour tous les candidats, partout en Afrique de l'Ouest.</p>
+      <div class="store-row">
+        <a href="#" class="s-btn primary">
+          <span class="s-ico">🍎</span>
+          <div>
+            <span class="s-sup" data-i18n="dl_on">Disponible sur</span>
+            <span class="s-nm">App Store</span>
+          </div>
+        </a>
+        <a href="#" class="s-btn">
+          <span class="s-ico">▶</span>
+          <div>
+            <span class="s-sup" data-i18n="dl_get">Disponible sur</span>
+            <span class="s-nm">Google Play</span>
+          </div>
+        </a>
+        <a href="#" class="s-btn">
+          <span class="s-ico">🌐</span>
+          <div>
+            <span class="s-sup" data-i18n="dl_web_sup">Accès direct</span>
+            <span class="s-nm" data-i18n="dl_web_nm">Version Web</span>
+          </div>
+        </a>
+      </div>
+      <p class="cta-note" data-i18n="dl_note">✓ Gratuit · ✓ Sans carte de crédit · ✓ iOS & Android · ✓ 4 pays</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#" class="logo">Job<span>é</span></a>
+        <p data-i18n="fd">La plateforme d'emploi n°1 pour la jeunesse francophone africaine. Matching IA, formation certifiée, présent dans 4 pays.</p>
+      </div>
+      <div>
+        <div class="foot-col-h" data-i18n="f_pl">Plateforme</div>
+        <div class="foot-links">
+          <a href="#jobs"     class="foot-a" data-i18n="f_jobs">Offres d'emploi</a>
+          <a href="#audience" class="foot-a" data-i18n="f_train">Formation</a>
+          <a href="#audience" class="foot-a" data-i18n="f_net">Réseau</a>
+          <a href="#download" class="foot-a" data-i18n="f_mob">Application mobile</a>
+        </div>
+      </div>
+      <div>
+        <div class="foot-col-h" data-i18n="f_emp">Recruteurs</div>
+        <div class="foot-links">
+          <a href="#audience" class="foot-a" data-i18n="f_post">Publier une offre</a>
+          <a href="#audience" class="foot-a" data-i18n="f_tal">Trouver des talents</a>
+          <a href="#"         class="foot-a" data-i18n="f_pri">Tarifs</a>
+          <a href="#"         class="foot-a" data-i18n="f_dash">Dashboard RH</a>
+        </div>
+      </div>
+      <div>
+        <div class="foot-col-h" data-i18n="f_co">Entreprise</div>
+        <div class="foot-links">
+          <a href="#" class="foot-a" data-i18n="f_ab">À propos</a>
+          <a href="#" class="foot-a" data-i18n="f_bl">Blog</a>
+          <a href="#" class="foot-a" data-i18n="f_ca">Carrières</a>
+          <a href="#" class="foot-a" data-i18n="f_pr">Presse</a>
+        </div>
+      </div>
+      <div>
+        <div class="foot-col-h" data-i18n="f_su">Support</div>
+        <div class="foot-links">
+          <a href="#" class="foot-a" data-i18n="f_he">Centre d'aide</a>
+          <a href="#" class="foot-a" data-i18n="f_cn">Contact</a>
+          <a href="#" class="foot-a" data-i18n="f_pv">Confidentialité</a>
+          <a href="#" class="foot-a" data-i18n="f_tm">Conditions</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Jobé. <span data-i18n="f_r">Tous droits réservés.</span></span>
+      <div class="soc">
+        <a href="#" class="soc-a" aria-label="Twitter">𝕏</a>
+        <a href="#" class="soc-a" aria-label="LinkedIn">in</a>
+        <a href="#" class="soc-a" aria-label="TikTok">♪</a>
+        <a href="#" class="soc-a" aria-label="Instagram">◉</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════
+     SCRIPT
+══════════════════════════════════════ -->
+<script>
+/* ── I18N ── */
+const T = {
+  en: {
+    n_jobs:"Job offers", n_rec:"Recruiters", n_how:"How it works", n_dl:"Download",
+    h_p1:"Free AI matching", h_p2:"4 countries · West Africa",
+    h_l1:"Find your", h_l2:"opportunity.", h_l3:"Build your future.",
+    h_desc:"The #1 job platform for francophone African youth. AI, certified training, professional network — all in one. Free for candidates.",
+    h_c1:"Find a job →", h_c2:"Post a job",
+    dl_on:"Available on", dl_get:"Get it on",
+    ph_hi:"Hello, Moussa 👋", ph_sub:"3 new matches today",
+    ph_badge:"✦ AI Match 97%", ph_badge2:"🟢 300k candidates",
+    s1:"Active job listings", s2:"Registered candidates", s3:"Countries covered", s4:"Placement rate",
+    jl:"Latest listings", jt:"Top opportunities now", ja:"See all →",
+    j1t:"Full-Stack Web Developer", j2t:"Accounting Assistant", j3t:"Community Manager",
+    j_app_cta:"See all listings in the app →",
+    hl:"Simple. Fast. Effective.", ht:"How it works",
+    hs:"Three steps to find your next job — or your next talent.",
+    h1t:"Create your profile", h1d:"5 minutes is all it takes. Add your skills, CV and preferences. The AI analyzes your profile to better match you.",
+    h2t:"Discover your matches", h2d:"Our algorithm selects the best offers for you. No more manual search — opportunities come to you with a compatibility score.",
+    h3t:"Apply & get hired", h3d:"One click to apply. Track your applications in real time and get notified at every stage.",
+    al:"For you", at:"The platform for everyone", tc:"👤 Candidates", tr:"🏢 Recruiters",
+    c1t:"Personalized AI matching", c1d:"Our AI analyzes your profile and only suggests offers that truly match your level and aspirations.",
+    c2t:"1-click application", c2d:"Your complete profile replaces the cover letter. Apply in seconds, no friction.",
+    c3t:"Integrated certified training", c3d:"Access certified training to boost your skills and stand out to recruiters.",
+    c4t:"100% free for candidates", c4d:"No hidden fees. Jobé is and will always remain free for all job seekers.",
+    c_cta:"Download Jobé for free →", prof_c:"Profile complete",
+    r1t:"Access to 300k+ pre-qualified talents", r1d:"Post your offer and instantly reach hundreds of thousands of qualified candidates across West Africa.",
+    r2t:"Advanced filters", r2d:"Filter by skills, location, education, experience and AI compatibility score to find the ideal profile.",
+    r3t:"Real-time analytics", r3d:"Track views, applications and conversions for each offer in your intuitive recruiter dashboard.",
+    r4t:"Messaging with AI translation", r4d:"Communicate directly with candidates. Our AI auto-translates between FR, EN and 中文.",
+    r_cta:"Start recruiting →", rec_h:"Recruiter Dashboard", rec_s:"48 applications · 3 active positions",
+    rec_k:"Average time to first match:",
+    fl:"Everything you need", ft:"Features",
+    f1t:"Advanced AI matching", f1d:"Our proprietary AI model analyzes over 50 parameters to create ultra-precise candidate-job matches. Compatibility score visible for each offer — you know exactly why you're recommended.",
+    f2t:"Quick apply", f2d:"1 profile, hundreds of offers. Apply with a single click.",
+    f3t:"Real-time tracking", f3d:"Track every application from submission to interview.",
+    f4t:"Certified training", f4d:"Access partner training to boost your skills and land more offers.",
+    f5t:"AI-translated messaging", f5d:"Communicate directly with recruiters. Our AI auto-translates between French, English and Mandarin — perfect for international companies in West Africa.",
+    f6t:"Professional network", f6d:"Connect with professionals and companies across the sub-region.",
+    f7t:"Job alerts", f7d:"Push notifications when an offer matches your criteria.",
+    cl:"Geographic coverage", ct:"Present wherever you are", cs:"Continuously expanding across francophone Africa.",
+    c_sn:"● Active · Dakar focus", c_ci:"● Active · Abidjan", c_ml:"● Active · Bamako", c_gn:"● Active · Conakry",
+    c_soon:"Coming soon", c_more:"And more…", c_exp:"Continuous expansion",
+    tl:"They found their path", tt:"What they say about Jobé",
+    q1:'"I found my permanent position in 2 weeks. The AI suggested offers that exactly matched my profile. I never thought I\'d land a job so fast in Dakar."',
+    q1r:"Web Dev · Dakar, Senegal",
+    q2:'"As HR at an Abidjan startup, we received 40+ qualified applications within 48h of posting. The profile quality is unmatched by other platforms."',
+    q2r:"HR Director · Abidjan, Côte d'Ivoire",
+    q3:'"The certified training helped me acquire the missing skills. 3 months later, I landed an internship at Wave in Dakar. Thank you Jobé!"',
+    q3r:"Data Intern · Dakar, Senegal",
+    dl_label:"Available now",
+    dl_h1:"Start today.", dl_h2:"For free.",
+    dl_sub:"Download Jobé and find your opportunity in under 5 minutes. Free for all candidates across West Africa.",
+    dl_on:"Available on", dl_get:"Get it on", dl_web_sup:"Direct access", dl_web_nm:"Web Version",
+    dl_note:"✓ Free · ✓ No credit card · ✓ iOS & Android · ✓ 4 countries",
+    fd:"The #1 job platform for francophone African youth. AI matching, certified training, 4 countries.",
+    f_pl:"Platform", f_jobs:"Job offers", f_train:"Training", f_net:"Network", f_mob:"Mobile app",
+    f_emp:"Employers", f_post:"Post a job", f_tal:"Find talent", f_pri:"Pricing", f_dash:"HR Dashboard",
+    f_co:"Company", f_ab:"About", f_bl:"Blog", f_ca:"Careers", f_pr:"Press",
+    f_su:"Support", f_he:"Help center", f_cn:"Contact", f_pv:"Privacy", f_tm:"Terms",
+    f_r:"All rights reserved."
+  },
+  zh: {
+    n_jobs:"职位", n_rec:"招聘方", n_how:"使用方法", n_dl:"下载",
+    h_p1:"免费AI匹配", h_p2:"4个国家 · 西非",
+    h_l1:"找到你的", h_l2:"机遇。", h_l3:"构建你的未来。",
+    h_desc:"面向法语非洲年轻人的第一就业平台。AI、认证培训、职业网络——一体化解决方案。对求职者完全免费。",
+    h_c1:"求职 →", h_c2:"发布职位",
+    dl_on:"下载于", dl_get:"获取于",
+    ph_hi:"你好，Moussa 👋", ph_sub:"今天3个新匹配",
+    ph_badge:"✦ AI匹配度 97%", ph_badge2:"🟢 30万候选人",
+    s1:"活跃职位", s2:"注册候选人", s3:"覆盖国家", s4:"就业成功率",
+    jl:"最新职位", jt:"热门机会", ja:"查看全部 →",
+    j1t:"全栈Web开发者", j2t:"会计助理", j3t:"社区经理",
+    j_app_cta:"在应用中查看全部职位 →",
+    hl:"简单。快速。高效。", ht:"使用方法", hs:"三步找到下一份工作。",
+    h1t:"创建档案", h1d:"只需5分钟。添加技能、简历和偏好。AI分析你的档案以更好地匹配。",
+    h2t:"发现匹配", h2d:"我们的算法为你筛选最佳职位，附带兼容度评分。",
+    h3t:"申请并获聘", h3d:"一键申请。实时追踪申请状态，每个环节都有通知。",
+    al:"为你服务", at:"适合所有人的平台", tc:"👤 求职者", tr:"🏢 招聘方",
+    c_cta:"免费下载Jobé →", prof_c:"档案完成度",
+    rec_h:"招聘方控制台", rec_s:"48个申请 · 3个活跃职位",
+    rec_k:"首次匹配平均时间：",
+    fl:"你所需要的一切", ft:"功能特性",
+    cl:"地理覆盖", ct:"无论你在哪里", cs:"在法语非洲持续扩张。",
+    c_sn:"● 活跃 · 达喀尔", c_ci:"● 活跃 · 阿比让", c_ml:"● 活跃 · 巴马科", c_gn:"● 活跃 · 科纳克里",
+    c_soon:"即将推出", c_more:"更多…", c_exp:"持续扩张",
+    tl:"他们找到了方向", tt:"用户评价",
+    dl_label:"立即可用", dl_h1:"今天开始。", dl_h2:"免费。",
+    dl_sub:"下载Jobé，5分钟内找到你的机会。对西非所有求职者免费。",
+    dl_on:"下载于", dl_get:"获取于", dl_web_sup:"直接访问", dl_web_nm:"网页版",
+    dl_note:"✓ 免费 · ✓ 无需信用卡 · ✓ iOS和Android · ✓ 4个国家",
+    fd:"面向法语非洲年轻人的第一就业平台。AI匹配、认证培训、覆盖4国。",
+    f_r:"版权所有。"
+  }
+};
+
+/* Store FR originals */
+const FR = {};
+document.querySelectorAll('[data-i18n]').forEach(el => {
+  FR[el.getAttribute('data-i18n')] = el.textContent;
+});
+
+let lang = localStorage.getItem('jobe-lang') || 'fr';
+
+function setLang(l) {
+  lang = l;
+  localStorage.setItem('jobe-lang', l);
+  document.querySelectorAll('.lang-b').forEach(b => b.classList.remove('on'));
+  const btn = document.querySelector(`.lang-b[onclick="setLang('${l}')"]`);
+  if (btn) btn.classList.add('on');
+  const map = l === 'fr' ? FR : (T[l] || {});
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (map[k] !== undefined) el.textContent = map[k];
+  });
+}
+
+/* ── NAV SCROLL ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 20);
+}, { passive: true });
+
+/* ── MOBILE MENU ── */
+function openMenu()  { document.getElementById('mobile-nav').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeMenu() { document.getElementById('mobile-nav').classList.remove('open'); document.body.style.overflow = ''; }
+
+/* ── TABS ── */
+function tab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.t-btn').forEach(b => b.classList.remove('on'));
+  document.getElementById('tp-' + id).classList.add('on');
+  btn.classList.add('on');
+}
+
+/* ── SCROLL FADE-IN ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -48px 0px' });
+document.querySelectorAll('.up').forEach(el => obs.observe(el));
+
+/* ── COUNTERS ── */
+function fmt(val, target, suf) {
+  if (target >= 100000) return Math.round(val / 1000) + 'k' + suf;
+  if (target >= 1000)   return (val / 1000).toFixed(1) + 'k' + suf;
+  return Math.round(val) + suf;
+}
+function animate(el) {
+  const target = +el.dataset.count;
+  const suf    = el.dataset.suf || '';
+  const dur    = 2000;
+  const t0     = performance.now();
+  function step(now) {
+    const p = Math.min((now - t0) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 3);
+    el.textContent = fmt(target * e, target, suf);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+const cntObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { animate(e.target); cntObs.unobserve(e.target); } });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => cntObs.observe(el));
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', () => setLang(lang));
+</script>
+</body>
+</html>
