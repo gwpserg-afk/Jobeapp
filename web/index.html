@@ -416,6 +416,53 @@
       .lang-btn { padding: 4px 7px; }
       .card { padding: 18px; }
     }
+
+    /* ── MY TO-DO ── */
+    .mytask-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+    .person-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .person-label { font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); }
+    .person-chip {
+      display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600;
+      padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border);
+      background: var(--elevated); color: var(--sub); cursor: pointer; transition: all 0.15s;
+    }
+    .person-chip:hover { border-color: var(--border-light); color: var(--text); }
+    .person-chip.active { background: var(--green-dim); color: var(--green); border-color: var(--green-border); }
+    .person-avatar { width: 18px; height: 18px; border-radius: 50%; background: var(--green-border); color: var(--green); font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+    .person-add { font-size: 12px; font-weight: 600; color: var(--muted); background: none; border: 1px dashed var(--border-light); border-radius: 999px; padding: 5px 12px; cursor: pointer; transition: all 0.15s; }
+    .person-add:hover { color: var(--green); border-color: var(--green-border); }
+    .mytask-input-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .mytask-input {
+      flex: 1; min-width: 0; background: var(--elevated); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px 14px; color: var(--text); font-size: 14px;
+      outline: none; transition: border-color 0.15s;
+    }
+    .mytask-input:focus { border-color: var(--green); }
+    .mytask-input::placeholder { color: var(--muted); }
+    .mytask-add-btn { background: var(--green); color: #fff; border: none; border-radius: 12px; padding: 0 20px; font-size: 13px; font-weight: 700; cursor: pointer; transition: opacity 0.15s; white-space: nowrap; }
+    .mytask-add-btn:hover { opacity: 0.88; }
+    .mytask-list { display: flex; flex-direction: column; gap: 8px; }
+    .mytask-row {
+      display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+      background: var(--elevated); border: 1px solid var(--border); border-radius: 12px;
+      transition: border-color 0.15s; animation: fade 0.2s ease;
+    }
+    .mytask-row:hover { border-color: var(--border-light); }
+    .mytask-row:hover .mytask-del { opacity: 1; }
+    .mytask-check {
+      width: 20px; height: 20px; border-radius: 7px; border: 2px solid var(--muted);
+      flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s; font-size: 12px; color: #fff;
+    }
+    .mytask-row.checked .mytask-check { background: var(--green); border-color: var(--green); }
+    .mytask-text { flex: 1; min-width: 0; font-size: 14px; color: var(--text); word-break: break-word; }
+    .mytask-row.checked .mytask-text { text-decoration: line-through; color: var(--muted); }
+    .mytask-del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; opacity: 0; transition: opacity 0.15s, color 0.15s; flex-shrink: 0; padding: 2px 4px; }
+    .mytask-del:hover { color: var(--red); }
+    .mytask-empty { text-align: center; padding: 32px 16px; color: var(--muted); font-size: 13px; }
+    .mytask-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+    .mytask-clear { background: none; border: none; color: var(--muted); font-size: 12px; cursor: pointer; }
+    .mytask-clear:hover { color: var(--red); }
   </style>
 </head>
 <body>
@@ -641,6 +688,32 @@
       </div>
     </div>
 
+    <!-- ═══ MY TO-DO ═══ -->
+    <div class="page" id="page-mytasks">
+      <div class="card">
+        <div class="mytask-head">
+          <div>
+            <div class="card-title" data-i18n="mytask_title">My To-Do</div>
+            <div class="card-sub" style="margin-bottom:0" data-i18n="mytask_sub">Your personal checklist — add what you need to do and cross it off.</div>
+          </div>
+          <div class="person-row">
+            <span class="person-label" data-i18n="viewing_as">Viewing as</span>
+            <span id="person-chips"></span>
+            <button class="person-add" onclick="addPerson()" data-i18n="add_person">+ Add person</button>
+          </div>
+        </div>
+        <div class="mytask-input-row">
+          <input class="mytask-input" id="mytask-input" type="text" placeholder="Type a task and press Enter…" data-i18n-ph="mytask_placeholder" />
+          <button class="mytask-add-btn" onclick="addPersonalTodo()" data-i18n="mytask_add">Add</button>
+        </div>
+        <div class="mytask-list" id="mytask-list"></div>
+        <div class="mytask-footer" id="mytask-footer" style="display:none">
+          <span id="mytask-count"></span>
+          <button class="mytask-clear" onclick="clearDonePersonal()" data-i18n="mytask_clear">Clear completed</button>
+        </div>
+      </div>
+    </div>
+
     <!-- ═══ LINKS ═══ -->
     <div class="page" id="page-links">
       <div class="card">
@@ -696,6 +769,8 @@ const NAV = [
   { id: "overview", icon: "◎", key: "nav_home" },
   { id: "app", icon: "📱", key: "nav_app" },
   { id: "roadmap", icon: "🗺", key: "nav_roadmap" },
+  { section: "nav_personal" },
+  { id: "mytasks", icon: "🙋", key: "nav_mytasks", badgeId: "nav-mytask-badge" },
   { section: "nav_product" },
   { id: "design", icon: "✦", key: "nav_design" },
   { id: "stack", icon: "⚙", key: "nav_stack" },
@@ -710,6 +785,11 @@ const T = {
     dashboard:"Internal Dashboard", nav_overview:"Overview", nav_home:"Home", nav_app:"Application",
     nav_roadmap:"Roadmap", nav_product:"Product", nav_design:"Design & Brand", nav_stack:"Stack",
     nav_growth:"Growth", nav_tasks:"Tasks", nav_marketing:"Marketing", nav_links:"Links & Resources",
+    nav_personal:"Personal", nav_mytasks:"My To-Do",
+    mytask_title:"My To-Do", mytask_sub:"Your personal checklist — add what you need to do and cross it off.",
+    mytask_placeholder:"Type a task and press Enter…", mytask_add:"Add", mytask_clear:"Clear completed",
+    mytask_empty:"Nothing yet — add your first task above.", mytask_remaining:"remaining", mytask_done_word:"done",
+    viewing_as:"Viewing as", add_person:"+ Add person", person_prompt:"Name of the person?",
     confidential:"Confidential · Founders only", online:"App online",
     kpis:"KPIs · July 2026", build_progress:"Build progress", screens_done:"Screens done",
     deadline:"Deadline", target_market:"Target market",
@@ -801,13 +881,18 @@ const T = {
         {id:"t-backend", title:"Backend + auth working", desc:"Hono + Prisma + Better Auth email OTP", color:"green"}
       ]
     },
-    pageTitles:{overview:"Overview", app:"Mobile App", roadmap:"Roadmap", design:"Design & Brand", stack:"Tech Stack", marketing:"Marketing", links:"Links", tasks:"Tasks"}
+    pageTitles:{overview:"Overview", app:"Mobile App", roadmap:"Roadmap", mytasks:"My To-Do", design:"Design & Brand", stack:"Tech Stack", marketing:"Marketing", links:"Links", tasks:"Tasks"}
   },
 
   fr: {
     dashboard:"Dashboard interne", nav_overview:"Vue d'ensemble", nav_home:"Accueil", nav_app:"Application",
     nav_roadmap:"Roadmap", nav_product:"Produit", nav_design:"Design & Brand", nav_stack:"Stack",
     nav_growth:"Croissance", nav_tasks:"Tâches", nav_marketing:"Marketing", nav_links:"Liens & Ressources",
+    nav_personal:"Personnel", nav_mytasks:"Mes tâches",
+    mytask_title:"Mes tâches", mytask_sub:"Votre check-list personnelle — ajoutez ce que vous devez faire et cochez-le.",
+    mytask_placeholder:"Écrivez une tâche et appuyez sur Entrée…", mytask_add:"Ajouter", mytask_clear:"Effacer les terminées",
+    mytask_empty:"Rien pour l'instant — ajoutez votre première tâche ci-dessus.", mytask_remaining:"restantes", mytask_done_word:"faites",
+    viewing_as:"Vu en tant que", add_person:"+ Ajouter", person_prompt:"Nom de la personne ?",
     confidential:"Confidentiel · Fondateurs seulement", online:"App en ligne",
     kpis:"KPIs · Juillet 2026", build_progress:"Avancement build", screens_done:"Écrans terminés",
     deadline:"Deadline", target_market:"Marché cible",
@@ -898,13 +983,18 @@ const T = {
         {id:"t-backend", title:"Backend + auth fonctionnels", desc:"Hono + Prisma + Better Auth OTP email", color:"green"}
       ]
     },
-    pageTitles:{overview:"Vue d'ensemble", app:"Application mobile", roadmap:"Roadmap", design:"Design & Brand", stack:"Stack technique", marketing:"Marketing", links:"Liens", tasks:"Tâches"}
+    pageTitles:{overview:"Vue d'ensemble", app:"Application mobile", roadmap:"Roadmap", mytasks:"Mes tâches", design:"Design & Brand", stack:"Stack technique", marketing:"Marketing", links:"Liens", tasks:"Tâches"}
   },
 
   zh: {
     dashboard:"内部仪表板", nav_overview:"概览", nav_home:"首页", nav_app:"应用程序",
     nav_roadmap:"路线图", nav_product:"产品", nav_design:"设计与品牌", nav_stack:"技术栈",
     nav_growth:"增长", nav_tasks:"任务", nav_marketing:"市场营销", nav_links:"链接与资源",
+    nav_personal:"个人", nav_mytasks:"我的待办",
+    mytask_title:"我的待办", mytask_sub:"你的个人清单 — 添加待办事项并打勾完成。",
+    mytask_placeholder:"输入任务并按回车…", mytask_add:"添加", mytask_clear:"清除已完成",
+    mytask_empty:"暂无 — 在上方添加你的第一个任务。", mytask_remaining:"剩余", mytask_done_word:"完成",
+    viewing_as:"查看身份", add_person:"+ 添加成员", person_prompt:"成员姓名？",
     confidential:"保密 · 仅创始人", online:"应用在线",
     kpis:"KPI · 2026年7月", build_progress:"构建进度", screens_done:"已完成页面",
     deadline:"截止日期", target_market:"目标市场",
@@ -995,7 +1085,7 @@ const T = {
         {id:"t-backend", title:"后端 + 认证正常", desc:"Hono + Prisma + Better Auth 邮箱OTP", color:"green"}
       ]
     },
-    pageTitles:{overview:"概览", app:"移动应用", roadmap:"路线图", design:"设计与品牌", stack:"技术栈", marketing:"市场营销", links:"链接", tasks:"任务"}
+    pageTitles:{overview:"概览", app:"移动应用", roadmap:"路线图", mytasks:"我的待办", design:"设计与品牌", stack:"技术栈", marketing:"市场营销", links:"链接", tasks:"任务"}
   }
 };
 
@@ -1095,6 +1185,7 @@ function renderContent() {
   }).join('');
 
   renderTasks();
+  renderMyTasks();
 }
 
 /* ── TASKS (interactive checkboxes) ── */
@@ -1150,6 +1241,92 @@ function updateTaskBadge() {
   badge.style.display = openCount ? '' : 'none';
 }
 
+/* ── PERSONAL TO-DO (per person, saved locally per browser) ── */
+let people = JSON.parse(localStorage.getItem('jobe-people') || '["Serg","Co-founder"]');
+let activePerson = localStorage.getItem('jobe-active-person') || people[0];
+let myTodos = JSON.parse(localStorage.getItem('jobe-mytodos') || '{}');
+
+function saveMyTodos() { localStorage.setItem('jobe-mytodos', JSON.stringify(myTodos)); }
+function listFor(p) { return myTodos[p] || (myTodos[p] = []); }
+
+function renderPeople() {
+  const wrap = document.getElementById('person-chips');
+  if (!wrap) return;
+  wrap.innerHTML = people.map(p => {
+    const initials = (p.trim()[0] || '?').toUpperCase();
+    return `<button class="person-chip${p===activePerson?' active':''}" data-person="${esc(p)}"><span class="person-avatar">${esc(initials)}</span>${esc(p)}</button>`;
+  }).join('');
+  wrap.querySelectorAll('.person-chip').forEach(b => b.onclick = () => setPerson(b.dataset.person));
+}
+function setPerson(p) {
+  activePerson = p;
+  localStorage.setItem('jobe-active-person', p);
+  renderMyTasks();
+}
+function addPerson() {
+  const name = (prompt(T[currentLang].person_prompt) || '').trim();
+  if (!name) return;
+  if (!people.includes(name)) { people.push(name); localStorage.setItem('jobe-people', JSON.stringify(people)); }
+  setPerson(name);
+}
+function addPersonalTodo() {
+  const input = document.getElementById('mytask-input');
+  const text = input.value.trim();
+  if (!text) return;
+  listFor(activePerson).unshift({ id: 'p' + Date.now(), text, done: false });
+  saveMyTodos();
+  input.value = '';
+  renderMyTasks();
+}
+function togglePersonal(id) {
+  const item = listFor(activePerson).find(x => x.id === id);
+  if (item) { item.done = !item.done; saveMyTodos(); renderMyTasks(); }
+}
+function deletePersonal(id) {
+  myTodos[activePerson] = listFor(activePerson).filter(x => x.id !== id);
+  saveMyTodos();
+  renderMyTasks();
+}
+function clearDonePersonal() {
+  myTodos[activePerson] = listFor(activePerson).filter(x => !x.done);
+  saveMyTodos();
+  renderMyTasks();
+}
+function renderMyTasks() {
+  renderPeople();
+  const t = T[currentLang];
+  const list = listFor(activePerson);
+  const wrap = document.getElementById('mytask-list');
+  if (!wrap) return;
+  if (list.length === 0) {
+    wrap.innerHTML = `<div class="mytask-empty">${esc(t.mytask_empty)}</div>`;
+  } else {
+    wrap.innerHTML = list.map(x =>
+      `<div class="mytask-row${x.done?' checked':''}">
+        <div class="mytask-check" data-act="toggle" data-id="${x.id}">✓</div>
+        <div class="mytask-text" data-act="toggle" data-id="${x.id}">${esc(x.text)}</div>
+        <button class="mytask-del" data-act="del" data-id="${x.id}" aria-label="Delete">✕</button>
+      </div>`
+    ).join('');
+    wrap.querySelectorAll('[data-act]').forEach(el => {
+      el.onclick = () => el.dataset.act === 'del' ? deletePersonal(el.dataset.id) : togglePersonal(el.dataset.id);
+    });
+  }
+  const remaining = list.filter(x => !x.done).length;
+  const footer = document.getElementById('mytask-footer');
+  const count = document.getElementById('mytask-count');
+  if (footer) footer.style.display = list.length ? 'flex' : 'none';
+  if (count) count.textContent = `${remaining} ${t.mytask_remaining} · ${list.length - remaining} ${t.mytask_done_word}`;
+  updateMyTaskBadge();
+}
+function updateMyTaskBadge() {
+  const badge = document.getElementById('nav-mytask-badge');
+  if (!badge) return;
+  const remaining = listFor(activePerson).filter(x => !x.done).length;
+  badge.textContent = remaining;
+  badge.style.display = remaining ? '' : 'none';
+}
+
 /* ── LANG ── */
 function setLang(lang) {
   currentLang = lang;
@@ -1160,6 +1337,11 @@ function setLang(lang) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (T[lang][key] !== undefined) el.textContent = T[lang][key];
+  });
+  // placeholders
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (T[lang][key] !== undefined) el.setAttribute('placeholder', T[lang][key]);
   });
   renderNav();
   renderContent();
@@ -1223,6 +1405,9 @@ window.addEventListener('load', () => {
   updateQR();
   updateCountdown();
   setInterval(updateCountdown, 3600000); // refresh hourly
+
+  const mi = document.getElementById('mytask-input');
+  if (mi) mi.addEventListener('keydown', e => { if (e.key === 'Enter') addPersonalTodo(); });
 });
 </script>
 </body>
