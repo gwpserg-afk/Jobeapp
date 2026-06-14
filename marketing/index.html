@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jobé — Trouve ton opportunité. Construis ton avenir.</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+  <title>Jobé — Connecte-toi à ta communauté. Construis ton avenir.</title>
   <meta name="description" content="Le réseau social professionnel n°1 de la jeunesse africaine francophone. Communauté, réseau, opportunités et formation — gratuit. Disponible sur iOS et Android." />
   <meta property="og:title" content="Jobé — Trouve ton opportunité." />
   <meta property="og:description" content="Le réseau social professionnel n°1 de la jeunesse africaine francophone. Connecte-toi, partage, évolue." />
@@ -232,14 +234,14 @@
     .hero-left {}
     .hero-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
     .hero-h1 {
-      font-size: clamp(52px, 7.5vw, 96px);
-      font-weight: 900; letter-spacing: -3px; line-height: 1.0;
-      margin-bottom: 8px;
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 900; letter-spacing: -2px; line-height: 1.04;
+      margin-bottom: 6px;
     }
     .hero-h1 .g { color: var(--green); }
     .hero-h2 {
-      font-size: clamp(52px, 7.5vw, 96px);
-      font-weight: 900; letter-spacing: -3px; line-height: 1.0;
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 900; letter-spacing: -2px; line-height: 1.04;
       color: var(--sub); margin-bottom: 24px;
     }
     .hero-desc {
@@ -250,49 +252,81 @@
     .hero-ctas .btn { font-size: 16px; padding: 15px 28px; }
 
     /* Download row */
+    .dl-label {
+      font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 7px;
+    }
     .dl-row {
-      display: flex; gap: 10px; flex-wrap: wrap;
-      padding-top: 28px; border-top: 1px solid var(--border);
+      display: flex; gap: 12px; flex-wrap: wrap;
+      padding-top: 24px; border-top: 1px solid var(--border);
     }
     .dl-btn {
-      display: flex; align-items: center; gap: 10px;
-      padding: 11px 18px;
-      background: var(--elevated); border: 1px solid var(--border-l);
-      border-radius: 12px; text-decoration: none; color: var(--text);
+      display: flex; align-items: center; gap: 12px;
+      padding: 15px 24px;
+      background: #000; border: 1px solid #000;
+      border-radius: 14px; text-decoration: none; color: #fff;
       transition: all 0.18s; cursor: pointer;
     }
-    .dl-btn:hover { background: var(--border); transform: translateY(-2px); }
-    .dl-i { font-size: 26px; }
-    .dl-sup { font-size: 10px; color: var(--muted); font-weight: 500; }
-    .dl-name { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }
+    .dl-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.35); }
+    :root[data-theme="light"] .dl-btn { background: #000; color: #fff; }
+    .dl-i { font-size: 30px; line-height: 1; }
+    .dl-sup { font-size: 11px; color: #bbb; font-weight: 500; }
+    .dl-name { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; color: #fff; }
 
-    /* Hero Right — App Preview */
+    /* Hero Right — iPhone 17 Pro Max mockup */
     .hero-phone {
       position: relative; display: flex; justify-content: center; align-items: center;
     }
     .phone-shell {
-      width: 280px;
-      background: var(--surface);
-      border: 1px solid var(--border-l);
-      border-radius: 32px;
-      padding: 20px 16px;
-      box-shadow: 0 40px 80px var(--shadow-lg), 0 0 0 1px var(--phone-ring);
+      width: 312px;
+      aspect-ratio: 9 / 19.5;
+      background: linear-gradient(160deg, #2a2a2e, #050506 55%);
+      border-radius: 56px;
+      padding: 12px;
+      box-shadow:
+        0 60px 120px rgba(0,0,0,0.55),
+        0 0 0 2px #3a3a3e,
+        inset 0 0 2px rgba(255,255,255,0.3);
       position: relative;
-      overflow: hidden;
     }
-    .phone-shell::before {
+    /* titanium side buttons */
+    .phone-shell::after {
       content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--hairline), transparent);
+      position: absolute; left: -3px; top: 150px; width: 3px; height: 64px;
+      background: #3a3a3e; border-radius: 3px 0 0 3px;
+      box-shadow: 0 86px 0 #3a3a3e, 0 -96px 0 #3a3a3e;
     }
-    .phone-notch {
-      width: 80px; height: 24px; background: var(--bg);
-      border-radius: 999px; margin: 0 auto 16px;
-      border: 1px solid var(--border);
+    .phone-screen-wrap {
+      /* force the in-app UI to always render dark, regardless of site theme */
+      --bg:#09090B; --surface:#121216; --elevated:#1A1A20; --border:#26262C; --border-l:#34343C;
+      --text:#F4F4F6; --sub:#A0A0AE; --muted:#5E5E6A;
+      --green:#1DB954; --green-d:rgba(29,185,84,0.12); --green-g:rgba(29,185,84,0.22);
+      --blue:#2D7DD2; --blue-d:rgba(45,125,210,0.12); --hairline:rgba(255,255,255,0.06);
+      width: 100%; height: 100%;
+      background: var(--bg);
+      border-radius: 45px;
+      overflow: hidden; position: relative;
+      display: flex; flex-direction: column;
     }
-    .phone-screen { display: flex; flex-direction: column; gap: 10px; }
-    .phone-header { margin-bottom: 4px; }
-    .phone-greeting { font-size: 17px; font-weight: 900; letter-spacing: -0.5px; }
+    .dynamic-island {
+      position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+      width: 104px; height: 30px; background: #000;
+      border-radius: 18px; z-index: 6;
+    }
+    .dynamic-island::after {
+      content: ''; position: absolute; right: 12px; top: 9px;
+      width: 11px; height: 11px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #1c2a3a, #000 70%);
+    }
+    .phone-statusbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 24px 6px; font-size: 12px; font-weight: 700; color: var(--text);
+    }
+    .phone-statusbar .sb-r { display: flex; gap: 5px; font-size: 11px; opacity: 0.9; }
+    .phone-screen { display: flex; flex-direction: column; gap: 10px; padding: 6px 14px 14px; flex: 1; }
+    .phone-header { margin-bottom: 2px; }
+    .phone-greeting { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; color: var(--text); }
     .phone-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
     .p-job {
       background: var(--elevated); border: 1px solid var(--border-l);
@@ -306,29 +340,29 @@
       background: var(--border); flex-shrink: 0;
       display: flex; align-items: center; justify-content: center; font-size: 17px;
     }
-    .p-title { font-size: 13px; font-weight: 700; }
+    .p-title { font-size: 13px; font-weight: 700; color: var(--text); }
     .p-info { font-size: 11px; color: var(--muted); margin-top: 1px; }
     .p-match { margin-left: auto; font-size: 12px; font-weight: 800; color: var(--green); flex-shrink: 0; }
     .phone-tab-bar {
-      display: flex; justify-content: space-around; margin-top: 8px;
-      padding: 10px 0 0; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-around; margin-top: auto;
+      padding: 12px 0 6px; border-top: 1px solid var(--border);
     }
-    .p-tab { font-size: 18px; opacity: 0.4; }
+    .p-tab { font-size: 19px; opacity: 0.4; }
     .p-tab.on { opacity: 1; }
-    /* Floating badge on phone */
+    /* Floating badges */
     .phone-badge {
-      position: absolute; top: -16px; right: -24px;
+      position: absolute; top: 28px; right: -26px; z-index: 7;
       background: var(--green); color: #000;
       font-size: 12px; font-weight: 800;
-      padding: 8px 14px; border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(29,185,84,0.35);
+      padding: 9px 15px; border-radius: 12px;
+      box-shadow: 0 10px 28px rgba(29,185,84,0.4);
     }
     .phone-badge-2 {
-      position: absolute; bottom: 24px; left: -28px;
-      background: var(--elevated); border: 1px solid var(--border-l);
+      position: absolute; bottom: 70px; left: -30px; z-index: 7;
+      background: var(--surface); border: 1px solid var(--border-l);
       color: var(--text); font-size: 12px; font-weight: 700;
-      padding: 8px 14px; border-radius: 12px;
-      box-shadow: 0 8px 24px var(--shadow);
+      padding: 9px 15px; border-radius: 12px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.4);
     }
 
     /* ── ROTATING HEADLINE WORD ── */
@@ -345,13 +379,9 @@
     .flip-word.out { opacity: 0; transform: translateY(-42%); }
     @keyframes shine { to { background-position: 220% center; } }
 
-    /* ── FLOATING PHONE ── */
-    .phone-stack { animation: float 7s ease-in-out infinite; }
-    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
-    .phone-badge   { animation: float 7s ease-in-out infinite; animation-delay: .6s; }
-    .phone-badge-2 { animation: float 7s ease-in-out infinite; animation-delay: 1.1s; }
+    /* Phone stays still — the rotating word is the only focal motion */
     @media (prefers-reduced-motion: reduce) {
-      .phone-stack, .phone-badge, .phone-badge-2, .flip-word { animation: none; }
+      .flip-word { animation: none; }
     }
 
     /* ── SOCIAL FEED (phone) ── */
@@ -581,6 +611,54 @@
     }
     .b-card:hover { border-color: var(--border-l); }
     .b-card.w2 { grid-column: span 2; }
+
+    /* ── COMPACT FEATURES (3×2) ── */
+    .feat-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 12px; margin-top: 44px;
+    }
+    .feat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px;
+      display: flex; align-items: flex-start; gap: 14px;
+      transition: border-color 0.18s, transform 0.18s;
+    }
+    .feat-card:hover { border-color: var(--border-l); transform: translateY(-3px); }
+    .feat-ic {
+      width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
+    }
+    .feat-ic.g { background: var(--green-d); }
+    .feat-ic.b { background: var(--blue-d); }
+    .feat-t { font-size: 15px; font-weight: 800; letter-spacing: -0.2px; }
+    .feat-d { font-size: 13px; color: var(--sub); line-height: 1.5; margin-top: 3px; }
+
+    /* ── MID-PAGE CTA BANNER ── */
+    .cta-banner {
+      position: relative; overflow: hidden;
+      background: var(--surface); border: 1px solid var(--green-g);
+      border-radius: 22px; padding: 44px 40px;
+      display: flex; align-items: center; justify-content: space-between; gap: 28px;
+      flex-wrap: wrap;
+    }
+    .cta-banner::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 60% 120% at 100% 0%, var(--green-d), transparent 70%);
+    }
+    .cta-banner-l { position: relative; z-index: 1; }
+    .cta-banner-h { font-size: clamp(24px, 3vw, 34px); font-weight: 900; letter-spacing: -1px; line-height: 1.1; }
+    .cta-banner-p { font-size: 15px; color: var(--sub); margin-top: 8px; max-width: 460px; }
+    .cta-banner-r { position: relative; z-index: 1; display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* ── NAV SOCIAL ICON ── */
+    .nav-soc {
+      width: 38px; height: 38px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; font-size: 17px; cursor: pointer; text-decoration: none;
+      color: var(--text); transition: all 0.15s;
+    }
+    .nav-soc:hover { background: var(--elevated); border-color: var(--border-l); color: var(--green); }
     .b-ic {
       width: 48px; height: 48px; border-radius: 14px;
       display: flex; align-items: center; justify-content: center; font-size: 22px;
@@ -664,19 +742,22 @@
       position: relative; z-index: 1;
     }
     .s-btn {
-      display: flex; align-items: center; gap: 12px;
-      padding: 15px 26px;
-      background: var(--elevated); border: 1px solid var(--border-l);
-      border-radius: 14px; color: var(--text); text-decoration: none;
+      display: flex; align-items: center; gap: 14px;
+      padding: 20px 36px;
+      background: #000; border: 1px solid #000;
+      border-radius: 16px; color: #fff; text-decoration: none;
       transition: all 0.2s;
     }
-    .s-btn:hover { background: var(--border); transform: translateY(-3px); box-shadow: 0 12px 32px var(--shadow); }
+    .s-btn:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+    .s-btn .s-sup { color: #bbb; }
+    .s-btn .s-nm { color: #fff; }
     .s-btn.primary { background: var(--green); border-color: var(--green); }
-    .s-btn.primary .s-sup,.s-btn.primary .s-nm { color: #000; }
+    .s-btn.primary .s-sup { color: rgba(0,0,0,0.6); }
+    .s-btn.primary .s-nm { color: #000; }
     .s-btn.primary:hover { opacity: 0.88; }
-    .s-ico { font-size: 30px; }
-    .s-sup { font-size: 11px; color: var(--muted); font-weight: 500; display: block; }
-    .s-nm  { font-size: 17px; font-weight: 800; letter-spacing: -0.3px; display: block; }
+    .s-ico { font-size: 38px; line-height: 1; }
+    .s-sup { font-size: 12px; font-weight: 500; display: block; }
+    .s-nm  { font-size: 21px; font-weight: 800; letter-spacing: -0.3px; display: block; }
     .cta-note { font-size: 13px; color: var(--muted); margin-top: 20px; position: relative; z-index: 1; }
 
     /* ══════════════════════════════════════════
@@ -719,6 +800,7 @@
       .job-grid     { grid-template-columns: 1fr 1fr; }
       .bento        { grid-template-columns: 1fr 1fr; }
       .b-card.w2    { grid-column: span 2; }
+      .feat-grid    { grid-template-columns: 1fr 1fr; }
       .co-grid      { grid-template-columns: 1fr 1fr; }
       .foot-top     { grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
       .foot-brand   { grid-column: span 2; }
@@ -727,7 +809,7 @@
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .ham { display: block; }
-      .hero-h1, .hero-h2 { font-size: 52px; letter-spacing: -2px; }
+      .hero-h1, .hero-h2 { font-size: 40px; letter-spacing: -1.5px; }
       .hero-desc { font-size: 17px; }
       .job-grid     { grid-template-columns: 1fr; }
       .how-grid     { grid-template-columns: 1fr; }
@@ -735,6 +817,10 @@
       .a-preview    { display: none; }
       .bento        { grid-template-columns: 1fr; }
       .b-card.w2    { grid-column: span 1; }
+      .feat-grid    { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .feat-card    { flex-direction: column; gap: 10px; padding: 16px; }
+      .how-item     { padding: 28px 24px; }
+      .cta-banner   { flex-direction: column; align-items: flex-start; padding: 32px 26px; text-align: left; }
       .co-grid      { grid-template-columns: 1fr 1fr; }
       .tes-grid     { grid-template-columns: 1fr; }
       .foot-top     { grid-template-columns: 1fr 1fr; }
@@ -746,11 +832,11 @@
       .hero-ctas .btn { justify-content: center; }
       .dl-row { flex-direction: column; }
       .stats-inner { grid-template-columns: 1fr 1fr; }
-      .co-grid { grid-template-columns: 1fr 1fr; }
+      .feat-grid { grid-template-columns: 1fr; }
       .foot-top { grid-template-columns: 1fr; }
       .foot-brand { grid-column: span 1; }
       .foot-bottom { flex-direction: column; gap: 16px; text-align: center; }
-      .section { padding: 72px 20px; }
+      .section { padding: 64px 20px; }
     }
   </style>
 </head>
@@ -768,6 +854,7 @@
       <a class="nav-a" href="#how"        data-i18n="n_how">Comment ça marche</a>
     </div>
     <div class="nav-right">
+      <a class="nav-soc" href="https://www.instagram.com/jobeapp" target="_blank" rel="noopener" aria-label="Instagram">📷</a>
       <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
       <div class="lang-box">
         <button class="lang-b on" onclick="setLang('fr')">FR</button>
@@ -799,8 +886,8 @@
   <div class="hero-inner">
     <div class="hero-left">
       <div class="hero-pills up">
-        <span class="pill pill-green">🟢 <span data-i18n="h_p1">+300k membres actifs</span></span>
-        <span class="pill pill-blue">🌍 <span data-i18n="h_p2">4 pays · Afrique de l'Ouest</span></span>
+        <span class="pill pill-green">✦ <span data-i18n="h_p1">Le réseau pro nouvelle génération</span></span>
+        <span class="pill pill-blue">🇸🇳 <span data-i18n="h_p2">Conçu au Sénégal</span></span>
       </div>
       <h1 class="hero-h1 up" style="transition-delay:.05s">
         <span data-i18n="h_l1">Connecte-toi à</span>
@@ -808,75 +895,98 @@
       </h1>
       <p class="hero-h2 up" style="transition-delay:.08s" data-i18n="h_l3">Construis ton avenir.</p>
       <p class="hero-desc up" style="transition-delay:.12s" data-i18n="h_desc">
-        Le réseau social professionnel n°1 de la jeunesse africaine francophone. Partage, inspire-toi, élargis ton cercle — et saisis des milliers d'opportunités. Gratuit.
+        L'application mobile qui connecte la jeunesse sénégalaise. Réseau, communauté et opportunités — dans ta poche. Gratuit, sur iOS &amp; Android.
       </p>
       <div class="hero-ctas up" style="transition-delay:.16s">
         <a href="#audience" class="btn btn-primary" data-i18n="h_c1">Rejoindre la communauté →</a>
         <a href="#jobs" class="btn btn-outline" data-i18n="h_c2">Explorer les offres</a>
       </div>
-      <div class="dl-row up" style="transition-delay:.2s">
-        <a href="#download" class="dl-btn">
-          <span class="dl-i">🍎</span>
-          <div>
-            <div class="dl-sup" data-i18n="dl_on">Disponible sur</div>
-            <div class="dl-name">App Store</div>
-          </div>
-        </a>
-        <a href="#download" class="dl-btn">
-          <span class="dl-i">▶</span>
-          <div>
-            <div class="dl-sup" data-i18n="dl_get">Disponible sur</div>
-            <div class="dl-name">Google Play</div>
-          </div>
-        </a>
+      <div class="dl-row up" style="transition-delay:.2s; display:block;">
+        <div class="dl-label">📱 <span data-i18n="dl_first">Avant tout, une app mobile — télécharge-la</span></div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a href="#download" class="dl-btn">
+            <span class="dl-i">🍎</span>
+            <div>
+              <div class="dl-sup" data-i18n="dl_on">Disponible sur</div>
+              <div class="dl-name">App Store</div>
+            </div>
+          </a>
+          <a href="#download" class="dl-btn">
+            <span class="dl-i">▶</span>
+            <div>
+              <div class="dl-sup" data-i18n="dl_get">Disponible sur</div>
+              <div class="dl-name">Google Play</div>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
 
-    <!-- Phone mockup -->
+    <!-- iPhone 17 Pro Max mockup -->
     <div class="hero-phone up" style="transition-delay:.15s">
       <div class="phone-stack" style="position:relative">
         <div class="phone-shell">
-          <div class="phone-notch"></div>
-          <div class="phone-screen">
-            <div class="phone-header">
-              <div class="phone-greeting" data-i18n="ph_hi">Fil d'actualité</div>
-              <div class="phone-sub" data-i18n="ph_sub">Ta communauté pro · Dakar</div>
+          <div class="dynamic-island"></div>
+          <div class="phone-screen-wrap">
+            <div class="phone-statusbar">
+              <span>9:41</span>
+              <span class="sb-r"><span>●●●</span><span>📶</span><span>🔋</span></span>
             </div>
-            <div class="p-stories">
-              <div class="p-story me">+</div>
-              <div class="p-story ring">👩🏿</div>
-              <div class="p-story ring">👨🏿</div>
-              <div class="p-story ring">👩🏾</div>
-              <div class="p-story ring">🧑🏿</div>
-            </div>
-            <div class="p-post">
-              <div class="p-post-head">
-                <div class="p-av">👩🏿</div>
-                <div>
-                  <div class="p-name">Aïssatou Diop</div>
-                  <div class="p-role" data-i18n="ph_role">Product Designer · 2h</div>
+            <div class="phone-screen">
+              <div class="phone-header">
+                <div class="phone-greeting" data-i18n="ph_hi">Fil d'actualité</div>
+                <div class="phone-sub" data-i18n="ph_sub">Ta communauté pro · Dakar</div>
+              </div>
+              <div class="p-stories">
+                <div class="p-story me">+</div>
+                <div class="p-story ring">👩🏿</div>
+                <div class="p-story ring">👨🏿</div>
+                <div class="p-story ring">👩🏾</div>
+                <div class="p-story ring">🧑🏿</div>
+              </div>
+              <div class="p-post">
+                <div class="p-post-head">
+                  <div class="p-av">👩🏿</div>
+                  <div>
+                    <div class="p-name">Aïssatou Diop</div>
+                    <div class="p-role" data-i18n="ph_role">Product Designer · 2h</div>
+                  </div>
+                  <div class="p-follow" data-i18n="ph_follow">Suivre</div>
                 </div>
-                <div class="p-follow" data-i18n="ph_follow">Suivre</div>
+                <div class="p-post-text" data-i18n="ph_post">Je rejoins <b>Wave</b> comme Lead Designer ! 🚀 Merci à ma communauté Jobé 💚</div>
+                <div class="p-engage">
+                  <span class="liked">♥ 248</span><span>💬 32</span><span>↗ 12</span>
+                </div>
               </div>
-              <div class="p-post-text" data-i18n="ph_post">Je rejoins <b>Wave</b> comme Lead Designer ! 🚀 Merci à ma communauté Jobé 💚</div>
-              <div class="p-engage">
-                <span class="liked">♥ 248</span><span>💬 32</span><span>↗ 12</span>
+              <div class="p-job">
+                <div class="p-av">🧑🏿</div>
+                <div>
+                  <div class="p-title">Moussa Ba</div>
+                  <div class="p-info" data-i18n="ph_mutual">Dev · 12 relations communes</div>
+                </div>
+                <div class="p-connect" data-i18n="ph_connect">+ Relier</div>
               </div>
-            </div>
-            <div class="p-job">
-              <div class="p-av">🧑🏿</div>
-              <div>
-                <div class="p-title">Moussa Ba</div>
-                <div class="p-info" data-i18n="ph_mutual">Dev · 12 relations communes</div>
+              <div class="p-post">
+                <div class="p-post-head">
+                  <div class="p-av">🧑🏾</div>
+                  <div>
+                    <div class="p-name">Cheikh Ndiaye</div>
+                    <div class="p-role" data-i18n="ph_role2">Entrepreneur · 5h</div>
+                  </div>
+                  <div class="p-follow" data-i18n="ph_follow">Suivre</div>
+                </div>
+                <div class="p-post-text" data-i18n="ph_post2">On recrute 3 personnes pour notre startup à Dakar 🇸🇳 DM ouverts 👇</div>
+                <div class="p-engage">
+                  <span class="liked">♥ 412</span><span>💬 87</span><span>↗ 34</span>
+                </div>
               </div>
-              <div class="p-connect" data-i18n="ph_connect">+ Relier</div>
-            </div>
-            <div class="phone-tab-bar">
-              <span class="p-tab on">🏠</span>
-              <span class="p-tab">👥</span>
-              <span class="p-tab">➕</span>
-              <span class="p-tab">💼</span>
-              <span class="p-tab">👤</span>
+              <div class="phone-tab-bar">
+                <span class="p-tab on">🏠</span>
+                <span class="p-tab">👥</span>
+                <span class="p-tab">➕</span>
+                <span class="p-tab">💼</span>
+                <span class="p-tab">👤</span>
+              </div>
             </div>
           </div>
         </div>
@@ -893,33 +1003,189 @@
 <div class="stats-bar">
   <div class="stats-inner">
     <div class="stat-item up">
-      <span class="stat-n" data-count="12400" data-suf="+">0</span>
-      <span class="stat-l" data-i18n="s1">Offres d'emploi actives</span>
+      <span class="stat-n">🇸🇳</span>
+      <span class="stat-l" data-i18n="s1">Conçu à Dakar, Sénégal</span>
     </div>
     <div class="stat-item up" style="transition-delay:.05s">
-      <span class="stat-n" data-count="300000" data-suf="+">0</span>
-      <span class="stat-l" data-i18n="s2">Candidats inscrits</span>
+      <span class="stat-n" data-count="100" data-suf="%">0</span>
+      <span class="stat-l" data-i18n="s2">Gratuit pour les candidats</span>
     </div>
     <div class="stat-item up" style="transition-delay:.1s">
-      <span class="stat-n" data-count="4">0</span>
-      <span class="stat-l" data-i18n="s3">Pays couverts</span>
+      <span class="stat-n" data-count="3">0</span>
+      <span class="stat-l" data-i18n="s3">Langues · FR/EN/中文</span>
     </div>
     <div class="stat-item up" style="transition-delay:.15s">
-      <span class="stat-n" data-count="85" data-suf="%">0</span>
-      <span class="stat-l" data-i18n="s4">Taux de placement</span>
+      <span class="stat-n" data-count="0">0</span>
+      <span class="stat-l" data-i18n="s4">Frais cachés</span>
     </div>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════
-     FEATURED JOBS
+     HOW IT WORKS
 ══════════════════════════════════════ -->
-<section class="section" id="jobs">
+<section class="section alt" id="how">
+  <div class="wrap">
+    <div class="up" style="text-align:center">
+      <div class="label" data-i18n="hl">Simple. Rapide. Efficace.</div>
+      <h2 class="sh" style="text-align:center" data-i18n="ht">Comment ça marche</h2>
+      <p class="sub-sh" style="margin:14px auto 0;text-align:center" data-i18n="hs">Trois étapes pour rejoindre la communauté et saisir tes opportunités.</p>
+    </div>
+    <div class="how-grid up" style="transition-delay:.1s">
+      <div class="how-item">
+        <div class="how-n">01</div>
+        <div class="how-icon">👤</div>
+        <div class="how-t" data-i18n="h1t">Crée ton profil</div>
+        <div class="how-d" data-i18n="h1d">5 minutes suffisent. Ajoute tes compétences, ton parcours et tes centres d'intérêt, puis rejoins la communauté.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-n">02</div>
+        <div class="how-icon">🤝</div>
+        <div class="how-t" data-i18n="h2t">Connecte &amp; échange</div>
+        <div class="how-d" data-i18n="h2d">Rejoins des groupes, suis des pros qui t'inspirent et fais grandir ton réseau au Sénégal.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-n">03</div>
+        <div class="how-icon">🚀</div>
+        <div class="how-t" data-i18n="h3t">Saisis tes opportunités</div>
+        <div class="how-d" data-i18n="h3d">Les bonnes rencontres et les bonnes offres arrivent dans ton fil. Postule ou connecte-toi en un clic.</div>
+      </div>
+    </div>
+    <div class="up" style="text-align:center;margin-top:36px;transition-delay:.15s">
+      <a href="#download" class="btn btn-primary" data-i18n="how_cta">Rejoindre la communauté →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     AUDIENCE TABS
+══════════════════════════════════════ -->
+<section class="section" id="audience">
+  <div class="wrap">
+    <div class="up">
+      <div class="label" data-i18n="al">Pour vous</div>
+      <h2 class="sh" data-i18n="at">La plateforme pour tous</h2>
+    </div>
+    <div class="tab-row up" style="transition-delay:.05s">
+      <button class="t-btn on" onclick="tab('cand',this)" data-i18n="tc">👤 Membres</button>
+      <button class="t-btn"    onclick="tab('rec',this)"  data-i18n="tr">🏢 Recruteurs</button>
+    </div>
+
+    <!-- Members -->
+    <div class="t-panel on" id="tp-cand">
+      <div class="ben-list up">
+        <div class="ben-item">
+          <div class="ben-ic g">🌐</div>
+          <div><div class="ben-t" data-i18n="c1t">Un réseau qui ouvre des portes</div>
+          <div class="ben-d" data-i18n="c1d">Connecte-toi avec des pros, entrepreneurs et entreprises du Sénégal. Ton réseau devient ton meilleur atout.</div></div>
+        </div>
+        <div class="ben-item">
+          <div class="ben-ic g">👥</div>
+          <div><div class="ben-t" data-i18n="c2t">Groupes &amp; communautés</div>
+          <div class="ben-d" data-i18n="c2d">Rejoins des groupes par secteur, ville ou passion. Échange, apprends et fais des rencontres qui comptent.</div></div>
+        </div>
+        <div class="ben-item">
+          <div class="ben-ic g">📰</div>
+          <div><div class="ben-t" data-i18n="c3t">Partage &amp; inspire-toi</div>
+          <div class="ben-d" data-i18n="c3d">Publie tes succès, suis les gens qui t'inspirent et reste au courant de ce qui bouge dans ton domaine.</div></div>
+        </div>
+        <div class="ben-item">
+          <div class="ben-ic g">💼</div>
+          <div><div class="ben-t" data-i18n="c4t">Opportunités &amp; emploi</div>
+          <div class="ben-d" data-i18n="c4d">Quand tu cherches un job, postule en 1 clic. 100% gratuit, sans frais cachés.</div></div>
+        </div>
+        <a href="#download" class="btn btn-primary" style="width:fit-content;margin-top:8px" data-i18n="c_cta">Rejoindre Jobé gratuitement →</a>
+      </div>
+      <div class="a-preview">
+        <div>
+          <div class="a-ph" data-i18n="ca_hi">Suggestions pour toi</div>
+          <div class="a-ps" data-i18n="ca_sub">Élargis ton réseau · Dakar</div>
+        </div>
+        <div class="m-card">
+          <div class="m-ic">👩🏿</div>
+          <div><div class="m-t">Aïssatou Diop</div><div class="m-i" data-i18n="ca_p1">Product Designer · 12 relations communes</div></div>
+          <div class="p-connect" data-i18n="ca_b1">+ Relier</div>
+        </div>
+        <div class="m-card">
+          <div class="m-ic">👥</div>
+          <div><div class="m-t" data-i18n="ca_g">Tech & Startups Dakar</div><div class="m-i" data-i18n="ca_p2">Groupe · 3 200 membres</div></div>
+          <div class="p-follow" data-i18n="ca_b2">Rejoindre</div>
+        </div>
+        <div class="m-card">
+          <div class="m-ic">🧑🏿</div>
+          <div><div class="m-t">Moussa Ba</div><div class="m-i" data-i18n="ca_p3">Entrepreneur · 8 relations communes</div></div>
+          <div class="p-connect" data-i18n="ca_b1">+ Relier</div>
+        </div>
+        <div class="pbar-wrap">
+          <div class="pbar"><div class="pbar-fill" style="width:78%"></div></div>
+          <div class="pbar-row"><span data-i18n="prof_c">Profil complété</span><span>78%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recruiters -->
+    <div class="t-panel" id="tp-rec">
+      <div class="ben-list up">
+        <div class="ben-item">
+          <div class="ben-ic b">🎯</div>
+          <div><div class="ben-t" data-i18n="r1t">Une communauté de talents locaux</div>
+          <div class="ben-d" data-i18n="r1d">Publie ton offre et touche des candidats motivés et qualifiés, partout au Sénégal.</div></div>
+        </div>
+        <div class="ben-item">
+          <div class="ben-ic b">🔍</div>
+          <div><div class="ben-t" data-i18n="r2t">Filtres avancés</div>
+          <div class="ben-d" data-i18n="r2d">Filtre par compétences, localisation, niveau d'études et expérience pour trouver le bon profil.</div></div>
+        </div>
+        <div class="ben-item">
+          <div class="ben-ic b">🏢</div>
+          <div><div class="ben-t" data-i18n="r3t">Construis ta marque employeur</div>
+          <div class="ben-d" data-i18n="r3d">Crée la page de ton entreprise, publie et fais-toi connaître auprès de la communauté.</div></div>
+        </div>
+        <div class="ben-item">
+          <div class="ben-ic b">💬</div>
+          <div><div class="ben-t" data-i18n="r4t">Messagerie avec traduction auto</div>
+          <div class="ben-d" data-i18n="r4d">Échange directement avec les candidats. Traduction automatique en FR, EN et 中文.</div></div>
+        </div>
+        <a href="#download" class="btn btn-outline" style="width:fit-content;margin-top:8px" data-i18n="r_cta">Commencer à recruter →</a>
+      </div>
+      <div class="a-preview" style="border-color:rgba(45,125,210,0.2)">
+        <div>
+          <div class="a-ph" data-i18n="rec_h">Espace Recruteur</div>
+          <div class="a-ps" data-i18n="rec_s">Tes offres &amp; candidatures</div>
+        </div>
+        <div class="m-card">
+          <div class="m-ic">👤</div>
+          <div><div class="m-t">Aminata D. · Dev Web</div><div class="m-i">Dakar · 4 ans exp · Bac+3</div></div>
+          <div class="p-connect" data-i18n="rec_b">Voir</div>
+        </div>
+        <div class="m-card">
+          <div class="m-ic">👤</div>
+          <div><div class="m-t">Seydou K. · Dev Backend</div><div class="m-i">Dakar · 3 ans exp · Bac+5</div></div>
+          <div class="p-connect" data-i18n="rec_b">Voir</div>
+        </div>
+        <div class="m-card">
+          <div class="m-ic">👤</div>
+          <div><div class="m-t">Fatou B. · UX Designer</div><div class="m-i">Dakar · 2 ans exp · Bac+4</div></div>
+          <div class="p-connect" data-i18n="rec_b">Voir</div>
+        </div>
+        <div style="margin-top:auto;padding:14px;background:var(--blue-d);border-radius:12px;border:1px solid rgba(45,125,210,0.15)">
+          <div style="font-size:13px;font-weight:700" data-i18n="rec_k">Publie une offre en</div>
+          <div style="font-size:22px;font-weight:900;letter-spacing:-1px;color:var(--blue);margin-top:4px" data-i18n="rec_v">2 minutes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FEATURED JOBS (moved lower — jobs are secondary)
+══════════════════════════════════════ -->
+<section class="section alt" id="jobs">
   <div class="wrap">
     <div class="jobs-head up">
       <div>
-        <div class="label" data-i18n="jl">Offres récentes</div>
-        <h2 class="sh" data-i18n="jt">Opportunités du moment</h2>
+        <div class="label" data-i18n="jl">Aussi : des opportunités</div>
+        <h2 class="sh" data-i18n="jt">Des offres près de chez toi</h2>
       </div>
       <a href="#download" class="btn btn-outline" data-i18n="ja">Voir tout →</a>
     </div>
@@ -940,7 +1206,7 @@
         </div>
         <div class="j-foot">
           <div class="j-sal">350k–500k <span>FCFA/mois</span></div>
-          <div class="j-match">✦ 97%</div>
+          <div class="j-match" data-i18n="j_new">🆕 Nouveau</div>
         </div>
       </div>
 
@@ -948,8 +1214,8 @@
         <div class="j-co-row">
           <div class="j-logo">📊</div>
           <div>
-            <div class="j-co">Ecobank CI</div>
-            <div class="j-loc">📍 Abidjan, Plateau</div>
+            <div class="j-co">Wave Sénégal</div>
+            <div class="j-loc">📍 Dakar, Almadies</div>
           </div>
         </div>
         <div class="j-title" data-i18n="j2t">Assistant(e) Comptable</div>
@@ -959,7 +1225,7 @@
         </div>
         <div class="j-foot">
           <div class="j-sal">180k–250k <span>FCFA/mois</span></div>
-          <div class="j-match">✦ 94%</div>
+          <div class="j-match" data-i18n="j_new">🆕 Nouveau</div>
         </div>
       </div>
 
@@ -967,8 +1233,8 @@
         <div class="j-co-row">
           <div class="j-logo">📣</div>
           <div>
-            <div class="j-co">Jumia Mali</div>
-            <div class="j-loc">📍 Bamako, ACI</div>
+            <div class="j-co">Sonatel</div>
+            <div class="j-loc">📍 Dakar, Médina</div>
           </div>
         </div>
         <div class="j-title" data-i18n="j3t">Community Manager</div>
@@ -978,7 +1244,7 @@
         </div>
         <div class="j-foot">
           <div class="j-sal">200k–300k <span>FCFA/mois</span></div>
-          <div class="j-match">✦ 91%</div>
+          <div class="j-match" data-i18n="j_new">🆕 Nouveau</div>
         </div>
       </div>
     </div>
@@ -990,257 +1256,62 @@
 </section>
 
 <!-- ══════════════════════════════════════
-     HOW IT WORKS
-══════════════════════════════════════ -->
-<section class="section alt" id="how">
-  <div class="wrap">
-    <div class="up" style="text-align:center">
-      <div class="label" data-i18n="hl">Simple. Rapide. Efficace.</div>
-      <h2 class="sh" style="text-align:center" data-i18n="ht">Comment ça marche</h2>
-      <p class="sub-sh" style="margin:14px auto 0;text-align:center" data-i18n="hs">Trois étapes pour trouver ton prochain emploi — ou ton prochain talent.</p>
-    </div>
-    <div class="how-grid up" style="transition-delay:.1s">
-      <div class="how-item">
-        <div class="how-n">01</div>
-        <div class="how-icon">👤</div>
-        <div class="how-t" data-i18n="h1t">Crée ton profil</div>
-        <div class="how-d" data-i18n="h1d">5 minutes suffisent. Ajoute tes compétences, ton CV et tes centres d'intérêt, puis rejoins une communauté de +300k pros.</div>
-      </div>
-      <div class="how-item">
-        <div class="how-n">02</div>
-        <div class="how-icon">🤝</div>
-        <div class="how-t" data-i18n="h2t">Connecte &amp; découvre</div>
-        <div class="how-d" data-i18n="h2d">Élargis ton réseau, suis des entreprises et des pros qui t'inspirent. Les opportunités qui te correspondent arrivent directement dans ton fil.</div>
-      </div>
-      <div class="how-item">
-        <div class="how-n">03</div>
-        <div class="how-icon">🚀</div>
-        <div class="how-t" data-i18n="h3t">Postule &amp; décroche</div>
-        <div class="how-d" data-i18n="h3d">Un clic pour postuler. Suis tes candidatures en temps réel et reçois des notifications à chaque étape du processus.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════
-     AUDIENCE TABS
-══════════════════════════════════════ -->
-<section class="section" id="audience">
-  <div class="wrap">
-    <div class="up">
-      <div class="label" data-i18n="al">Pour vous</div>
-      <h2 class="sh" data-i18n="at">La plateforme pour tous</h2>
-    </div>
-    <div class="tab-row up" style="transition-delay:.05s">
-      <button class="t-btn on" onclick="tab('cand',this)" data-i18n="tc">👤 Candidats</button>
-      <button class="t-btn"    onclick="tab('rec',this)"  data-i18n="tr">🏢 Recruteurs</button>
-    </div>
-
-    <!-- Candidates -->
-    <div class="t-panel on" id="tp-cand">
-      <div class="ben-list up">
-        <div class="ben-item">
-          <div class="ben-ic g">🌐</div>
-          <div><div class="ben-t" data-i18n="c1t">Un réseau qui ouvre des portes</div>
-          <div class="ben-d" data-i18n="c1d">Connecte-toi avec des pros, suis des entreprises et fais-toi remarquer. Les opportunités qui te correspondent arrivent directement dans ton fil.</div></div>
-        </div>
-        <div class="ben-item">
-          <div class="ben-ic g">⚡</div>
-          <div><div class="ben-t" data-i18n="c2t">Postulation en 1 clic</div>
-          <div class="ben-d" data-i18n="c2d">Ton profil complet remplace la lettre de motivation. Postule en quelques secondes, sans friction.</div></div>
-        </div>
-        <div class="ben-item">
-          <div class="ben-ic g">🎓</div>
-          <div><div class="ben-t" data-i18n="c3t">Formation certifiée intégrée</div>
-          <div class="ben-d" data-i18n="c3d">Accède à des formations certifiées pour booster tes compétences et te démarquer auprès des recruteurs.</div></div>
-        </div>
-        <div class="ben-item">
-          <div class="ben-ic g">💚</div>
-          <div><div class="ben-t" data-i18n="c4t">100% gratuit pour les candidats</div>
-          <div class="ben-d" data-i18n="c4d">Aucun frais caché. Jobé est et restera entièrement gratuit pour tous les chercheurs d'emploi.</div></div>
-        </div>
-        <a href="#download" class="btn btn-primary" style="width:fit-content;margin-top:8px" data-i18n="c_cta">Télécharger Jobé gratuitement →</a>
-      </div>
-      <div class="a-preview">
-        <div>
-          <div class="a-ph" data-i18n="ph_hi">Bonjour, Moussa 👋</div>
-          <div class="a-ps" data-i18n="ph_sub">3 nouveaux matchs aujourd'hui</div>
-        </div>
-        <div class="m-card">
-          <div class="m-ic">💻</div>
-          <div><div class="m-t">Dev Full-Stack · Orange SN</div><div class="m-i">Dakar · 350k–500k FCFA</div></div>
-          <div class="m-pct g">97%</div>
-        </div>
-        <div class="m-card">
-          <div class="m-ic">📊</div>
-          <div><div class="m-t">Analyste Data · Wave</div><div class="m-i">Dakar · 400k FCFA</div></div>
-          <div class="m-pct g">93%</div>
-        </div>
-        <div class="m-card">
-          <div class="m-ic">🎨</div>
-          <div><div class="m-t">UI Designer · Expresso</div><div class="m-i">Dakar · 280k FCFA</div></div>
-          <div class="m-pct g">89%</div>
-        </div>
-        <div class="pbar-wrap">
-          <div class="pbar"><div class="pbar-fill" style="width:78%"></div></div>
-          <div class="pbar-row"><span data-i18n="prof_c">Profil complété</span><span>78%</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Recruiters -->
-    <div class="t-panel" id="tp-rec">
-      <div class="ben-list up">
-        <div class="ben-item">
-          <div class="ben-ic b">🎯</div>
-          <div><div class="ben-t" data-i18n="r1t">Accès à 300k+ talents pré-qualifiés</div>
-          <div class="ben-d" data-i18n="r1d">Publiez votre offre et atteignez instantanément des centaines de milliers de candidats qualifiés à travers l'Afrique de l'Ouest.</div></div>
-        </div>
-        <div class="ben-item">
-          <div class="ben-ic b">🔍</div>
-          <div><div class="ben-t" data-i18n="r2t">Filtres avancés</div>
-          <div class="ben-d" data-i18n="r2d">Filtrez par compétences, localisation, niveau d'études, expérience et score de compatibilité IA pour trouver le profil idéal.</div></div>
-        </div>
-        <div class="ben-item">
-          <div class="ben-ic b">📈</div>
-          <div><div class="ben-t" data-i18n="r3t">Analytics en temps réel</div>
-          <div class="ben-d" data-i18n="r3d">Suivez les vues, candidatures et conversions de chaque offre dans votre dashboard recruteur intuitif.</div></div>
-        </div>
-        <div class="ben-item">
-          <div class="ben-ic b">💬</div>
-          <div><div class="ben-t" data-i18n="r4t">Messagerie avec traduction auto</div>
-          <div class="ben-d" data-i18n="r4d">Communiquez directement avec les candidats. Traduction automatique en FR, EN et 中文.</div></div>
-        </div>
-        <a href="#download" class="btn btn-outline" style="width:fit-content;margin-top:8px" data-i18n="r_cta">Commencer à recruter →</a>
-      </div>
-      <div class="a-preview" style="border-color:rgba(45,125,210,0.2)">
-        <div>
-          <div class="a-ph" data-i18n="rec_h">Dashboard Recruteur</div>
-          <div class="a-ps" data-i18n="rec_s">48 candidatures · 3 postes actifs</div>
-        </div>
-        <div class="m-card">
-          <div class="m-ic">👤</div>
-          <div><div class="m-t">Aminata D. · Dev Web</div><div class="m-i">Dakar · 4 ans exp · Bac+3</div></div>
-          <div class="m-pct b">96%</div>
-        </div>
-        <div class="m-card">
-          <div class="m-ic">👤</div>
-          <div><div class="m-t">Seydou K. · Dev Backend</div><div class="m-i">Dakar · 3 ans exp · Bac+5</div></div>
-          <div class="m-pct b">91%</div>
-        </div>
-        <div class="m-card">
-          <div class="m-ic">👤</div>
-          <div><div class="m-t">Fatou B. · UX Designer</div><div class="m-i">Dakar · 2 ans exp · Bac+4</div></div>
-          <div class="m-pct b">88%</div>
-        </div>
-        <div style="margin-top:auto;padding:14px;background:var(--blue-d);border-radius:12px;border:1px solid rgba(45,125,210,0.15)">
-          <div style="font-size:13px;font-weight:700" data-i18n="rec_k">Temps moyen jusqu'au 1er match :</div>
-          <div style="font-size:22px;font-weight:900;letter-spacing:-1px;color:var(--blue);margin-top:4px">2 heures</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════
-     FEATURES BENTO
-══════════════════════════════════════ -->
-<section class="section alt">
-  <div class="wrap">
-    <div class="up" style="text-align:center">
-      <div class="label" data-i18n="fl">Tout ce dont tu as besoin</div>
-      <h2 class="sh" style="text-align:center" data-i18n="ft">Fonctionnalités</h2>
-    </div>
-    <div class="bento">
-      <div class="b-card w2 up">
-        <div class="b-ic g">🌐</div>
-        <div class="b-t" data-i18n="f1t">Réseau professionnel</div>
-        <div class="b-d" data-i18n="f1d">Connecte-toi avec des pros, entreprises et mentors de toute l'Afrique de l'Ouest. Élargis ton cercle, suis les gens qui t'inspirent et fais grandir ta réputation — ton réseau est ton meilleur atout.</div>
-      </div>
-      <div class="b-card up" style="transition-delay:.05s">
-        <div class="b-ic g">📰</div>
-        <div class="b-t" data-i18n="f2t">Fil d'actualité &amp; stories</div>
-        <div class="b-d" data-i18n="f2d">Publie, like, commente et partage. Reste connecté à ta communauté au quotidien.</div>
-      </div>
-      <div class="b-card up" style="transition-delay:.1s">
-        <div class="b-ic b">📊</div>
-        <div class="b-t" data-i18n="f3t">Suivi temps réel</div>
-        <div class="b-d" data-i18n="f3d">Suis chaque candidature de l'envoi jusqu'à l'entretien.</div>
-      </div>
-      <div class="b-card up" style="transition-delay:.05s">
-        <div class="b-ic g">🎓</div>
-        <div class="b-t" data-i18n="f4t">Formation certifiée</div>
-        <div class="b-d" data-i18n="f4d">Accède aux formations partenaires pour booster tes compétences et décrocher plus d'offres.</div>
-      </div>
-      <div class="b-card w2 up" style="transition-delay:.1s">
-        <div class="b-ic b">💬</div>
-        <div class="b-t" data-i18n="f5t">Messagerie instantanée</div>
-        <div class="b-d" data-i18n="f5d">Discute directement avec les pros et recruteurs de ton réseau. Traduction automatique entre le français, l'anglais et le mandarin — parfait pour les entreprises internationales implantées en Afrique de l'Ouest.</div>
-      </div>
-      <div class="b-card up" style="transition-delay:.05s">
-        <div class="b-ic g">⚡</div>
-        <div class="b-t" data-i18n="f6t">Postulation rapide</div>
-        <div class="b-d" data-i18n="f6d">1 profil, des centaines d'offres. Postule en un seul clic.</div>
-      </div>
-      <div class="b-card up" style="transition-delay:.1s">
-        <div class="b-ic b">🔔</div>
-        <div class="b-t" data-i18n="f7t">Alertes &amp; recommandations</div>
-        <div class="b-d" data-i18n="f7d">Reçois les opportunités et les profils qui te correspondent, directement dans ton fil.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════
-     COUNTRIES
+     FEATURES (compact)
 ══════════════════════════════════════ -->
 <section class="section">
   <div class="wrap">
     <div class="up" style="text-align:center">
-      <div class="label" data-i18n="cl">Couverture géographique</div>
-      <h2 class="sh" style="text-align:center" data-i18n="ct">Présent partout où tu es</h2>
-      <p class="sub-sh" style="margin:14px auto 0;text-align:center" data-i18n="cs">Expansion continue dans toute l'Afrique francophone.</p>
+      <div class="label" data-i18n="fl">Tout-en-un</div>
+      <h2 class="sh" style="text-align:center" data-i18n="ft">Une seule app, tout ce qu'il te faut</h2>
     </div>
-    <div class="co-grid">
-      <div class="co-card live up">
-        <div class="co-flag">🇸🇳</div>
-        <div class="co-name">Sénégal</div>
-        <div class="co-st live" data-i18n="c_sn">● Actif · Dakar focus</div>
+    <div class="feat-grid">
+      <div class="feat-card up">
+        <div class="feat-ic g">🌐</div>
+        <div><div class="feat-t" data-i18n="f1t">Réseau professionnel</div>
+        <div class="feat-d" data-i18n="f1d">Connecte-toi avec les pros et entreprises du Sénégal.</div></div>
       </div>
-      <div class="co-card live up" style="transition-delay:.05s">
-        <div class="co-flag">🇨🇮</div>
-        <div class="co-name">Côte d'Ivoire</div>
-        <div class="co-st live" data-i18n="c_ci">● Actif · Abidjan</div>
+      <div class="feat-card up" style="transition-delay:.04s">
+        <div class="feat-ic g">📰</div>
+        <div><div class="feat-t" data-i18n="f2t">Fil &amp; stories</div>
+        <div class="feat-d" data-i18n="f2d">Publie, like, commente et partage au quotidien.</div></div>
       </div>
-      <div class="co-card live up" style="transition-delay:.1s">
-        <div class="co-flag">🇲🇱</div>
-        <div class="co-name">Mali</div>
-        <div class="co-st live" data-i18n="c_ml">● Actif · Bamako</div>
+      <div class="feat-card up" style="transition-delay:.08s">
+        <div class="feat-ic g">👥</div>
+        <div><div class="feat-t" data-i18n="f3t">Groupes &amp; communautés</div>
+        <div class="feat-d" data-i18n="f3d">Rejoins des groupes par secteur, ville ou passion.</div></div>
       </div>
-      <div class="co-card live up" style="transition-delay:.15s">
-        <div class="co-flag">🇬🇳</div>
-        <div class="co-name">Guinée</div>
-        <div class="co-st live" data-i18n="c_gn">● Actif · Conakry</div>
+      <div class="feat-card up" style="transition-delay:.04s">
+        <div class="feat-ic b">💬</div>
+        <div><div class="feat-t" data-i18n="f4t">Messagerie instantanée</div>
+        <div class="feat-d" data-i18n="f4d">Discute avec ton réseau, traduction auto FR/EN/中文.</div></div>
       </div>
-      <div class="co-card up" style="transition-delay:.2s;opacity:.45">
-        <div class="co-flag">🇨🇲</div>
-        <div class="co-name">Cameroun</div>
-        <div class="co-st soon" data-i18n="c_soon">Bientôt disponible</div>
+      <div class="feat-card up" style="transition-delay:.08s">
+        <div class="feat-ic b">🎓</div>
+        <div><div class="feat-t" data-i18n="f5t">Formation certifiée</div>
+        <div class="feat-d" data-i18n="f5d">Monte en compétences et démarque-toi.</div></div>
       </div>
-      <div class="co-card up" style="transition-delay:.25s;opacity:.45">
-        <div class="co-flag">🇧🇫</div>
-        <div class="co-name">Burkina Faso</div>
-        <div class="co-st soon" data-i18n="c_soon">Bientôt disponible</div>
+      <div class="feat-card up" style="transition-delay:.12s">
+        <div class="feat-ic b">💼</div>
+        <div><div class="feat-t" data-i18n="f6t">Offres &amp; candidature</div>
+        <div class="feat-d" data-i18n="f6d">Trouve un job et postule en 1 clic, gratuitement.</div></div>
       </div>
-      <div class="co-card up" style="transition-delay:.3s;opacity:.45">
-        <div class="co-flag">🇨🇬</div>
-        <div class="co-name">Congo DRC</div>
-        <div class="co-st soon" data-i18n="c_soon">Bientôt disponible</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     MID-PAGE CTA BANNER
+══════════════════════════════════════ -->
+<section class="section alt">
+  <div class="wrap">
+    <div class="cta-banner up">
+      <div class="cta-banner-l">
+        <div class="cta-banner-h" data-i18n="mid_h">Ta communauté pro t'attend.</div>
+        <div class="cta-banner-p" data-i18n="mid_p">Rejoins les premiers membres de Jobé au Sénégal. Connecte-toi, partage et fais grandir ton réseau — gratuitement.</div>
       </div>
-      <div class="co-card up" style="transition-delay:.35s;opacity:.4;border-style:dashed">
-        <div class="co-flag">🌍</div>
-        <div class="co-name" data-i18n="c_more">Et plus…</div>
-        <div class="co-st soon" data-i18n="c_exp">Expansion continue</div>
+      <div class="cta-banner-r">
+        <a href="#download" class="btn btn-primary" data-i18n="mid_c1">Télécharger l'app →</a>
+        <a href="https://www.instagram.com/jobeapp" target="_blank" rel="noopener" class="btn btn-outline" data-i18n="mid_c2">Suivre sur Instagram</a>
       </div>
     </div>
   </div>
@@ -1252,32 +1323,32 @@
 <section class="section alt">
   <div class="wrap">
     <div class="up" style="text-align:center">
-      <div class="label" data-i18n="tl">Ils ont trouvé leur voie</div>
+      <div class="label" data-i18n="tl">Les premières histoires</div>
       <h2 class="sh" style="text-align:center" data-i18n="tt">Ce qu'ils disent de Jobé</h2>
     </div>
     <div class="tes-grid">
       <div class="tes-card up">
         <div class="tes-stars">⭐⭐⭐⭐⭐</div>
-        <p class="tes-q" data-i18n="q1">"J'ai trouvé mon CDI en 2 semaines. L'IA m'a proposé des offres qui correspondaient exactement à mon profil. Je n'aurais jamais pensé décrocher un poste aussi vite à Dakar."</p>
+        <p class="tes-q" data-i18n="q1">"Les rencontres que j'ai faites sur Jobé ont fait passer mon business au niveau supérieur. J'y ai trouvé deux associés et mes premiers vrais clients à Dakar."</p>
         <div class="tes-author">
           <div class="tes-av">👨🏿</div>
-          <div><div class="tes-name">Mamadou S.</div><div class="tes-role" data-i18n="q1r">Dev Web · Dakar, Sénégal</div></div>
+          <div><div class="tes-name">Cheikh N.</div><div class="tes-role" data-i18n="q1r">Fondateur · Dakar, Sénégal</div></div>
         </div>
       </div>
       <div class="tes-card up" style="transition-delay:.05s">
         <div class="tes-stars">⭐⭐⭐⭐⭐</div>
-        <p class="tes-q" data-i18n="q2">"En tant que RH chez une startup d'Abidjan, on a reçu 40+ candidatures qualifiées en 48h après publication. La qualité des profils est incomparable avec d'autres plateformes."</p>
+        <p class="tes-q" data-i18n="q2">"Grâce aux groupes Jobé, j'ai rencontré des pros de mon secteur que je n'aurais jamais croisés autrement. Mon réseau a explosé en quelques semaines."</p>
         <div class="tes-author">
           <div class="tes-av">👩🏿</div>
-          <div><div class="tes-name">Aïcha K.</div><div class="tes-role" data-i18n="q2r">DRH · Abidjan, Côte d'Ivoire</div></div>
+          <div><div class="tes-name">Aïcha K.</div><div class="tes-role" data-i18n="q2r">Marketing · Dakar, Sénégal</div></div>
         </div>
       </div>
       <div class="tes-card up" style="transition-delay:.1s">
         <div class="tes-stars">⭐⭐⭐⭐⭐</div>
-        <p class="tes-q" data-i18n="q3">"La formation certifiée m'a aidée à acquérir les compétences manquantes. 3 mois plus tard, j'ai décroché un stage chez Wave à Dakar. Merci Jobé !"</p>
+        <p class="tes-q" data-i18n="q3">"J'ai décroché mon premier job à Dakar via une offre sur Jobé. Simple, rapide, et 100% gratuit — exactement ce qu'il nous fallait."</p>
         <div class="tes-author">
-          <div class="tes-av">👩🏿</div>
-          <div><div class="tes-name">Fatou D.</div><div class="tes-role" data-i18n="q3r">Stagiaire Data · Dakar, Sénégal</div></div>
+          <div class="tes-av">👨🏿</div>
+          <div><div class="tes-name">Mamadou S.</div><div class="tes-role" data-i18n="q3r">Développeur · Dakar, Sénégal</div></div>
         </div>
       </div>
     </div>
@@ -1296,7 +1367,7 @@
         <span data-i18n="dl_h1">Commence dès aujourd'hui.</span><br>
         <span class="g" data-i18n="dl_h2">Gratuitement.</span>
       </h2>
-      <p class="cta-sub" data-i18n="dl_sub">Télécharge Jobé et trouve ton opportunité en moins de 5 minutes. Gratuit pour tous les candidats, partout en Afrique de l'Ouest.</p>
+      <p class="cta-sub" data-i18n="dl_sub">Télécharge Jobé, rejoins la communauté et fais grandir ton réseau en moins de 5 minutes. Gratuit, conçu au Sénégal.</p>
       <div class="store-row">
         <a href="#" class="s-btn primary">
           <span class="s-ico">🍎</span>
@@ -1320,7 +1391,12 @@
           </div>
         </a>
       </div>
-      <p class="cta-note" data-i18n="dl_note">✓ Gratuit · ✓ Sans carte de crédit · ✓ iOS & Android · ✓ 4 pays</p>
+      <p class="cta-note" data-i18n="dl_note">✓ Gratuit · ✓ Sans carte de crédit · ✓ iOS & Android · ✓ Conçu au Sénégal</p>
+      <p style="position:relative;z-index:1;margin-top:18px">
+        <a href="https://www.instagram.com/jobeapp" target="_blank" rel="noopener" style="color:var(--green);font-weight:700;font-size:14px;text-decoration:none">
+          📷 <span data-i18n="dl_ig">Suis-nous sur Instagram @jobeapp</span>
+        </a>
+      </p>
     </div>
   </div>
 </section>
@@ -1333,7 +1409,7 @@
     <div class="foot-top">
       <div class="foot-brand">
         <a href="#" class="logo">Job<span>é</span></a>
-        <p data-i18n="fd">Le réseau social professionnel n°1 de la jeunesse africaine francophone. Communauté, réseau, opportunités — présent dans 4 pays.</p>
+        <p data-i18n="fd">Le réseau social professionnel de la jeunesse sénégalaise. Communauté, réseau et opportunités — conçu à Dakar, Sénégal. 📱 App iOS &amp; Android.</p>
       </div>
       <div>
         <div class="foot-col-h" data-i18n="f_pl">Plateforme</div>
@@ -1375,10 +1451,10 @@
     <div class="foot-bottom">
       <span>© 2026 Jobé. <span data-i18n="f_r">Tous droits réservés.</span></span>
       <div class="soc">
-        <a href="#" class="soc-a" aria-label="Twitter">𝕏</a>
-        <a href="#" class="soc-a" aria-label="LinkedIn">in</a>
-        <a href="#" class="soc-a" aria-label="TikTok">♪</a>
-        <a href="#" class="soc-a" aria-label="Instagram">◉</a>
+        <a href="https://www.instagram.com/jobeapp" target="_blank" rel="noopener" class="soc-a" aria-label="Instagram">📷</a>
+        <a href="#" class="soc-a" aria-label="Twitter (bientôt)">𝕏</a>
+        <a href="#" class="soc-a" aria-label="LinkedIn (bientôt)">in</a>
+        <a href="#" class="soc-a" aria-label="TikTok (bientôt)">♪</a>
       </div>
     </div>
   </div>
@@ -1391,102 +1467,141 @@
 /* ── I18N ── */
 const T = {
   en: {
-    n_jobs:"Job offers", n_rec:"Recruiters", n_how:"How it works", n_dl:"Download",
-    h_p1:"+300k active members", h_p2:"4 countries · West Africa",
+    n_jobs:"Jobs", n_rec:"Recruiters", n_how:"How it works", n_dl:"Download",
+    h_p1:"The next-gen pro network", h_p2:"Built in Senegal",
     h_l1:"Connect to", h_l3:"Build your future.",
-    h_desc:"The #1 professional social network for francophone African youth. Share, get inspired, grow your circle — and seize thousands of opportunities. Free.",
+    h_desc:"The mobile app connecting Senegal's youth. Network, community and opportunities — in your pocket. Free, on iOS &amp; Android.",
     h_c1:"Join the community →", h_c2:"Explore jobs",
-    dl_on:"Available on", dl_get:"Get it on",
+    dl_first:"A mobile app first — download it",
+    dl_on:"Download on", dl_get:"Get it on",
     ph_hi:"Feed", ph_sub:"Your pro community · Dakar",
     ph_role:"Product Designer · 2h", ph_follow:"Follow",
     ph_post:"I'm joining <b>Wave</b> as Lead Designer! 🚀 Thanks to my Jobé community 💚",
+    ph_role2:"Entrepreneur · 5h",
+    ph_post2:"We're hiring 3 people for our Dakar startup 🇸🇳 DMs open 👇",
     ph_mutual:"Dev · 12 mutual connections", ph_connect:"+ Connect",
     ph_badge:"🔥 Trending post", ph_badge2:"👥 +1.2k connections",
-    s1:"Active job listings", s2:"Registered candidates", s3:"Countries covered", s4:"Placement rate",
-    jl:"Latest listings", jt:"Top opportunities now", ja:"See all →",
+    s1:"Built in Dakar, Senegal", s2:"Free for members", s3:"Languages · FR/EN/中文", s4:"Hidden fees",
+    jl:"Also: opportunities", jt:"Jobs near you", ja:"See all →",
     j1t:"Full-Stack Web Developer", j2t:"Accounting Assistant", j3t:"Community Manager",
-    j_app_cta:"See all listings in the app →",
+    j_new:"🆕 New", j_app_cta:"See all jobs in the app →",
     hl:"Simple. Fast. Effective.", ht:"How it works",
-    hs:"Three steps to find your next job — or your next talent.",
-    h1t:"Create your profile", h1d:"5 minutes is all it takes. Add your skills, CV and interests, then join a community of 300k+ pros.",
-    h2t:"Connect & discover", h2d:"Grow your network, follow companies and pros who inspire you. The opportunities that fit you land right in your feed.",
-    h3t:"Apply & get hired", h3d:"One click to apply. Track your applications in real time and get notified at every stage.",
-    al:"For you", at:"The platform for everyone", tc:"👤 Candidates", tr:"🏢 Recruiters",
-    c1t:"A network that opens doors", c1d:"Connect with pros, follow companies and get noticed. The opportunities that fit you land right in your feed.",
-    c2t:"1-click application", c2d:"Your complete profile replaces the cover letter. Apply in seconds, no friction.",
-    c3t:"Integrated certified training", c3d:"Access certified training to boost your skills and stand out to recruiters.",
-    c4t:"100% free for candidates", c4d:"No hidden fees. Jobé is and will always remain free for all job seekers.",
-    c_cta:"Download Jobé for free →", prof_c:"Profile complete",
-    r1t:"Access to 300k+ pre-qualified talents", r1d:"Post your offer and instantly reach hundreds of thousands of qualified candidates across West Africa.",
-    r2t:"Advanced filters", r2d:"Filter by skills, location, education, experience and AI compatibility score to find the ideal profile.",
-    r3t:"Real-time analytics", r3d:"Track views, applications and conversions for each offer in your intuitive recruiter dashboard.",
-    r4t:"Messaging with auto-translation", r4d:"Communicate directly with candidates. Auto-translation between FR, EN and 中文.",
-    r_cta:"Start recruiting →", rec_h:"Recruiter Dashboard", rec_s:"48 applications · 3 active positions",
-    rec_k:"Average time to first match:",
-    fl:"Everything you need", ft:"Features",
-    f1t:"Professional network", f1d:"Connect with pros, companies and mentors across West Africa. Grow your circle, follow the people who inspire you and build your reputation — your network is your greatest asset.",
-    f2t:"Feed &amp; stories", f2d:"Post, like, comment and share. Stay connected to your community every day.",
-    f3t:"Real-time tracking", f3d:"Track every application from submission to interview.",
-    f4t:"Certified training", f4d:"Access partner training to boost your skills and land more offers.",
-    f5t:"Instant messaging", f5d:"Chat directly with the pros and recruiters in your network. Auto-translation between French, English and Mandarin — perfect for international companies in West Africa.",
-    f6t:"Quick apply", f6d:"1 profile, hundreds of offers. Apply with a single click.",
-    f7t:"Alerts &amp; recommendations", f7d:"Get the opportunities and profiles that fit you, right in your feed.",
-    cl:"Geographic coverage", ct:"Present wherever you are", cs:"Continuously expanding across francophone Africa.",
-    c_sn:"● Active · Dakar focus", c_ci:"● Active · Abidjan", c_ml:"● Active · Bamako", c_gn:"● Active · Conakry",
-    c_soon:"Coming soon", c_more:"And more…", c_exp:"Continuous expansion",
-    tl:"They found their path", tt:"What they say about Jobé",
-    q1:'"I found my permanent position in 2 weeks. The AI suggested offers that exactly matched my profile. I never thought I\'d land a job so fast in Dakar."',
-    q1r:"Web Dev · Dakar, Senegal",
-    q2:'"As HR at an Abidjan startup, we received 40+ qualified applications within 48h of posting. The profile quality is unmatched by other platforms."',
-    q2r:"HR Director · Abidjan, Côte d'Ivoire",
-    q3:'"The certified training helped me acquire the missing skills. 3 months later, I landed an internship at Wave in Dakar. Thank you Jobé!"',
-    q3r:"Data Intern · Dakar, Senegal",
+    hs:"Three steps to join the community and seize your opportunities.",
+    h1t:"Create your profile", h1d:"5 minutes is all it takes. Add your skills, background and interests, then join the community.",
+    h2t:"Connect & engage", h2d:"Join groups, follow pros who inspire you and grow your network in Senegal.",
+    h3t:"Seize your opportunities", h3d:"The right people and the right offers land in your feed. Apply or connect in one click.",
+    how_cta:"Join the community →",
+    al:"For you", at:"The platform for everyone", tc:"👤 Members", tr:"🏢 Recruiters",
+    c1t:"A network that opens doors", c1d:"Connect with pros, entrepreneurs and companies in Senegal. Your network becomes your greatest asset.",
+    c2t:"Groups & communities", c2d:"Join groups by industry, city or passion. Exchange, learn and make connections that matter.",
+    c3t:"Share & get inspired", c3d:"Post your wins, follow people who inspire you and stay on top of what's happening in your field.",
+    c4t:"Opportunities & jobs", c4d:"When you're job hunting, apply in 1 click. 100% free, no hidden fees.",
+    c_cta:"Join Jobé for free →", prof_c:"Profile complete",
+    ca_hi:"Suggestions for you", ca_sub:"Grow your network · Dakar",
+    ca_p1:"Product Designer · 12 mutual connections", ca_b1:"+ Connect",
+    ca_g:"Tech & Startups Dakar", ca_p2:"Group · 3,200 members", ca_b2:"Join",
+    ca_p3:"Entrepreneur · 8 mutual connections",
+    r1t:"A community of local talent", r1d:"Post your offer and reach motivated, qualified candidates all over Senegal.",
+    r2t:"Advanced filters", r2d:"Filter by skills, location, education and experience to find the right profile.",
+    r3t:"Build your employer brand", r3d:"Create your company page, post and get known by the community.",
+    r4t:"Messaging with auto-translation", r4d:"Chat directly with candidates. Auto-translation in FR, EN and 中文.",
+    r_cta:"Start recruiting →", rec_h:"Recruiter Space", rec_s:"Your offers & applications",
+    rec_b:"View", rec_k:"Post an offer in", rec_v:"2 minutes",
+    fl:"All-in-one", ft:"One app, everything you need",
+    f1t:"Professional network", f1d:"Connect with pros and companies in Senegal.",
+    f2t:"Feed &amp; stories", f2d:"Post, like, comment and share every day.",
+    f3t:"Groups &amp; communities", f3d:"Join groups by industry, city or passion.",
+    f4t:"Instant messaging", f4d:"Chat with your network, auto-translate FR/EN/中文.",
+    f5t:"Certified training", f5d:"Level up your skills and stand out.",
+    f6t:"Jobs &amp; apply", f6d:"Find a job and apply in 1 click, for free.",
+    mid_h:"Your pro community awaits.", mid_p:"Join the first members of Jobé in Senegal. Connect, share and grow your network — for free.",
+    mid_c1:"Download the app →", mid_c2:"Follow on Instagram",
+    tl:"The first stories", tt:"What they say about Jobé",
+    q1:'"The connections I made on Jobé took my business to the next level. I found two partners and my first real clients in Dakar."',
+    q1r:"Founder · Dakar, Senegal",
+    q2:'"Thanks to Jobé groups, I met pros in my field I never would have crossed paths with. My network exploded in a few weeks."',
+    q2r:"Marketing · Dakar, Senegal",
+    q3:'"I landed my first job in Dakar through an offer on Jobé. Simple, fast and 100% free — exactly what we needed."',
+    q3r:"Developer · Dakar, Senegal",
     dl_label:"Available now",
     dl_h1:"Start today.", dl_h2:"For free.",
-    dl_sub:"Download Jobé and find your opportunity in under 5 minutes. Free for all candidates across West Africa.",
-    dl_on:"Available on", dl_get:"Get it on", dl_web_sup:"Direct access", dl_web_nm:"Web Version",
-    dl_note:"✓ Free · ✓ No credit card · ✓ iOS & Android · ✓ 4 countries",
-    fd:"The #1 professional social network for francophone African youth. Community, network, opportunities — 4 countries.",
-    f_pl:"Platform", f_jobs:"Job offers", f_train:"Training", f_net:"Network", f_mob:"Mobile app",
-    f_emp:"Employers", f_post:"Post a job", f_tal:"Find talent", f_pri:"Pricing", f_dash:"HR Dashboard",
+    dl_sub:"Download Jobé, join the community and grow your network in under 5 minutes. Free, built in Senegal.",
+    dl_on:"Download on", dl_get:"Get it on", dl_web_sup:"Direct access", dl_web_nm:"Web Version",
+    dl_note:"✓ Free · ✓ No credit card · ✓ iOS & Android · ✓ Built in Senegal",
+    dl_ig:"Follow us on Instagram @jobeapp",
+    fd:"The professional social network for Senegal's youth. Community, network and opportunities — built in Dakar, Senegal. 📱 iOS &amp; Android app.",
+    f_pl:"Platform", f_jobs:"Jobs", f_train:"Training", f_net:"Network", f_mob:"Mobile app",
+    f_emp:"Recruiters", f_post:"Post a job", f_tal:"Find talent", f_pri:"Pricing", f_dash:"Recruiter dashboard",
     f_co:"Company", f_ab:"About", f_bl:"Blog", f_ca:"Careers", f_pr:"Press",
     f_su:"Support", f_he:"Help center", f_cn:"Contact", f_pv:"Privacy", f_tm:"Terms",
     f_r:"All rights reserved."
   },
   zh: {
     n_jobs:"职位", n_rec:"招聘方", n_how:"使用方法", n_dl:"下载",
-    h_p1:"+30万活跃会员", h_p2:"4个国家 · 西非",
+    h_p1:"新一代职业网络", h_p2:"塞内加尔制造",
     h_l1:"连接你的", h_l3:"构建你的未来。",
-    h_desc:"面向法语非洲年轻人的第一职业社交平台。分享、获取灵感、扩展人脉——把握成千上万的机会。完全免费。",
+    h_desc:"连接塞内加尔年轻人的移动应用。人脉、社区和机会，尽在掌中。免费，支持 iOS 和 Android。",
     h_c1:"加入社区 →", h_c2:"浏览职位",
+    dl_first:"移动应用优先 — 立即下载",
     dl_on:"下载于", dl_get:"获取于",
     ph_hi:"动态", ph_sub:"你的职业社区 · 达喀尔",
     ph_role:"产品设计师 · 2小时", ph_follow:"关注",
     ph_post:"我即将加入 <b>Wave</b> 担任首席设计师！🚀 感谢我的 Jobé 社区 💚",
+    ph_role2:"创业者 · 5小时",
+    ph_post2:"我们的达喀尔初创公司正在招聘3人 🇸🇳 私信开放 👇",
     ph_mutual:"开发者 · 12个共同好友", ph_connect:"+ 连接",
     ph_badge:"🔥 热门动态", ph_badge2:"👥 +1.2k 人脉",
-    s1:"活跃职位", s2:"注册候选人", s3:"覆盖国家", s4:"就业成功率",
-    jl:"最新职位", jt:"热门机会", ja:"查看全部 →",
+    s1:"塞内加尔达喀尔制造", s2:"对会员免费", s3:"语言 · FR/EN/中文", s4:"隐藏费用",
+    jl:"还有：机会", jt:"你附近的职位", ja:"查看全部 →",
     j1t:"全栈Web开发者", j2t:"会计助理", j3t:"社区经理",
-    j_app_cta:"在应用中查看全部职位 →",
-    hl:"简单。快速。高效。", ht:"使用方法", hs:"三步找到下一份工作。",
-    h1t:"创建档案", h1d:"只需5分钟。添加技能、简历和兴趣，加入30万+专业人士社区。",
-    h2t:"连接并发现", h2d:"扩展人脉，关注启发你的公司和专业人士。适合你的机会会直接出现在你的动态中。",
-    h3t:"申请并获聘", h3d:"一键申请。实时追踪申请状态，每个环节都有通知。",
-    al:"为你服务", at:"适合所有人的平台", tc:"👤 求职者", tr:"🏢 招聘方",
-    c_cta:"免费下载Jobé →", prof_c:"档案完成度",
-    rec_h:"招聘方控制台", rec_s:"48个申请 · 3个活跃职位",
-    rec_k:"首次匹配平均时间：",
-    fl:"你所需要的一切", ft:"功能特性",
-    cl:"地理覆盖", ct:"无论你在哪里", cs:"在法语非洲持续扩张。",
-    c_sn:"● 活跃 · 达喀尔", c_ci:"● 活跃 · 阿比让", c_ml:"● 活跃 · 巴马科", c_gn:"● 活跃 · 科纳克里",
-    c_soon:"即将推出", c_more:"更多…", c_exp:"持续扩张",
-    tl:"他们找到了方向", tt:"用户评价",
+    j_new:"🆕 最新", j_app_cta:"在应用中查看全部职位 →",
+    hl:"简单。快速。高效。", ht:"使用方法", hs:"三步加入社区，把握你的机会。",
+    h1t:"创建档案", h1d:"只需5分钟。添加技能、经历和兴趣，然后加入社区。",
+    h2t:"连接并交流", h2d:"加入群组，关注启发你的专业人士，在塞内加尔扩展你的人脉。",
+    h3t:"把握机会", h3d:"合适的人和合适的机会会出现在你的动态中。一键申请或连接。",
+    how_cta:"加入社区 →",
+    al:"为你服务", at:"适合所有人的平台", tc:"👤 会员", tr:"🏢 招聘方",
+    c1t:"开启机遇的人脉网", c1d:"与塞内加尔的专业人士、创业者和企业连接。你的人脉就是你最大的财富。",
+    c2t:"群组与社区", c2d:"按行业、城市或兴趣加入群组。交流、学习并结识重要的人。",
+    c3t:"分享与获取灵感", c3d:"发布你的成就，关注启发你的人，了解你领域的最新动态。",
+    c4t:"机会与就业", c4d:"求职时一键申请。100%免费，无隐藏费用。",
+    c_cta:"免费加入Jobé →", prof_c:"档案完成度",
+    ca_hi:"为你推荐", ca_sub:"扩展你的人脉 · 达喀尔",
+    ca_p1:"产品设计师 · 12个共同好友", ca_b1:"+ 连接",
+    ca_g:"达喀尔科技与创业", ca_p2:"群组 · 3,200名成员", ca_b2:"加入",
+    ca_p3:"创业者 · 8个共同好友",
+    r1t:"本地人才社区", r1d:"发布职位，触达塞内加尔各地积极且合格的候选人。",
+    r2t:"高级筛选", r2d:"按技能、地点、学历和经验筛选，找到合适的人选。",
+    r3t:"打造雇主品牌", r3d:"创建公司主页，发布内容，让社区认识你。",
+    r4t:"带自动翻译的消息", r4d:"直接与候选人交流。自动翻译 FR、EN 和中文。",
+    r_cta:"开始招聘 →", rec_h:"招聘方空间", rec_s:"你的职位与申请",
+    rec_b:"查看", rec_k:"发布职位仅需", rec_v:"2分钟",
+    fl:"一体化", ft:"一个应用，满足所有需求",
+    f1t:"职业人脉网", f1d:"与塞内加尔的专业人士和企业连接。",
+    f2t:"动态与快拍", f2d:"每天发布、点赞、评论和分享。",
+    f3t:"群组与社区", f3d:"按行业、城市或兴趣加入群组。",
+    f4t:"即时通讯", f4d:"与人脉交流，自动翻译 FR/EN/中文。",
+    f5t:"认证培训", f5d:"提升技能，脱颖而出。",
+    f6t:"职位与申请", f6d:"找到工作并一键免费申请。",
+    mid_h:"你的职业社区在等你。", mid_p:"成为 Jobé 塞内加尔的首批会员。连接、分享并扩展你的人脉——免费。",
+    mid_c1:"下载应用 →", mid_c2:"在 Instagram 关注",
+    tl:"最初的故事", tt:"用户评价",
+    q1:'"在 Jobé 上结识的人脉让我的事业更上一层楼。我在达喀尔找到了两位合伙人和第一批真正的客户。"',
+    q1r:"创始人 · 达喀尔，塞内加尔",
+    q2:'"通过 Jobé 群组，我结识了本行业中本来不会遇到的专业人士。几周内我的人脉大幅增长。"',
+    q2r:"市场营销 · 达喀尔，塞内加尔",
+    q3:'"我通过 Jobé 上的一个职位找到了在达喀尔的第一份工作。简单、快速、100%免费——正是我们需要的。"',
+    q3r:"开发者 · 达喀尔，塞内加尔",
     dl_label:"立即可用", dl_h1:"今天开始。", dl_h2:"免费。",
-    dl_sub:"下载Jobé，5分钟内找到你的机会。对西非所有求职者免费。",
+    dl_sub:"下载 Jobé，加入社区，5分钟内扩展你的人脉。免费，塞内加尔制造。",
     dl_on:"下载于", dl_get:"获取于", dl_web_sup:"直接访问", dl_web_nm:"网页版",
-    dl_note:"✓ 免费 · ✓ 无需信用卡 · ✓ iOS和Android · ✓ 4个国家",
-    fd:"面向法语非洲年轻人的第一就业平台。AI匹配、认证培训、覆盖4国。",
+    dl_note:"✓ 免费 · ✓ 无需信用卡 · ✓ iOS和Android · ✓ 塞内加尔制造",
+    dl_ig:"在 Instagram 关注我们 @jobeapp",
+    fd:"塞内加尔年轻人的职业社交网络。社区、人脉与机会——达喀尔制造。📱 iOS 和 Android 应用。",
+    f_pl:"平台", f_jobs:"职位", f_train:"培训", f_net:"人脉", f_mob:"移动应用",
+    f_emp:"招聘方", f_post:"发布职位", f_tal:"寻找人才", f_pri:"价格", f_dash:"招聘控制台",
+    f_co:"公司", f_ab:"关于", f_bl:"博客", f_ca:"招聘", f_pr:"媒体",
+    f_su:"支持", f_he:"帮助中心", f_cn:"联系", f_pv:"隐私", f_tm:"条款",
     f_r:"版权所有。"
   }
 };
