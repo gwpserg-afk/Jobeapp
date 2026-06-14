@@ -327,7 +327,7 @@ const T = {
 };
 const FR = {};
 document.querySelectorAll('[data-i18n]').forEach(el => { FR[el.getAttribute('data-i18n')] = el.innerHTML; });
-let lang = localStorage.getItem('jobe-lang') || 'fr';
+let lang = 'fr'; // always load in French; toggling still works in-session
 function setLang(l) {
   lang = l; localStorage.setItem('jobe-lang', l);
   document.querySelectorAll('.lang-b').forEach(b => b.classList.remove('on'));
