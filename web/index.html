@@ -1567,6 +1567,20 @@ function updateQR() {
   localStorage.setItem('expo-url', url);
 }
 
+// Auto-detect the live Expo tunnel from the local server (no manual pasting).
+// Silently does nothing when served statically (e.g. Vercel) — falls back to saved URL.
+async function autoDetectTunnel() {
+  try {
+    const r = await fetch('/api/tunnel', { cache: 'no-store' });
+    if (!r.ok) return;
+    const { url } = await r.json();
+    if (url && url !== document.getElementById('expo-url').value.trim()) {
+      document.getElementById('expo-url').value = url;
+      updateQR();
+    }
+  } catch { /* not running locally — keep manual URL */ }
+}
+
 /* ── INIT ── */
 window.addEventListener('load', () => {
   const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -1578,6 +1592,7 @@ window.addEventListener('load', () => {
 
   setLang(currentLang);
   updateQR();
+  autoDetectTunnel();        // auto-refresh the QR to the live tunnel on every load
   updateCountdown();
   setInterval(updateCountdown, 3600000); // refresh hourly
 
