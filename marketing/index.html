@@ -845,9 +845,10 @@
   <div class="nav-inner">
     <a href="#" class="logo">Job<span>é</span></a>
     <div class="nav-links">
-      <a class="nav-a" href="#jobs"       data-i18n="n_jobs">Offres d'emploi</a>
-      <a class="nav-a" href="#audience"   data-i18n="n_rec">Recruteurs</a>
+      <a class="nav-a" href="#audience"   data-i18n="n_rec">Pour vous</a>
       <a class="nav-a" href="#how"        data-i18n="n_how">Comment ça marche</a>
+      <a class="nav-a" href="#jobs"       data-i18n="n_jobs">Offres</a>
+      <a class="nav-a" href="contact.html" data-i18n="n_contact">Contact</a>
     </div>
     <div class="nav-right">
       <a class="nav-soc" href="https://www.instagram.com/jobeapp" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.25" fill="currentColor" stroke="none"/></svg></a>
@@ -866,9 +867,10 @@
 <!-- Mobile drawer -->
 <div class="mobile-nav" id="mobile-nav">
   <button class="close-btn" onclick="closeMenu()">✕</button>
-  <a class="nav-a" href="#jobs"     onclick="closeMenu()" data-i18n="n_jobs">Offres d'emploi</a>
-  <a class="nav-a" href="#audience" onclick="closeMenu()" data-i18n="n_rec">Recruteurs</a>
+  <a class="nav-a" href="#audience" onclick="closeMenu()" data-i18n="n_rec">Pour vous</a>
   <a class="nav-a" href="#how"      onclick="closeMenu()" data-i18n="n_how">Comment ça marche</a>
+  <a class="nav-a" href="#jobs"     onclick="closeMenu()" data-i18n="n_jobs">Offres</a>
+  <a class="nav-a" href="contact.html" onclick="closeMenu()" data-i18n="n_contact">Contact</a>
   <a href="#download" class="btn btn-primary" onclick="closeMenu()" data-i18n="n_dl" style="margin-top:8px">Télécharger</a>
 </div>
 
@@ -1439,7 +1441,7 @@
         <div class="foot-col-h" data-i18n="f_su">Support</div>
         <div class="foot-links">
           <a href="#" class="foot-a" data-i18n="f_he">Centre d'aide</a>
-          <a href="#" class="foot-a" data-i18n="f_cn">Contact</a>
+          <a href="contact.html" class="foot-a" data-i18n="f_cn">Contact</a>
           <a href="#" class="foot-a" data-i18n="f_pv">Confidentialité</a>
           <a href="#" class="foot-a" data-i18n="f_tm">Conditions</a>
         </div>
@@ -1464,7 +1466,7 @@
 /* ── I18N ── */
 const T = {
   en: {
-    n_jobs:"Jobs", n_rec:"Recruiters", n_how:"How it works", n_dl:"Download",
+    n_jobs:"Jobs", n_rec:"For you", n_how:"How it works", n_contact:"Contact", n_dl:"Download",
     h_p1:"The next-gen pro network", h_p2:"Built in Senegal",
     h_l1:"Connect to", h_l3:"Build your future.",
     h_desc:"The mobile app connecting Senegal's youth. Network, community and opportunities — in your pocket. Free, on iOS &amp; Android.",
@@ -1534,7 +1536,7 @@ const T = {
     f_r:"All rights reserved."
   },
   zh: {
-    n_jobs:"职位", n_rec:"招聘方", n_how:"使用方法", n_dl:"下载",
+    n_jobs:"职位", n_rec:"为你服务", n_how:"使用方法", n_contact:"联系", n_dl:"下载",
     h_p1:"新一代职业网络", h_p2:"塞内加尔制造",
     h_l1:"连接你的", h_l3:"构建你的未来。",
     h_desc:"连接塞内加尔年轻人的移动应用。人脉、社区和机会，尽在掌中。免费，支持 iOS 和 Android。",

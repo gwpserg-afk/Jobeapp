@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+  <title>Jobé — Contact</title>
+  <meta name="description" content="Contacte l'équipe Jobé. WhatsApp, email ou Instagram — on te répond vite. Conçu à Dakar, Sénégal." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root, :root[data-theme="dark"] {
+      --bg:#09090B; --surface:#111114; --elevated:#18181C; --border:#252529; --border-l:#32323A;
+      --green:#1DB954; --green-d:rgba(29,185,84,0.08); --green-g:rgba(29,185,84,0.18);
+      --blue:#2D7DD2; --blue-d:rgba(45,125,210,0.08);
+      --text:#F4F4F6; --sub:#9A9AA8; --muted:#52525C;
+      --nav-bg:rgba(9,9,11,0.88); --drawer-bg:rgba(9,9,11,0.97);
+      --hairline:rgba(255,255,255,0.06); --shadow:rgba(0,0,0,0.4); --shadow-lg:rgba(0,0,0,0.5);
+      --r:16px; --font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    }
+    :root[data-theme="light"] {
+      --bg:#F7F8FA; --surface:#FFFFFF; --elevated:#F1F2F5; --border:#E7E8EE; --border-l:#D9DBE3;
+      --green:#16A34A; --green-d:rgba(22,163,74,0.07); --green-g:rgba(22,163,74,0.16);
+      --blue:#2563EB; --blue-d:rgba(37,99,235,0.07);
+      --text:#0B0B0F; --sub:#51525C; --muted:#8A8B95;
+      --nav-bg:rgba(255,255,255,0.85); --drawer-bg:rgba(247,248,250,0.98);
+      --hairline:rgba(0,0,0,0.05); --shadow:rgba(20,22,30,0.10); --shadow-lg:rgba(20,22,30,0.14);
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body {
+      background:var(--bg); color:var(--text); font-family:var(--font);
+      font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+      transition:background .3s ease, color .3s ease; overflow-x:hidden;
+    }
+    .wrap { max-width:1140px; margin:0 auto; padding:0 28px; }
+    a { color:inherit; }
+
+    /* PILL / BTN */
+    .pill { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:999px; font-size:13px; font-weight:600; border:1px solid; }
+    .pill-green { background:var(--green-d); color:var(--green); border-color:rgba(29,185,84,0.22); }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px 26px; border-radius:12px; font-size:15px; font-weight:700; cursor:pointer; border:none; text-decoration:none; transition:all .18s; }
+    .btn-primary { background:var(--green); color:#000; }
+    .btn-primary:hover { opacity:.86; transform:translateY(-2px); box-shadow:0 8px 32px rgba(29,185,84,.25); }
+    .btn-outline { background:transparent; color:var(--text); border:1px solid var(--border-l); }
+    .btn-outline:hover { background:var(--elevated); }
+    .label { font-size:12px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase; color:var(--green); margin-bottom:12px; }
+
+    /* NAV (shared look) */
+    .nav { position:fixed; top:0; left:0; right:0; z-index:200; height:66px; padding:0 28px; display:flex; align-items:center; background:var(--nav-bg); backdrop-filter:blur(24px); border-bottom:1px solid var(--border); }
+    .nav-inner { max-width:1140px; margin:0 auto; width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .logo { font-size:22px; font-weight:900; letter-spacing:-.5px; text-decoration:none; color:var(--text); flex-shrink:0; }
+    .logo span { color:var(--green); }
+    .nav-links { display:flex; gap:2px; }
+    .nav-a { padding:7px 14px; font-size:14px; font-weight:500; color:var(--sub); text-decoration:none; border-radius:9px; transition:all .15s; }
+    .nav-a:hover, .nav-a.active { color:var(--text); background:var(--elevated); }
+    .nav-right { display:flex; align-items:center; gap:10px; }
+    .nav-soc { width:38px; height:38px; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); border-radius:10px; cursor:pointer; text-decoration:none; color:var(--text); transition:all .15s; }
+    .nav-soc:hover { background:var(--elevated); border-color:var(--border-l); color:var(--green); }
+    .theme-btn { width:38px; height:38px; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); border-radius:10px; font-size:16px; cursor:pointer; transition:all .15s; color:var(--text); }
+    .theme-btn:hover { background:var(--elevated); border-color:var(--border-l); }
+    .lang-box { display:flex; gap:2px; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:4px; }
+    .lang-b { padding:5px 10px; font-size:12px; font-weight:700; color:var(--muted); background:none; border:none; border-radius:7px; cursor:pointer; transition:all .15s; }
+    .lang-b.on { background:var(--elevated); color:var(--text); }
+    .nav-dl { padding:9px 20px; background:var(--green); color:#000; border:none; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; text-decoration:none; transition:all .18s; }
+    .nav-dl:hover { opacity:.86; }
+    .ham { display:none; background:none; border:none; color:var(--text); font-size:22px; cursor:pointer; }
+    .mobile-nav { display:none; position:fixed; inset:0; z-index:190; background:var(--drawer-bg); backdrop-filter:blur(24px); flex-direction:column; align-items:center; justify-content:center; gap:24px; padding:80px 24px 40px; }
+    .mobile-nav.open { display:flex; }
+    .mobile-nav .nav-a { font-size:22px; font-weight:700; }
+    .close-btn { position:absolute; top:20px; right:24px; background:none; border:none; color:var(--sub); font-size:28px; cursor:pointer; }
+
+    /* HERO */
+    .c-hero { position:relative; padding:140px 28px 40px; text-align:center; overflow:hidden; }
+    .c-hero-glow { position:absolute; top:-160px; left:50%; transform:translateX(-50%); width:800px; height:600px; background:radial-gradient(ellipse, rgba(29,185,84,0.07) 0%, transparent 68%); pointer-events:none; }
+    .c-hero h1 { font-size:clamp(40px,6vw,72px); font-weight:900; letter-spacing:-2.5px; line-height:1.04; position:relative; z-index:1; }
+    .c-hero h1 .g { color:var(--green); }
+    .c-hero p { font-size:18px; color:var(--sub); max-width:520px; margin:16px auto 0; position:relative; z-index:1; }
+
+    /* CONTACT GRID */
+    .c-grid { display:grid; grid-template-columns:0.85fr 1.15fr; gap:24px; padding:40px 28px 90px; max-width:1140px; margin:0 auto; align-items:start; }
+
+    /* methods column */
+    .methods { display:flex; flex-direction:column; gap:12px; }
+    .method {
+      display:flex; align-items:center; gap:16px; padding:20px;
+      background:var(--surface); border:1px solid var(--border); border-radius:var(--r);
+      text-decoration:none; color:var(--text); transition:all .2s;
+    }
+    .method:hover { border-color:var(--green-g); transform:translateY(-3px); box-shadow:0 16px 40px var(--shadow); }
+    .method-ic { width:50px; height:50px; border-radius:14px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:24px; }
+    .method-ic.g { background:var(--green-d); color:var(--green); }
+    .method-ic.b { background:var(--blue-d); color:var(--blue); }
+    .method-t { font-size:15px; font-weight:800; letter-spacing:-.2px; }
+    .method-v { font-size:13px; color:var(--sub); margin-top:2px; }
+    .method-arrow { margin-left:auto; color:var(--muted); font-size:16px; transition:transform .2s; }
+    .method:hover .method-arrow { transform:translateX(3px); color:var(--green); }
+    .hours { margin-top:8px; padding:18px 20px; background:var(--elevated); border:1px solid var(--border); border-radius:var(--r); }
+    .hours-t { font-size:13px; font-weight:800; display:flex; align-items:center; gap:8px; }
+    .hours-d { font-size:13px; color:var(--sub); margin-top:6px; line-height:1.6; }
+
+    /* form card */
+    .form-card { background:var(--surface); border:1px solid var(--border); border-radius:22px; padding:34px; position:relative; overflow:hidden; }
+    .form-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--hairline),transparent); }
+    .form-card h2 { font-size:24px; font-weight:900; letter-spacing:-.8px; }
+    .form-card .fc-sub { font-size:14px; color:var(--sub); margin:6px 0 24px; }
+    .field { margin-bottom:16px; }
+    .field label { display:block; font-size:13px; font-weight:700; margin-bottom:7px; color:var(--text); }
+    .field input, .field select, .field textarea {
+      width:100%; padding:13px 15px; background:var(--bg); border:1px solid var(--border-l);
+      border-radius:11px; color:var(--text); font-size:15px; font-family:var(--font); outline:none; transition:border-color .15s, box-shadow .15s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color:var(--green); box-shadow:0 0 0 3px var(--green-d); }
+    .field textarea { resize:vertical; min-height:130px; line-height:1.6; }
+    .field-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .form-card .btn-primary { width:100%; margin-top:6px; padding:15px; font-size:16px; }
+    .form-note { font-size:12px; color:var(--muted); text-align:center; margin-top:14px; }
+    .form-success {
+      display:none; text-align:center; padding:36px 20px;
+    }
+    .form-success.show { display:block; }
+    .fs-ic { font-size:44px; }
+    .fs-t { font-size:22px; font-weight:900; letter-spacing:-.5px; margin-top:10px; }
+    .fs-d { font-size:14px; color:var(--sub); margin-top:8px; line-height:1.6; }
+
+    /* FOOTER */
+    footer { border-top:1px solid var(--border); padding:48px 28px 40px; }
+    .foot-inner { max-width:1140px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+    .foot-brand p { font-size:13px; color:var(--muted); margin-top:8px; max-width:340px; }
+    .soc { display:flex; gap:10px; }
+    .soc-a { width:36px; height:36px; border-radius:9px; background:var(--elevated); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--sub); text-decoration:none; font-size:15px; transition:all .15s; }
+    .soc-a:hover { background:var(--border); color:var(--text); }
+    .foot-copy { width:100%; text-align:center; font-size:12px; color:var(--muted); border-top:1px solid var(--border); padding-top:24px; margin-top:8px; }
+
+    @media (max-width:860px) {
+      .nav-links { display:none; }
+      .ham { display:block; }
+      .c-grid { grid-template-columns:1fr; }
+    }
+    @media (max-width:560px) {
+      .field-row { grid-template-columns:1fr; }
+      .form-card { padding:24px; }
+      .c-grid { padding:32px 20px 70px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Job<span>é</span></a>
+    <div class="nav-links">
+      <a class="nav-a" href="index.html#audience" data-i18n="n_rec">Pour vous</a>
+      <a class="nav-a" href="index.html#how" data-i18n="n_how">Comment ça marche</a>
+      <a class="nav-a active" href="contact.html" data-i18n="n_contact">Contact</a>
+    </div>
+    <div class="nav-right">
+      <a class="nav-soc" href="https://www.instagram.com/jobeapp" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.25" fill="currentColor" stroke="none"/></svg></a>
+      <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
+      <div class="lang-box">
+        <button class="lang-b on" onclick="setLang('fr')">FR</button>
+        <button class="lang-b" onclick="setLang('en')">EN</button>
+        <button class="lang-b" onclick="setLang('zh')">中</button>
+      </div>
+      <a href="index.html#download" class="nav-dl" data-i18n="n_dl">Télécharger</a>
+    </div>
+    <button class="ham" onclick="openMenu()" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobile-nav">
+  <button class="close-btn" onclick="closeMenu()">✕</button>
+  <a class="nav-a" href="index.html#audience" onclick="closeMenu()" data-i18n="n_rec">Pour vous</a>
+  <a class="nav-a" href="index.html#how" onclick="closeMenu()" data-i18n="n_how">Comment ça marche</a>
+  <a class="nav-a" href="contact.html" onclick="closeMenu()" data-i18n="n_contact">Contact</a>
+  <a href="index.html#download" class="btn btn-primary" onclick="closeMenu()" data-i18n="n_dl" style="margin-top:8px">Télécharger</a>
+</div>
+
+<!-- HERO -->
+<header class="c-hero">
+  <div class="c-hero-glow"></div>
+  <div class="label" style="display:flex;justify-content:center" data-i18n="c_label">Contact</div>
+  <h1><span data-i18n="c_h1">Parlons.</span> <span class="g" data-i18n="c_h2">On t'écoute.</span></h1>
+  <p data-i18n="c_sub">Une question, une idée, un partenariat ? L'équipe Jobé te répond — généralement en moins de 24 h. Le plus simple au Sénégal : WhatsApp.</p>
+</header>
+
+<!-- GRID -->
+<section class="c-grid">
+  <!-- methods -->
+  <div class="methods">
+    <a class="method" href="https://wa.me/221770000000" target="_blank" rel="noopener">
+      <div class="method-ic g">💬</div>
+      <div>
+        <div class="method-t">WhatsApp</div>
+        <div class="method-v" data-i18n="m_wa">+221 77 000 00 00 · le plus rapide</div>
+      </div>
+      <div class="method-arrow">→</div>
+    </a>
+    <a class="method" href="mailto:contact@jobeapp.com">
+      <div class="method-ic b">✉️</div>
+      <div>
+        <div class="method-t">Email</div>
+        <div class="method-v">contact@jobeapp.com</div>
+      </div>
+      <div class="method-arrow">→</div>
+    </a>
+    <a class="method" href="https://www.instagram.com/jobeapp" target="_blank" rel="noopener">
+      <div class="method-ic g"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.25" fill="currentColor" stroke="none"/></svg></div>
+      <div>
+        <div class="method-t">Instagram</div>
+        <div class="method-v">@jobeapp</div>
+      </div>
+      <div class="method-arrow">→</div>
+    </a>
+    <div class="method" style="cursor:default">
+      <div class="method-ic b">📍</div>
+      <div>
+        <div class="method-t" data-i18n="m_loc_t">Dakar, Sénégal</div>
+        <div class="method-v" data-i18n="m_loc_v">Conçu et construit ici 🇸🇳</div>
+      </div>
+    </div>
+    <div class="hours">
+      <div class="hours-t">🟢 <span data-i18n="h_t">Disponibilité</span></div>
+      <div class="hours-d" data-i18n="h_d">Lundi – Samedi · 9h – 19h (GMT). On répond à tous les messages, promis.</div>
+    </div>
+  </div>
+
+  <!-- form -->
+  <div class="form-card">
+    <form id="contact-form" onsubmit="return sendForm(event)">
+      <h2 data-i18n="f_title">Envoie-nous un message</h2>
+      <p class="fc-sub" data-i18n="f_sub">Remplis ce formulaire, on revient vers toi rapidement.</p>
+      <div class="field-row">
+        <div class="field">
+          <label for="cf-name" data-i18n="f_name">Nom complet</label>
+          <input id="cf-name" name="name" type="text" required placeholder="Aminata Diop" />
+        </div>
+        <div class="field">
+          <label for="cf-email" data-i18n="f_email">Email</label>
+          <input id="cf-email" name="email" type="email" required placeholder="toi@exemple.com" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="cf-who" data-i18n="f_who">Tu es…</label>
+        <select id="cf-who" name="who">
+          <option data-i18n="f_who1">Membre / Candidat</option>
+          <option data-i18n="f_who2">Recruteur / Entreprise</option>
+          <option data-i18n="f_who3">Presse / Partenariat</option>
+          <option data-i18n="f_who4">Autre</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="cf-subject" data-i18n="f_subject">Sujet</label>
+        <input id="cf-subject" name="subject" type="text" required placeholder="Comment peut-on t'aider ?" />
+      </div>
+      <div class="field">
+        <label for="cf-message" data-i18n="f_message">Message</label>
+        <textarea id="cf-message" name="message" required placeholder="Écris ton message ici…"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" data-i18n="f_send">Envoyer le message →</button>
+      <p class="form-note" data-i18n="f_note">En envoyant, tu ouvres ton app mail avec le message prérempli.</p>
+    </form>
+    <div class="form-success" id="form-success">
+      <div class="fs-ic">✅</div>
+      <div class="fs-t" data-i18n="fs_t">Message prêt à partir !</div>
+      <div class="fs-d" data-i18n="fs_d">Ton application mail s'est ouverte. Tu peux aussi nous écrire directement sur WhatsApp pour une réponse plus rapide.</div>
+      <a href="https://wa.me/221770000000" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top:18px" data-i18n="fs_wa">Ouvrir WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <a href="index.html" class="logo">Job<span>é</span></a>
+      <p data-i18n="fd">Le réseau social professionnel de la jeunesse sénégalaise. Conçu à Dakar, Sénégal. 📱 App iOS &amp; Android.</p>
+    </div>
+    <div class="soc">
+      <a href="https://www.instagram.com/jobeapp" target="_blank" rel="noopener" class="soc-a" aria-label="Instagram"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.25" fill="currentColor" stroke="none"/></svg></a>
+      <a href="#" class="soc-a" aria-label="Twitter (bientôt)">𝕏</a>
+      <a href="#" class="soc-a" aria-label="LinkedIn (bientôt)">in</a>
+      <a href="#" class="soc-a" aria-label="TikTok (bientôt)">♪</a>
+    </div>
+    <div class="foot-copy">© 2026 Jobé · <span data-i18n="fc">Conçu à Dakar, Sénégal 🇸🇳</span></div>
+  </div>
+</footer>
+
+<script>
+/* ── I18N ── */
+const T = {
+  en: {
+    n_rec:"For you", n_how:"How it works", n_contact:"Contact", n_dl:"Download",
+    c_label:"Contact", c_h1:"Let's talk.", c_h2:"We're listening.",
+    c_sub:"A question, an idea, a partnership? The Jobé team replies — usually within 24h. Easiest in Senegal: WhatsApp.",
+    m_wa:"+221 77 000 00 00 · fastest", m_loc_t:"Dakar, Senegal", m_loc_v:"Designed and built here 🇸🇳",
+    h_t:"Availability", h_d:"Monday – Saturday · 9am – 7pm (GMT). We answer every message, promise.",
+    f_title:"Send us a message", f_sub:"Fill in this form and we'll get back to you quickly.",
+    f_name:"Full name", f_email:"Email", f_who:"You are…",
+    f_who1:"Member / Candidate", f_who2:"Recruiter / Company", f_who3:"Press / Partnership", f_who4:"Other",
+    f_subject:"Subject", f_message:"Message", f_send:"Send message →",
+    f_note:"On send, your mail app opens with the message pre-filled.",
+    fs_t:"Your message is ready!", fs_d:"Your mail app just opened. You can also reach us on WhatsApp for a faster reply.",
+    fs_wa:"Open WhatsApp",
+    fd:"The professional social network for Senegal's youth. Built in Dakar, Senegal. 📱 iOS &amp; Android app.",
+    fc:"Built in Dakar, Senegal 🇸🇳"
+  },
+  zh: {
+    n_rec:"为你服务", n_how:"使用方法", n_contact:"联系", n_dl:"下载",
+    c_label:"联系", c_h1:"聊聊吧。", c_h2:"我们在听。",
+    c_sub:"有问题、想法或合作？Jobé 团队会回复你——通常在24小时内。在塞内加尔最方便的方式：WhatsApp。",
+    m_wa:"+221 77 000 00 00 · 最快", m_loc_t:"达喀尔，塞内加尔", m_loc_v:"在这里设计和打造 🇸🇳",
+    h_t:"服务时间", h_d:"周一至周六 · 9:00 – 19:00 (GMT)。我们会回复每一条消息。",
+    f_title:"给我们留言", f_sub:"填写此表单，我们会尽快回复你。",
+    f_name:"全名", f_email:"邮箱", f_who:"你是…",
+    f_who1:"会员 / 求职者", f_who2:"招聘方 / 企业", f_who3:"媒体 / 合作", f_who4:"其他",
+    f_subject:"主题", f_message:"留言", f_send:"发送留言 →",
+    f_note:"发送时会打开你的邮件应用并预填内容。",
+    fs_t:"留言已准备好！", fs_d:"你的邮件应用已打开。你也可以通过 WhatsApp 联系我们以获得更快回复。",
+    fs_wa:"打开 WhatsApp",
+    fd:"塞内加尔年轻人的职业社交网络。达喀尔制造。📱 iOS 和 Android 应用。",
+    fc:"达喀尔，塞内加尔制造 🇸🇳"
+  }
+};
+const FR = {};
+document.querySelectorAll('[data-i18n]').forEach(el => { FR[el.getAttribute('data-i18n')] = el.innerHTML; });
+let lang = localStorage.getItem('jobe-lang') || 'fr';
+function setLang(l) {
+  lang = l; localStorage.setItem('jobe-lang', l);
+  document.querySelectorAll('.lang-b').forEach(b => b.classList.remove('on'));
+  const btn = document.querySelector(`.lang-b[onclick="setLang('${l}')"]`); if (btn) btn.classList.add('on');
+  const map = l === 'fr' ? FR : (T[l] || {});
+  document.querySelectorAll('[data-i18n]').forEach(el => { const k = el.getAttribute('data-i18n'); if (map[k] !== undefined) el.innerHTML = map[k]; });
+}
+
+/* ── THEME ── */
+function applyTheme(t){ document.documentElement.setAttribute('data-theme', t); const b=document.getElementById('theme-btn'); if(b) b.textContent = t==='dark'?'☀️':'🌙'; localStorage.setItem('jobe-theme', t); }
+function toggleTheme(){ const cur=document.documentElement.getAttribute('data-theme')||'light'; applyTheme(cur==='dark'?'light':'dark'); }
+
+/* ── MOBILE MENU ── */
+function openMenu(){ document.getElementById('mobile-nav').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeMenu(){ document.getElementById('mobile-nav').classList.remove('open'); document.body.style.overflow=''; }
+
+/* ── FORM (mailto compose, no backend yet) ── */
+function sendForm(e){
+  e.preventDefault();
+  const f = e.target;
+  const name = f.name.value.trim(), email = f.email.value.trim(), who = f.who.value, subj = f.subject.value.trim(), msg = f.message.value.trim();
+  const body = `Nom: ${name}\nEmail: ${email}\nProfil: ${who}\n\n${msg}`;
+  const href = `mailto:contact@jobeapp.com?subject=${encodeURIComponent('[Jobé] ' + (subj || 'Contact'))}&body=${encodeURIComponent(body)}`;
+  window.location.href = href;
+  f.style.display = 'none';
+  document.getElementById('form-success').classList.add('show');
+  return false;
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', () => { applyTheme(localStorage.getItem('jobe-theme') || 'light'); setLang(lang); });
+</script>
+</body>
+</html>
