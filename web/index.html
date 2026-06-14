@@ -463,6 +463,12 @@
     .mytask-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
     .mytask-clear { background: none; border: none; color: var(--muted); font-size: 12px; cursor: pointer; }
     .mytask-clear:hover { color: var(--red); }
+
+    /* ── BUILD PLAN ── */
+    .build-phase { margin-bottom: 22px; }
+    .build-phase:last-child { margin-bottom: 0; }
+    .build-phase-title { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .build-phase-count { font-size: 10px; font-weight: 700; color: var(--green); background: var(--green-dim); border-radius: 6px; padding: 1px 7px; }
   </style>
 </head>
 <body>
@@ -688,6 +694,20 @@
       </div>
     </div>
 
+    <!-- ═══ BUILD PLAN ═══ -->
+    <div class="page" id="page-build">
+      <div class="task-progress-bar">
+        <span class="task-progress-label" data-i18n="build_progress_label">App build · A→Z</span>
+        <div class="progress-bar"><div class="progress-fill" id="build-fill" style="width:0%"></div></div>
+        <span class="task-pct" id="build-pct">0%</span>
+      </div>
+      <div class="card">
+        <div class="card-title" data-i18n="build_title">Build Plan — everything to ship Jobé</div>
+        <div class="card-sub" data-i18n="build_sub">Supabase Auth · Neon Postgres + Hono · Stripe / Wave / Orange Money. Check off as you go.</div>
+        <div id="build-list"></div>
+      </div>
+    </div>
+
     <!-- ═══ MY TO-DO ═══ -->
     <div class="page" id="page-mytasks">
       <div class="card">
@@ -772,6 +792,7 @@ const NAV = [
   { id: "overview", icon: "◎", key: "nav_home" },
   { id: "app", icon: "📱", key: "nav_app" },
   { id: "roadmap", icon: "🗺", key: "nav_roadmap" },
+  { id: "build", icon: "🧱", key: "nav_build", badgeId: "nav-build-badge" },
   { section: "nav_personal" },
   { id: "mytasks", icon: "🙋", key: "nav_mytasks", badgeId: "nav-mytask-badge" },
   { section: "nav_product" },
@@ -793,6 +814,46 @@ const T = {
     mytask_placeholder:"Type a task and press Enter…", mytask_add:"Add", mytask_clear:"Clear completed",
     mytask_empty:"Nothing yet — add your first task above.", mytask_remaining:"remaining", mytask_done_word:"done",
     viewing_as:"Viewing as", add_person:"+ Add person", person_prompt:"Name of the person?",
+    nav_build:"Build Plan", build_progress_label:"App build · A→Z",
+    build_title:"Build Plan — everything to ship Jobé",
+    build_sub:"Supabase Auth · Neon Postgres + Hono · Stripe / Wave / Orange Money. Check off as you go.",
+    buildplan:[
+      {phase:"Phase 1 — Foundation", items:[
+        ["bp1","Monorepo + .gitignore + GitHub connected"],
+        ["bp2","Expo SDK 54 config + file-based routing"],
+        ["bp3","Design system: dark/light theme, colors, fonts"],
+        ["bp4","i18n FR/EN/中文 across the whole app"],
+        ["bp5","Welcome + onboarding flow (real, not a shell)"]
+      ]},
+      {phase:"Phase 2 — Auth & Database", items:[
+        ["bp6","Supabase project + Supabase Auth (email/OTP + social)"],
+        ["bp7","Neon Postgres database + connection"],
+        ["bp8","Prisma schema → migrate to Neon"],
+        ["bp9","Hono verifies Supabase JWT on protected routes"],
+        ["bp10","Session + protected navigation in the app"]
+      ]},
+      {phase:"Phase 3 — Candidate App", items:[
+        ["bp11","Profile: CV upload, edit, real completion %"],
+        ["bp12","Home feed: real posts API + create post"],
+        ["bp13","Jobs: real API, filters, job detail screen"],
+        ["bp14","Applications: apply flow + track status"],
+        ["bp15","AI job matching (OpenAI) — candidate ↔ jobs"]
+      ]},
+      {phase:"Phase 4 — Recruiter App", items:[
+        ["bp16","Recruiter onboarding + company profile"],
+        ["bp17","Post a job + manage listings"],
+        ["bp18","View applicants + candidate search"],
+        ["bp19","Real-time messaging (WebSocket)"],
+        ["bp20","Push notifications (new applicant, message)"]
+      ]},
+      {phase:"Phase 5 — Payments & Launch", items:[
+        ["bp21","Payment templates ready: Stripe + Wave + Orange Money (not live)"],
+        ["bp22","Premium gating + subscription logic"],
+        ["bp23","Analytics + admin metrics (users, signups, revenue)"],
+        ["bp24","App Store + Play Store submission"],
+        ["bp25","Senegal launch campaign + marketing site live"]
+      ]}
+    ],
     confidential:"Confidential · Founders only", online:"App online",
     kpis:"KPIs · July 2026", build_progress:"Build progress", screens_done:"Screens done",
     deadline:"Deadline", target_market:"Target market",
@@ -884,7 +945,7 @@ const T = {
         {id:"t-backend", title:"Backend + auth working", desc:"Hono + Prisma + Better Auth email OTP", color:"green"}
       ]
     },
-    pageTitles:{overview:"Overview", app:"Mobile App", roadmap:"Roadmap", mytasks:"My To-Do", design:"Design & Brand", stack:"Tech Stack", marketing:"Marketing", links:"Links", tasks:"Tasks"}
+    pageTitles:{overview:"Overview", app:"Mobile App", roadmap:"Roadmap", build:"Build Plan", mytasks:"My To-Do", design:"Design & Brand", stack:"Tech Stack", marketing:"Marketing", links:"Links", tasks:"Tasks"}
   },
 
   fr: {
@@ -896,6 +957,46 @@ const T = {
     mytask_placeholder:"Écrivez une tâche et appuyez sur Entrée…", mytask_add:"Ajouter", mytask_clear:"Effacer les terminées",
     mytask_empty:"Rien pour l'instant — ajoutez votre première tâche ci-dessus.", mytask_remaining:"restantes", mytask_done_word:"faites",
     viewing_as:"Vu en tant que", add_person:"+ Ajouter", person_prompt:"Nom de la personne ?",
+    nav_build:"Plan de build", build_progress_label:"Build de l'app · A→Z",
+    build_title:"Plan de build — tout pour lancer Jobé",
+    build_sub:"Supabase Auth · Neon Postgres + Hono · Stripe / Wave / Orange Money. Cochez au fur et à mesure.",
+    buildplan:[
+      {phase:"Phase 1 — Fondations", items:[
+        ["bp1","Monorepo + .gitignore + GitHub connecté"],
+        ["bp2","Config Expo SDK 54 + routing par fichiers"],
+        ["bp3","Design system : thème sombre/clair, couleurs, polices"],
+        ["bp4","i18n FR/EN/中文 dans toute l'app"],
+        ["bp5","Accueil + flux d'onboarding (réel, pas une coquille)"]
+      ]},
+      {phase:"Phase 2 — Auth & Base de données", items:[
+        ["bp6","Projet Supabase + Supabase Auth (email/OTP + social)"],
+        ["bp7","Base Postgres Neon + connexion"],
+        ["bp8","Schéma Prisma → migration vers Neon"],
+        ["bp9","Hono vérifie le JWT Supabase sur les routes protégées"],
+        ["bp10","Session + navigation protégée dans l'app"]
+      ]},
+      {phase:"Phase 3 — App Candidat", items:[
+        ["bp11","Profil : upload CV, édition, % de complétion réel"],
+        ["bp12","Fil : API de posts réelle + création de post"],
+        ["bp13","Emplois : API réelle, filtres, écran détail"],
+        ["bp14","Candidatures : flux de candidature + suivi du statut"],
+        ["bp15","Matching IA (OpenAI) — candidat ↔ emplois"]
+      ]},
+      {phase:"Phase 4 — App Recruteur", items:[
+        ["bp16","Onboarding recruteur + profil entreprise"],
+        ["bp17","Publier une offre + gérer les annonces"],
+        ["bp18","Voir les candidats + recherche de profils"],
+        ["bp19","Messagerie temps réel (WebSocket)"],
+        ["bp20","Notifications push (nouveau candidat, message)"]
+      ]},
+      {phase:"Phase 5 — Paiements & Lancement", items:[
+        ["bp21","Templates de paiement prêts : Stripe + Wave + Orange Money (pas en live)"],
+        ["bp22","Gating premium + logique d'abonnement"],
+        ["bp23","Analytics + métriques admin (users, inscriptions, revenus)"],
+        ["bp24","Soumission App Store + Play Store"],
+        ["bp25","Campagne de lancement Sénégal + site marketing en ligne"]
+      ]}
+    ],
     confidential:"Confidentiel · Fondateurs seulement", online:"App en ligne",
     kpis:"KPIs · Juillet 2026", build_progress:"Avancement build", screens_done:"Écrans terminés",
     deadline:"Deadline", target_market:"Marché cible",
@@ -986,7 +1087,7 @@ const T = {
         {id:"t-backend", title:"Backend + auth fonctionnels", desc:"Hono + Prisma + Better Auth OTP email", color:"green"}
       ]
     },
-    pageTitles:{overview:"Vue d'ensemble", app:"Application mobile", roadmap:"Roadmap", mytasks:"Mes tâches", design:"Design & Brand", stack:"Stack technique", marketing:"Marketing", links:"Liens", tasks:"Tâches"}
+    pageTitles:{overview:"Vue d'ensemble", app:"Application mobile", roadmap:"Roadmap", build:"Plan de build", mytasks:"Mes tâches", design:"Design & Brand", stack:"Stack technique", marketing:"Marketing", links:"Liens", tasks:"Tâches"}
   },
 
   zh: {
@@ -998,6 +1099,46 @@ const T = {
     mytask_placeholder:"输入任务并按回车…", mytask_add:"添加", mytask_clear:"清除已完成",
     mytask_empty:"暂无 — 在上方添加你的第一个任务。", mytask_remaining:"剩余", mytask_done_word:"完成",
     viewing_as:"查看身份", add_person:"+ 添加成员", person_prompt:"成员姓名？",
+    nav_build:"构建计划", build_progress_label:"应用构建 · A→Z",
+    build_title:"构建计划 — 发布 Jobé 的全部步骤",
+    build_sub:"Supabase Auth · Neon Postgres + Hono · Stripe / Wave / Orange Money。完成后打勾。",
+    buildplan:[
+      {phase:"第1阶段 — 基础", items:[
+        ["bp1","单一代码库 + .gitignore + 已连接 GitHub"],
+        ["bp2","Expo SDK 54 配置 + 文件路由"],
+        ["bp3","设计系统：深/浅色主题、配色、字体"],
+        ["bp4","全应用 i18n FR/EN/中文"],
+        ["bp5","欢迎页 + 引导流程（真实，非空壳）"]
+      ]},
+      {phase:"第2阶段 — 认证与数据库", items:[
+        ["bp6","Supabase 项目 + Supabase Auth（邮箱/OTP + 社交）"],
+        ["bp7","Neon Postgres 数据库 + 连接"],
+        ["bp8","Prisma 架构 → 迁移到 Neon"],
+        ["bp9","Hono 在受保护路由验证 Supabase JWT"],
+        ["bp10","应用内会话 + 受保护导航"]
+      ]},
+      {phase:"第3阶段 — 候选人应用", items:[
+        ["bp11","个人资料：简历上传、编辑、真实完成度"],
+        ["bp12","动态流：真实帖子 API + 发帖"],
+        ["bp13","职位：真实 API、筛选、详情页"],
+        ["bp14","申请：申请流程 + 状态跟踪"],
+        ["bp15","AI 匹配（OpenAI）— 候选人 ↔ 职位"]
+      ]},
+      {phase:"第4阶段 — 招聘方应用", items:[
+        ["bp16","招聘方引导 + 公司资料"],
+        ["bp17","发布职位 + 管理列表"],
+        ["bp18","查看申请者 + 候选人搜索"],
+        ["bp19","实时消息（WebSocket）"],
+        ["bp20","推送通知（新申请、消息）"]
+      ]},
+      {phase:"第5阶段 — 支付与发布", items:[
+        ["bp21","支付模板就绪：Stripe + Wave + Orange Money（暂不上线）"],
+        ["bp22","高级版权限 + 订阅逻辑"],
+        ["bp23","分析 + 管理指标（用户、注册、收入）"],
+        ["bp24","App Store + Play Store 提交"],
+        ["bp25","塞内加尔发布活动 + 营销网站上线"]
+      ]}
+    ],
     confidential:"保密 · 仅创始人", online:"应用在线",
     kpis:"KPI · 2026年7月", build_progress:"构建进度", screens_done:"已完成页面",
     deadline:"截止日期", target_market:"目标市场",
@@ -1088,7 +1229,7 @@ const T = {
         {id:"t-backend", title:"后端 + 认证正常", desc:"Hono + Prisma + Better Auth 邮箱OTP", color:"green"}
       ]
     },
-    pageTitles:{overview:"概览", app:"移动应用", roadmap:"路线图", mytasks:"我的待办", design:"设计与品牌", stack:"技术栈", marketing:"市场营销", links:"链接", tasks:"任务"}
+    pageTitles:{overview:"概览", app:"移动应用", roadmap:"路线图", build:"构建计划", mytasks:"我的待办", design:"设计与品牌", stack:"技术栈", marketing:"市场营销", links:"链接", tasks:"任务"}
   }
 };
 
@@ -1189,6 +1330,7 @@ function renderContent() {
 
   renderTasks();
   renderMyTasks();
+  renderBuildPlan();
 }
 
 /* ── TASKS (interactive checkboxes) ── */
@@ -1328,6 +1470,36 @@ function updateMyTaskBadge() {
   const remaining = listFor(activePerson).filter(x => !x.done).length;
   badge.textContent = remaining;
   badge.style.display = remaining ? '' : 'none';
+}
+
+/* ── BUILD PLAN (checkable, saved locally) ── */
+let buildChecked = JSON.parse(localStorage.getItem('build-checked') || '{}');
+function renderBuildPlan() {
+  const t = T[currentLang];
+  const wrap = document.getElementById('build-list');
+  if (!wrap || !t.buildplan) return;
+  let total = 0, done = 0;
+  wrap.innerHTML = t.buildplan.map(ph => {
+    let phTotal = 0, phDone = 0;
+    const rows = ph.items.map(([id, text]) => {
+      total++; phTotal++;
+      const on = !!buildChecked[id];
+      if (on) { done++; phDone++; }
+      return `<div class="task-item${on?' checked':''}" data-bid="${id}" style="border-left-color:var(--${on?'green':'blue'})"><div class="task-check">✓</div><div class="task-body"><div class="road-title">${esc(text)}</div></div></div>`;
+    }).join('');
+    return `<div class="build-phase"><div class="build-phase-title">${esc(ph.phase)}<span class="build-phase-count">${phDone}/${phTotal}</span></div><div style="display:flex;flex-direction:column;gap:8px">${rows}</div></div>`;
+  }).join('');
+  wrap.querySelectorAll('[data-bid]').forEach(it => it.onclick = () => toggleBuild(it.dataset.bid));
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const fill = document.getElementById('build-fill'); if (fill) fill.style.width = pct + '%';
+  const lbl = document.getElementById('build-pct'); if (lbl) lbl.textContent = pct + '%';
+  const badge = document.getElementById('nav-build-badge');
+  if (badge) { const open = total - done; badge.textContent = open; badge.style.display = open ? '' : 'none'; }
+}
+function toggleBuild(id) {
+  buildChecked[id] = !buildChecked[id];
+  localStorage.setItem('build-checked', JSON.stringify(buildChecked));
+  renderBuildPlan();
 }
 
 /* ── LANG ── */
