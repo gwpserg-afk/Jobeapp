@@ -1592,9 +1592,10 @@ window.addEventListener('load', () => {
 
   setLang(currentLang);
   updateQR();
-  autoDetectTunnel();        // auto-refresh the QR to the live tunnel on every load
+  autoDetectTunnel();                      // refresh QR to live tunnel on load
+  setInterval(autoDetectTunnel, 20000);    // keep it live — re-check every 20s
   updateCountdown();
-  setInterval(updateCountdown, 3600000); // refresh hourly
+  setInterval(updateCountdown, 3600000);   // refresh hourly
 
   const mi = document.getElementById('mytask-input');
   if (mi) mi.addEventListener('keydown', e => { if (e.key === 'Enter') addPersonalTodo(); });
