@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Jobé — Dashboard</title>
+  <link rel="icon" type="image/png" href="jobe-logo-3.png" />
+  <link rel="apple-touch-icon" href="jobe-logo-3.png" />
   <script src="qrcode.min.js"></script>
   <style>
     :root[data-theme="dark"] {
@@ -81,6 +83,8 @@
       padding: 24px 20px 20px;
       border-bottom: 1px solid var(--border);
     }
+    .logo-row { display: flex; align-items: center; gap: 10px; }
+    .logo-img { width: 32px; height: 32px; border-radius: 8px; object-fit: contain; flex-shrink: 0; }
     .logo-text {
       font-size: 20px;
       font-weight: 800;
@@ -479,7 +483,10 @@
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-logo">
-    <div class="logo-text">Job<span>é</span></div>
+    <div class="logo-row">
+      <img src="jobe-logo-3.png" alt="Jobé" class="logo-img" />
+      <div class="logo-text">Job<span>é</span></div>
+    </div>
     <div class="logo-sub" data-i18n="dashboard">Internal Dashboard</div>
   </div>
   <nav class="sidebar-nav" id="sidebar-nav"><!-- rendered by JS --></nav>
@@ -1583,7 +1590,7 @@ async function autoDetectTunnel() {
 
 /* ── INIT ── */
 window.addEventListener('load', () => {
-  const savedTheme = localStorage.getItem('theme') || 'dark';
+  const savedTheme = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
   document.getElementById('theme-btn').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 
