@@ -398,7 +398,8 @@
       text-decoration: none; color: var(--sub); font-size: 13px; font-weight: 500; transition: all 0.15s;
     }
     .link-item:hover { background: var(--green-dim); color: var(--green); border-color: var(--green-border); }
-    .link-icon { font-size: 16px; flex-shrink: 0; }
+    .link-icon { font-size: 16px; flex-shrink: 0; display: inline-flex; }
+    .link-icon svg { width: 15px; height: 15px; display: block; }
     .link-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .link-arrow { margin-left: auto; opacity: 0.5; font-size: 12px; flex-shrink: 0; }
 
@@ -799,6 +800,7 @@ const BRAND = {
   fonts: ["SF Pro (iOS)", "Segoe UI (Android)", "Weight 800 headlines", "Letter-spacing −1px"],
   links: [
     { icon: "🌐", href: "https://jobeapp.com", key: "link_site" },
+    { icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>', href: "https://www.instagram.com/jobeapp", key: "link_instagram" },
     { icon: "⚙", href: "https://github.com/gwpserg-afk/Jobeapp", key: "link_github" },
     { icon: "▲", href: "https://vercel.com", key: "link_vercel" },
     { icon: "📱", href: null, key: "link_expo" },
@@ -938,7 +940,7 @@ const T = {
     markets:["Main market · Dakar focus","Phase 2 expansion","Phase 3","Phase 3"],
     marketStatus:["active","next","planned","planned"],
     channels:["Job content for Senegal","Job groups, viral sharing","Recruiter B2B side","App store SEO","Universities, Dakar schools"],
-    links:{link_site:"jobeapp.com — Marketing site", link_github:"GitHub — Code repository", link_vercel:"Vercel — Dashboard hosting", link_expo:"Expo app — tunnel URL", link_expodev:"Expo Dev — Build & distribution"},
+    links:{link_site:"jobeapp.com — Marketing site", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — Code repository", link_vercel:"Vercel — Dashboard hosting", link_expo:"Expo app — tunnel URL", link_expodev:"Expo Dev — Build & distribution"},
     tasks:{
       todo:[
         {id:"t-github", title:"Connect GitHub → Vercel", desc:"Push repo, link to Vercel for auto-deploy on every commit", color:"red"},
@@ -1080,7 +1082,7 @@ const T = {
     markets:["Marché principal · focus Dakar","Expansion phase 2","Phase 3","Phase 3"],
     marketStatus:["active","next","planned","planned"],
     channels:["Contenus emploi Sénégal","Groupes emploi, partage viral","Côté recruteurs B2B","SEO app store","Universités, écoles Dakar"],
-    links:{link_site:"jobeapp.com — Site marketing", link_github:"GitHub — Dépôt de code", link_vercel:"Vercel — Hébergement dashboard", link_expo:"App Expo — URL tunnel", link_expodev:"Expo Dev — Build & distribution"},
+    links:{link_site:"jobeapp.com — Site marketing", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — Dépôt de code", link_vercel:"Vercel — Hébergement dashboard", link_expo:"App Expo — URL tunnel", link_expodev:"Expo Dev — Build & distribution"},
     tasks:{
       todo:[
         {id:"t-github", title:"Connecter GitHub → Vercel", desc:"Push du repo, lier à Vercel pour auto-déploiement à chaque commit", color:"red"},
@@ -1222,7 +1224,7 @@ const T = {
     markets:["主要市场 · 达喀尔重点","第2阶段扩张","第3阶段","第3阶段"],
     marketStatus:["active","next","planned","planned"],
     channels:["塞内加尔职位内容","求职群组，病毒式分享","招聘方 B2B","应用商店 SEO","达喀尔大学与院校"],
-    links:{link_site:"jobeapp.com — 营销网站", link_github:"GitHub — 代码仓库", link_vercel:"Vercel — 仪表板托管", link_expo:"Expo 应用 — 隧道URL", link_expodev:"Expo Dev — 构建与分发"},
+    links:{link_site:"jobeapp.com — 营销网站", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — 代码仓库", link_vercel:"Vercel — 仪表板托管", link_expo:"Expo 应用 — 隧道URL", link_expodev:"Expo Dev — 构建与分发"},
     tasks:{
       todo:[
         {id:"t-github", title:"连接 GitHub → Vercel", desc:"推送仓库，链接到Vercel实现每次提交自动部署", color:"red"},
