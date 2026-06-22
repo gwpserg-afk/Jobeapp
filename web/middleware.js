@@ -19,7 +19,7 @@ export default function middleware(request) {
     new Response(msg, {
       status: 401,
       headers: {
-        'WWW-Authenticate': 'Basic realm="Jobé Dashboard", charset="UTF-8"',
+        'WWW-Authenticate': 'Basic realm="Jobe Dashboard"',
       },
     });
 
