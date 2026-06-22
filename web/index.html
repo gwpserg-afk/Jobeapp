@@ -152,6 +152,14 @@
       flex-direction: column;
       gap: 6px;
     }
+    .signout {
+      display: flex; align-items: center; gap: 9px;
+      padding: 9px 10px; border-radius: 8px;
+      font-size: 13px; font-weight: 600; color: var(--sub);
+      text-decoration: none; transition: background 0.15s, color 0.15s;
+    }
+    .signout:hover { background: var(--red-dim); color: var(--red); }
+    .signout svg { width: 15px; height: 15px; flex-shrink: 0; }
 
     /* ── MAIN ── */
     .main {
@@ -492,6 +500,10 @@
   <nav class="sidebar-nav" id="sidebar-nav"><!-- rendered by JS --></nav>
   <div class="sidebar-bottom">
     <div style="font-size:11px;color:var(--muted);padding:4px 10px;" data-i18n="confidential">Confidential · Founders only</div>
+    <a href="/api/logout" class="signout">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign out
+    </a>
   </div>
 </aside>
 

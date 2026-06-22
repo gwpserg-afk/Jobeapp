@@ -161,15 +161,27 @@
     <div class="error" id="error">Incorrect password. Try again.</div>
 
     <form method="POST" action="/api/login" autocomplete="off">
+      <label class="label" for="username">Username</label>
+      <input
+        class="input"
+        id="username"
+        name="username"
+        type="text"
+        placeholder="admin"
+        autocomplete="username"
+        autocapitalize="none"
+        spellcheck="false"
+        autofocus
+        required
+      />
       <label class="label" for="password">Password</label>
       <input
         class="input"
         id="password"
         name="password"
         type="password"
-        placeholder="Enter access password"
+        placeholder="Enter your password"
         autocomplete="current-password"
-        autofocus
         required
       />
       <button class="btn" type="submit">Sign in</button>
