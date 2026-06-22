@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Jobé — Sign in</title>
+  <link rel="icon" type="image/png" href="jobe-logo-3.png" />
+  <link rel="apple-touch-icon" href="jobe-logo-3.png" />
+  <style>
+    :root[data-theme="dark"] {
+      --bg: #0D0D0F;
+      --card: #141418;
+      --elevated: #1E1E24;
+      --border: #232328;
+      --border-light: #2E2E36;
+      --text: #F5F5F7;
+      --sub: #9A9AA8;
+      --muted: #5A5A68;
+      --green: #1DB954;
+      --green-dim: rgba(29,185,84,0.1);
+      --red: #E05252;
+      --red-dim: rgba(224,82,82,0.1);
+      --shadow: 0 24px 70px rgba(0,0,0,0.55);
+      --glow: radial-gradient(60% 50% at 50% 0%, rgba(29,185,84,0.10), transparent 70%);
+    }
+    :root[data-theme="light"] {
+      --bg: #F4F4F8;
+      --card: #FFFFFF;
+      --elevated: #EFEFF4;
+      --border: #E4E4EC;
+      --border-light: #EDEDF5;
+      --text: #0D0D0F;
+      --sub: #4A4A58;
+      --muted: #9A9AA8;
+      --green: #16A34A;
+      --green-dim: rgba(22,163,74,0.08);
+      --red: #DC2626;
+      --red-dim: rgba(220,38,38,0.08);
+      --shadow: 0 24px 70px rgba(13,13,15,0.10);
+      --glow: radial-gradient(60% 50% at 50% 0%, rgba(22,163,74,0.08), transparent 70%);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: var(--glow);
+      pointer-events: none;
+    }
+
+    .card {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 44px 40px 36px;
+      animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 30px; }
+    .logo {
+      width: 58px; height: 58px; border-radius: 15px; object-fit: contain;
+      border: 1px solid var(--border); margin-bottom: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+    .title { font-size: 25px; font-weight: 800; letter-spacing: -0.5px; }
+    .title span { color: var(--green); }
+    .subtitle {
+      font-size: 11px; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 1.5px; margin-top: 7px;
+    }
+
+    form { display: flex; flex-direction: column; gap: 14px; }
+    .label { font-size: 11px; font-weight: 600; color: var(--sub); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: -6px; }
+    .input {
+      width: 100%;
+      background: var(--elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 15px;
+      color: var(--text);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      font-family: inherit;
+    }
+    .input::placeholder { color: var(--muted); }
+    .input:focus {
+      outline: none;
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px var(--green-dim);
+    }
+    .btn {
+      margin-top: 6px;
+      width: 100%;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: filter 0.15s, transform 0.05s;
+    }
+    .btn:hover { filter: brightness(1.07); }
+    .btn:active { transform: scale(0.99); }
+
+    .error {
+      display: none;
+      background: var(--red-dim);
+      color: var(--red);
+      border: 1px solid var(--red);
+      border-radius: 10px;
+      padding: 10px 13px;
+      font-size: 13px;
+      font-weight: 500;
+      text-align: center;
+    }
+    .error.show { display: block; }
+
+    .foot {
+      margin-top: 26px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.3px;
+    }
+    .lock { opacity: 0.7; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="brand">
+      <img class="logo" src="jobe-logo-3.png" alt="Jobé" />
+      <div class="title">Job<span>é</span></div>
+      <div class="subtitle">Internal Dashboard</div>
+    </div>
+
+    <div class="error" id="error">Incorrect password. Try again.</div>
+
+    <form method="POST" action="/api/login" autocomplete="off">
+      <label class="label" for="password">Password</label>
+      <input
+        class="input"
+        id="password"
+        name="password"
+        type="password"
+        placeholder="Enter access password"
+        autocomplete="current-password"
+        autofocus
+        required
+      />
+      <button class="btn" type="submit">Sign in</button>
+    </form>
+
+    <div class="foot"><span class="lock">🔒</span> Authorized access only</div>
+  </main>
+
+  <script>
+    // Match the dashboard's theme preference (defaults to light).
+    document.documentElement.setAttribute(
+      'data-theme',
+      localStorage.getItem('theme') || 'light'
+    );
+    // Show error if redirected back after a wrong password.
+    if (new URLSearchParams(location.search).has('error')) {
+      document.getElementById('error').classList.add('show');
+    }
+  </script>
+</body>
+</html>
