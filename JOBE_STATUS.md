@@ -1,13 +1,38 @@
 # Jobé — Working Status & Notes
 
 > Persistent cross-chat notes. Not served on the site (Vercel roots are `marketing/` and `web/`).
-> Last updated: 2026-06-23
+> Last updated: 2026-06-25
 
-## What Jobé is
-Mobile-app-first **professional social network** for Senegal's youth (~75% social / 25% jobs).
-Positioning rules (honest, pre-launch): **social-first**, **Senegal-only** ("built in Dakar"), **no fabricated
-numbers/stats**, keep AI off the home screen. Languages: FR (default) / EN / 中文. Brand: green `#1DB954`,
-blue `#2D7DD2`. IG: instagram.com/jobeapp (other socials "soon").
+## What Jobé is  ⭐ DIRECTION UPDATED 2026-06-25
+Mobile-app-first **professional social network** for Senegal — now **100% social** (the job
+finding/applying side is de-emphasized; the schema/routes stay but are NOT the foreground).
+
+**Core thesis:** bring **entrepreneurs closer to each other**, and **entrepreneurs to businesses**.
+Every interaction direction is first-class and welcome:
+- **B2B** — business ↔ business
+- **B2C** — business ↔ individual/customer
+- **C2B** — individual ↔ business
+- **C2C** — individual ↔ individual
+
+Think "LinkedIn energy, Instagram feel — built for and in Dakar, centered on entrepreneurs."
+The product is the **social loop**: profiles, posts/feed, follow/connect, comments, reposts,
+DMs, groups/communities. Jobs become just *one more kind of post*, not a separate destination.
+
+Positioning rules (honest, pre-launch): **social-first (100%)**, **Senegal-first** ("built in
+Dakar"), **no fabricated numbers/stats**, keep AI off the home screen. Languages: FR (default) /
+EN / 中文. Brand: green `#1DB954`, blue `#2D7DD2`. IG: instagram.com/jobeapp (other socials "soon").
+
+## App build state (audited 2026-06-25)
+- **Backend (`backend/`)** = real & substantial. ~30 Hono routes + 30+ Prisma models covering the
+  full social graph (Post/Like/Comment/Repost/ProfileView), DMs (messages/chat), profiles,
+  search, notifications, onboarding, companies, phone/identity verify, plus the jobs side.
+  **This is the asset — the 100% social pivot makes it MORE relevant, not less. Do not rewrite it.**
+- **Mobile app (`mobile/`)** = thin prototype shell. Auth (sign-in/up/verify-otp) is wired to the
+  backend, but the core tabs render **hardcoded mock data and never call the API**:
+  `(tabs)/index.tsx` → `MOCK_POSTS`, `jobs.tsx` → `MOCK_JOBS`, `messages.tsx` → `MOCK_CONVOS`.
+  **No post-composer screen exists.** This is the layer to (re)build on top of the live backend.
+- Net: "start fresh" = **rebuild the mobile app around the entrepreneur-social loop**, reusing the
+  existing backend. Reframe copy/onboarding around entrepreneurs & B2B/B2C/C2B/C2C networking.
 
 ## Repos & deploy
 - **Marketing site** — standalone dev copy: `~/Desktop/jobe-marketing/` (serve: `python3 -m http.server 3001`).

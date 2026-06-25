@@ -39,3 +39,4 @@ Disallow: /
 # Everyone else (Googlebot, Bingbot, etc.) — allowed for discoverability
 User-agent: *
 Allow: /
+Disallow: /classic/
