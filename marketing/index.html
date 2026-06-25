@@ -12,58 +12,59 @@
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <style>
     /* ══════════════════════════════════════════
        TOKENS
     ══════════════════════════════════════════ */
     :root, :root[data-theme="dark"] {
-      --bg:       #09090B;
-      --surface:  #111114;
-      --elevated: #18181C;
-      --border:   #252529;
-      --border-l: #32323A;
+      --bg:       #14130F;
+      --surface:  #1B1A14;
+      --elevated: #211F18;
+      --border:   #2C2A22;
+      --border-l: #3A372D;
       --green:    #1DB954;
-      --green-d:  rgba(29,185,84,0.08);
-      --green-g:  rgba(29,185,84,0.18);
-      --blue:     #2D7DD2;
-      --blue-d:   rgba(45,125,210,0.08);
-      --text:     #F4F4F6;
-      --sub:      #9A9AA8;
-      --muted:    #52525C;
+      --green-d:  rgba(29,185,84,0.10);
+      --green-g:  rgba(29,185,84,0.22);
+      --blue:     #5B9BE0;
+      --blue-d:   rgba(91,155,224,0.10);
+      --text:     #F3EFE6;
+      --sub:      #B7B1A2;
+      --muted:    #7C7768;
       /* theme-specific surfaces & effects */
-      --nav-bg:   rgba(9,9,11,0.88);
-      --drawer-bg: rgba(9,9,11,0.97);
-      --hairline: rgba(255,255,255,0.06);
-      --grid:     rgba(255,255,255,0.022);
-      --shadow:   rgba(0,0,0,0.4);
-      --shadow-lg: rgba(0,0,0,0.5);
+      --nav-bg:   rgba(20,19,15,0.86);
+      --drawer-bg: rgba(20,19,15,0.97);
+      --hairline: rgba(255,255,255,0.07);
+      --grid:     rgba(255,255,255,0.02);
+      --shadow:   rgba(0,0,0,0.5);
+      --shadow-lg: rgba(0,0,0,0.6);
       --phone-ring: rgba(255,255,255,0.04);
       --r:        16px;
       --r-sm:     10px;
+      --serif:    'Fraunces', Georgia, 'Times New Roman', serif;
       --font:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     :root[data-theme="light"] {
-      --bg:       #F7F8FA;
-      --surface:  #FFFFFF;
-      --elevated: #F1F2F5;
-      --border:   #E7E8EE;
-      --border-l: #D9DBE3;
-      --green:    #16A34A;
-      --green-d:  rgba(22,163,74,0.07);
-      --green-g:  rgba(22,163,74,0.16);
+      --bg:       #F4F1E9;
+      --surface:  #FBF9F3;
+      --elevated: #EFEBE0;
+      --border:   #E2DCCD;
+      --border-l: #D6CFBC;
+      --green:    #15803D;
+      --green-d:  rgba(21,128,61,0.08);
+      --green-g:  rgba(21,128,61,0.20);
       --blue:     #2563EB;
       --blue-d:   rgba(37,99,235,0.07);
-      --text:     #0B0B0F;
-      --sub:      #51525C;
-      --muted:    #8A8B95;
-      --nav-bg:   rgba(255,255,255,0.85);
-      --drawer-bg: rgba(247,248,250,0.98);
-      --hairline: rgba(0,0,0,0.05);
-      --grid:     rgba(0,0,0,0.028);
-      --shadow:   rgba(20,22,30,0.10);
-      --shadow-lg: rgba(20,22,30,0.14);
+      --text:     #1A1712;
+      --sub:      #5C564A;
+      --muted:    #948E7E;
+      --nav-bg:   rgba(244,241,233,0.85);
+      --drawer-bg: rgba(244,241,233,0.98);
+      --hairline: rgba(0,0,0,0.06);
+      --grid:     rgba(0,0,0,0.025);
+      --shadow:   rgba(40,34,20,0.10);
+      --shadow-lg: rgba(40,34,20,0.16);
       --phone-ring: rgba(0,0,0,0.05);
     }
 
@@ -952,6 +953,50 @@
     .appstore .dl-name, .appstore .s-nm, .appstore .dl-i, .appstore .s-ico,
     .gplay .dl-name, .gplay .s-nm, .gplay .dl-i, .gplay .s-ico { color: #fff; }
     .appstore:hover, .gplay:hover { opacity: 0.94; }
+
+    /* ── WAITLIST (Formspree) ── */
+    .wl-form {
+      display: flex; gap: 10px; max-width: 470px; margin: 0 auto 12px;
+      position: relative; z-index: 1; flex-wrap: wrap; justify-content: center;
+    }
+    .wl-input {
+      flex: 1; min-width: 220px; padding: 15px 18px;
+      border-radius: 14px; border: 1px solid var(--border-l);
+      background: var(--surface); color: var(--text);
+      font-size: 15px; font-family: var(--font); outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .wl-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-d); }
+    .wl-btn {
+      padding: 15px 26px; border-radius: 14px; border: none;
+      background: var(--green); color: #000; font-weight: 800; font-size: 15px;
+      cursor: pointer; white-space: nowrap; transition: opacity .15s, transform .15s;
+    }
+    .wl-btn:hover { opacity: .9; transform: translateY(-2px); }
+    .wl-btn:disabled { opacity: .5; cursor: default; transform: none; }
+    .wl-success {
+      max-width: 470px; margin: 0 auto 12px; padding: 15px 18px;
+      border-radius: 14px; background: var(--green-d); border: 1px solid var(--green-g);
+      color: var(--green); font-weight: 700; font-size: 14px;
+      position: relative; z-index: 1;
+    }
+    .wl-hint { font-size: 12.5px; color: var(--muted); position: relative; z-index: 1; margin-bottom: 30px; }
+
+    /* ══════════════════════════════════════════
+       EDITORIAL TYPOGRAPHY (Fraunces serif) — site-wide vibe
+    ══════════════════════════════════════════ */
+    .logo { font-family: var(--serif); font-weight: 600; letter-spacing: -0.5px; }
+    .logo span { font-style: italic; }
+    .hero-h1 { font-family: var(--serif); font-weight: 500; letter-spacing: -1.5px; }
+    .hero-h2 { font-family: var(--serif); font-weight: 400; font-style: italic; color: var(--sub); }
+    .flip-word { font-family: var(--serif); font-weight: 500; font-style: italic; }
+    .sh { font-family: var(--serif); font-weight: 500; letter-spacing: -0.8px; }
+    .sh .g, .cta-h .g, .cta-banner-h .g { font-style: italic; }
+    .cta-h { font-family: var(--serif); font-weight: 500; letter-spacing: -1.5px; }
+    .cta-banner-h { font-family: var(--serif); font-weight: 500; letter-spacing: -0.6px; }
+    .tes-q { font-family: var(--serif); font-size: 17px; font-style: italic; }
+    .a-ph, .phone-greeting { font-family: var(--serif); font-weight: 600; }
+    .stat-n { font-family: var(--serif); font-weight: 600; letter-spacing: -1px; }
   </style>
 </head>
 <body>
@@ -976,7 +1021,7 @@
         <button class="lang-b"    onclick="setLang('en')">EN</button>
         <button class="lang-b"    onclick="setLang('zh')">中</button>
       </div>
-      <a href="#download" class="nav-dl" data-i18n="n_dl">Télécharger</a>
+      <a href="download.html" class="nav-dl" data-i18n="n_dl">Télécharger</a>
     </div>
     <button class="ham" onclick="openMenu()" aria-label="Menu"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   </div>
@@ -989,7 +1034,7 @@
   <a class="nav-a" href="#how"      onclick="closeMenu()" data-i18n="n_how">Comment ça marche</a>
   <a class="nav-a" href="#jobs"     onclick="closeMenu()" data-i18n="n_jobs">Offres</a>
   <a class="nav-a" href="contact.html" onclick="closeMenu()" data-i18n="n_contact">Contact</a>
-  <a href="#download" class="btn btn-primary" onclick="closeMenu()" data-i18n="n_dl" style="margin-top:8px">Télécharger</a>
+  <a href="download.html" class="btn btn-primary" onclick="closeMenu()" data-i18n="n_dl" style="margin-top:8px">Télécharger</a>
 </div>
 
 <!-- ══════════════════════════════════════
@@ -1011,26 +1056,26 @@
       </h1>
       <p class="hero-h2 up" style="transition-delay:.08s" data-i18n="h_l3">Construis ton avenir.</p>
       <p class="hero-desc up" style="transition-delay:.12s" data-i18n="h_desc">
-        L'application mobile qui connecte la jeunesse sénégalaise. Réseau, communauté et opportunités — dans ta poche. Gratuit, sur iOS &amp; Android.
+        L'application mobile qui connecte la jeunesse sénégalaise. Réseau, communauté et opportunités — dans ta poche. Gratuit, bientôt sur iOS &amp; Android.
       </p>
       <div class="hero-ctas up" style="transition-delay:.16s">
         <a href="#audience" class="btn btn-primary" data-i18n="h_c1">Rejoindre la communauté →</a>
         <a href="#jobs" class="btn btn-outline" data-i18n="h_c2">Explorer les offres</a>
       </div>
       <div class="dl-row up" style="transition-delay:.2s; display:block;">
-        <div class="dl-label"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg> <span data-i18n="dl_first">Avant tout, une app mobile — télécharge-la</span></div>
+        <div class="dl-label"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg> <span data-i18n="dl_first">Bientôt : une app mobile — rejoins la liste</span></div>
         <div style="display:flex; gap:12px; flex-wrap:wrap;">
-          <a href="#download" class="dl-btn appstore">
+          <a href="download.html" class="dl-btn appstore">
             <span class="dl-i"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M16.36 12.78c.02 2.5 2.2 3.33 2.22 3.34-.02.06-.35 1.2-1.15 2.37-.69 1.02-1.4 2.03-2.53 2.05-1.1.02-1.46-.65-2.72-.65-1.26 0-1.66.63-2.7.67-1.09.04-1.92-1.1-2.62-2.12-1.42-2.06-2.5-5.83-1.05-8.37.72-1.27 2.01-2.07 3.42-2.09 1.07-.02 2.08.72 2.73.72.65 0 1.88-.89 3.17-.76.54.02 2.06.22 3.03 1.64-.08.05-1.81 1.06-1.79 3.16M14.28 4.5c.58-.7.97-1.67.86-2.64-.83.03-1.84.55-2.44 1.25-.54.62-1.01 1.61-.88 2.56.93.07 1.88-.47 2.46-1.17"/></svg></span>
             <div>
-              <div class="dl-sup" data-i18n="dl_on">Disponible sur</div>
+              <div class="dl-sup" data-i18n="dl_on">Bientôt sur</div>
               <div class="dl-name">App Store</div>
             </div>
           </a>
-          <a href="#download" class="dl-btn gplay">
+          <a href="download.html" class="dl-btn gplay">
             <span class="dl-i"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M4 3.5v17a1 1 0 0 0 1.5.87l14-8.5a1 1 0 0 0 0-1.74l-14-8.5A1 1 0 0 0 4 3.5z"/></svg></span>
             <div>
-              <div class="dl-sup" data-i18n="dl_get">Disponible sur</div>
+              <div class="dl-sup" data-i18n="dl_get">Bientôt sur</div>
               <div class="dl-name">Google Play</div>
             </div>
           </a>
@@ -1111,7 +1156,7 @@
                 <div class="app-sheet-ic">é</div>
                 <div class="app-sheet-h" data-i18n="as_h">Continue dans l'app</div>
                 <div class="app-sheet-p" data-i18n="as_p">Télécharge Jobé pour interagir, publier et te connecter à ta communauté.</div>
-                <a href="#download" class="app-sheet-cta" onclick="hideAppSheet()" data-i18n="as_cta">Télécharger l'app →</a>
+                <a href="download.html" class="app-sheet-cta" onclick="hideAppSheet()" data-i18n="as_cta">Télécharger l'app →</a>
                 <button class="app-sheet-later" type="button" onclick="hideAppSheet()" data-i18n="as_later">Plus tard</button>
               </div>
             </div>
@@ -1179,7 +1224,7 @@
       </div>
     </div>
     <div class="up" style="text-align:center;margin-top:36px;transition-delay:.15s">
-      <a href="#download" class="btn btn-primary" data-i18n="how_cta">Rejoindre la communauté →</a>
+      <a href="download.html" class="btn btn-primary" data-i18n="how_cta">Rejoindre la communauté →</a>
     </div>
   </div>
 </section>
@@ -1221,7 +1266,7 @@
           <div><div class="ben-t" data-i18n="c4t">Opportunités &amp; emploi</div>
           <div class="ben-d" data-i18n="c4d">Quand tu cherches un job, postule en 1 clic. 100% gratuit, sans frais cachés.</div></div>
         </div>
-        <a href="#download" class="btn btn-primary" style="width:fit-content;margin-top:8px" data-i18n="c_cta">Rejoindre Jobé gratuitement →</a>
+        <a href="download.html" class="btn btn-primary" style="width:fit-content;margin-top:8px" data-i18n="c_cta">Rejoindre Jobé gratuitement →</a>
       </div>
       <div class="a-preview">
         <div>
@@ -1273,7 +1318,7 @@
           <div><div class="ben-t" data-i18n="r4t">Messagerie avec traduction auto</div>
           <div class="ben-d" data-i18n="r4d">Échange directement avec les candidats. Traduction automatique en FR, EN et 中文.</div></div>
         </div>
-        <a href="#download" class="btn btn-outline" style="width:fit-content;margin-top:8px" data-i18n="r_cta">Commencer à recruter →</a>
+        <a href="download.html" class="btn btn-outline" style="width:fit-content;margin-top:8px" data-i18n="r_cta">Commencer à recruter →</a>
       </div>
       <div class="a-preview" style="border-color:rgba(45,125,210,0.2)">
         <div>
@@ -1358,7 +1403,7 @@
         <div class="label" data-i18n="jl">Aussi : des opportunités</div>
         <h2 class="sh" data-i18n="jt">Des offres près de chez toi</h2>
       </div>
-      <a href="#download" class="btn btn-outline" data-i18n="ja">Voir tout →</a>
+      <a href="download.html" class="btn btn-outline" data-i18n="ja">Voir tout →</a>
     </div>
 
     <div class="job-grid">
@@ -1421,7 +1466,7 @@
     </div>
 
     <div class="up" style="text-align:center;margin-top:36px;transition-delay:.1s">
-      <a href="#download" class="btn btn-primary" data-i18n="j_app_cta">Voir toutes les offres dans l'app →</a>
+      <a href="download.html" class="btn btn-primary" data-i18n="j_app_cta">Voir toutes les offres dans l'app →</a>
     </div>
   </div>
 </section>
@@ -1437,7 +1482,7 @@
         <div class="cta-banner-p" data-i18n="mid_p">Rejoins les premiers membres de Jobé au Sénégal. Connecte-toi, partage et fais grandir ton réseau — gratuitement.</div>
       </div>
       <div class="cta-banner-r">
-        <a href="#download" class="btn btn-primary" data-i18n="mid_c1">Télécharger l'app →</a>
+        <a href="download.html" class="btn btn-primary" data-i18n="mid_c1">Télécharger l'app →</a>
         <a href="https://www.instagram.com/jobeapp" target="_blank" rel="noopener" class="btn btn-outline"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.25" fill="currentColor" stroke="none"/></svg><span data-i18n="mid_c2">Suivre sur Instagram</span></a>
       </div>
     </div>
@@ -1489,24 +1534,32 @@
   <div class="cta-glow"></div>
   <div class="wrap">
     <div class="up">
-      <div class="label" style="display:flex;justify-content:center" data-i18n="dl_label">Disponible maintenant</div>
+      <div class="label" style="display:flex;justify-content:center" data-i18n="dl_label">Bientôt disponible</div>
       <h2 class="cta-h">
-        <span data-i18n="dl_h1">Commence dès aujourd'hui.</span><br>
-        <span class="g" data-i18n="dl_h2">Gratuitement.</span>
+        <span data-i18n="dl_h1">Sois parmi les premiers.</span><br>
+        <span class="g" data-i18n="dl_h2">Rejoins la liste.</span>
       </h2>
-      <p class="cta-sub" data-i18n="dl_sub">Télécharge Jobé, rejoins la communauté et fais grandir ton réseau en moins de 5 minutes. Gratuit, conçu au Sénégal.</p>
+      <p class="cta-sub" data-i18n="dl_sub">Jobé arrive bientôt au Sénégal. Laisse ton email pour être prévenu(e) dès le lancement — et faire partie des premiers membres de la communauté.</p>
+      <form class="wl-form" id="wl-form" action="https://formspree.io/f/xeebeyzn" method="POST" onsubmit="return submitWaitlist(event)">
+        <input class="wl-input" type="email" name="email" required placeholder="ton@email.com" data-i18n-ph="wl_ph" aria-label="Email" />
+        <input type="hidden" name="_subject" value="Nouvelle inscription waitlist Jobé" />
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <button type="submit" class="wl-btn" data-i18n="wl_btn">Rejoindre la liste →</button>
+      </form>
+      <div class="wl-success" id="wl-success" data-i18n="wl_ok" hidden>✓ Tu es sur la liste ! On te prévient dès le lancement.</div>
+      <p class="wl-hint" data-i18n="wl_hint">Gratuit · Pas de spam · Conçu à Dakar, Sénégal 🇸🇳</p>
       <div class="store-row">
         <a href="#" class="s-btn appstore">
           <span class="s-ico"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M16.36 12.78c.02 2.5 2.2 3.33 2.22 3.34-.02.06-.35 1.2-1.15 2.37-.69 1.02-1.4 2.03-2.53 2.05-1.1.02-1.46-.65-2.72-.65-1.26 0-1.66.63-2.7.67-1.09.04-1.92-1.1-2.62-2.12-1.42-2.06-2.5-5.83-1.05-8.37.72-1.27 2.01-2.07 3.42-2.09 1.07-.02 2.08.72 2.73.72.65 0 1.88-.89 3.17-.76.54.02 2.06.22 3.03 1.64-.08.05-1.81 1.06-1.79 3.16M14.28 4.5c.58-.7.97-1.67.86-2.64-.83.03-1.84.55-2.44 1.25-.54.62-1.01 1.61-.88 2.56.93.07 1.88-.47 2.46-1.17"/></svg></span>
           <div>
-            <span class="s-sup" data-i18n="dl_on">Disponible sur</span>
+            <span class="s-sup" data-i18n="dl_on">Bientôt sur</span>
             <span class="s-nm">App Store</span>
           </div>
         </a>
         <a href="#" class="s-btn gplay">
           <span class="s-ico"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M4 3.5v17a1 1 0 0 0 1.5.87l14-8.5a1 1 0 0 0 0-1.74l-14-8.5A1 1 0 0 0 4 3.5z"/></svg></span>
           <div>
-            <span class="s-sup" data-i18n="dl_get">Disponible sur</span>
+            <span class="s-sup" data-i18n="dl_get">Bientôt sur</span>
             <span class="s-nm">Google Play</span>
           </div>
         </a>
@@ -1518,7 +1571,7 @@
           </div>
         </a>
       </div>
-      <p class="cta-note" data-i18n="dl_note">✓ Gratuit · ✓ Sans carte de crédit · ✓ iOS & Android · ✓ Conçu au Sénégal</p>
+      <p class="cta-note" data-i18n="dl_note">✓ Gratuit · ✓ Bientôt sur iOS & Android · ✓ Conçu au Sénégal</p>
       <p style="position:relative;z-index:1;margin-top:18px">
         <a href="https://www.instagram.com/jobeapp" target="_blank" rel="noopener" style="color:var(--green);font-weight:700;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:7px">
           <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.25" fill="currentColor" stroke="none"/></svg>
@@ -1545,7 +1598,7 @@
           <a href="#jobs"     class="foot-a" data-i18n="f_jobs">Offres d'emploi</a>
           <a href="#audience" class="foot-a" data-i18n="f_train">Formation</a>
           <a href="#audience" class="foot-a" data-i18n="f_net">Réseau</a>
-          <a href="#download" class="foot-a" data-i18n="f_mob">Application mobile</a>
+          <a href="download.html" class="foot-a" data-i18n="f_mob">Application mobile</a>
         </div>
       </div>
       <div>
@@ -1598,9 +1651,9 @@ const T = {
     n_jobs:"Jobs", n_rec:"For you", n_how:"How it works", n_contact:"Contact", n_dl:"Download",
     h_p1:"The next-gen pro network", h_p2:"Built in Senegal",
     h_l1:"Connect to", h_l3:"Build your future.",
-    h_desc:"The mobile app connecting Senegal's youth. Network, community and opportunities — in your pocket. Free, on iOS &amp; Android.",
+    h_desc:"The mobile app connecting Senegal's youth. Network, community and opportunities — in your pocket. Free, coming soon to iOS &amp; Android.",
     h_c1:"Join the community →", h_c2:"Explore jobs",
-    dl_first:"A mobile app first — download it",
+    dl_first:"Coming soon: a mobile app — join the list",
     dl_on:"Download on", dl_get:"Get it on",
     ph_hi:"Feed", ph_sub:"Your pro community · Dakar",
     ph_role:"Product Designer · 2h", ph_follow:"Follow",
@@ -1651,12 +1704,13 @@ const T = {
     q2r:"Marketing · Dakar, Senegal",
     q3:'"I landed my first job in Dakar through an offer on Jobé. Simple, fast and 100% free — exactly what we needed."',
     q3r:"Developer · Dakar, Senegal",
-    dl_label:"Available now",
-    dl_h1:"Start today.", dl_h2:"For free.",
-    dl_sub:"Download Jobé, join the community and grow your network in under 5 minutes. Free, built in Senegal.",
-    dl_on:"Download on", dl_get:"Get it on", dl_web_sup:"Direct access", dl_web_nm:"Web Version",
-    dl_note:"✓ Free · ✓ No credit card · ✓ iOS & Android · ✓ Built in Senegal",
+    dl_label:"Coming soon",
+    dl_h1:"Be one of the first.", dl_h2:"Join the list.",
+    dl_sub:"Jobé is launching soon in Senegal. Drop your email to get notified at launch — and be among the first members of the community.",
+    dl_on:"Coming soon to", dl_get:"Coming soon to", dl_web_sup:"Direct access", dl_web_nm:"Web Version",
+    dl_note:"✓ Free · ✓ Coming soon on iOS & Android · ✓ Built in Senegal",
     dl_ig:"Follow us on Instagram @jobeapp",
+    wl_ph:"you@email.com", wl_btn:"Join the list →", wl_ok:"✓ You're on the list! We'll let you know at launch.", wl_hint:"Free · No spam · Built in Dakar, Senegal 🇸🇳",
     as_h:"Continue in the app", as_p:"Download Jobé to interact, post and connect with your community.", as_cta:"Get the app →", as_later:"Maybe later",
     fd:"The professional social network for Senegal's youth. Community, network and opportunities — built in Dakar, Senegal. iOS &amp; Android app.",
     f_pl:"Platform", f_jobs:"Jobs", f_train:"Training", f_net:"Network", f_mob:"Mobile app",
@@ -1669,9 +1723,9 @@ const T = {
     n_jobs:"职位", n_rec:"为你服务", n_how:"使用方法", n_contact:"联系", n_dl:"下载",
     h_p1:"新一代职业网络", h_p2:"塞内加尔制造",
     h_l1:"连接你的", h_l3:"构建你的未来。",
-    h_desc:"连接塞内加尔年轻人的移动应用。人脉、社区和机会，尽在掌中。免费，支持 iOS 和 Android。",
+    h_desc:"连接塞内加尔年轻人的移动应用。人脉、社区和机会，尽在掌中。免费，即将登陆 iOS 和 Android。",
     h_c1:"加入社区 →", h_c2:"浏览职位",
-    dl_first:"移动应用优先 — 立即下载",
+    dl_first:"即将推出：移动应用 — 加入名单",
     dl_on:"下载于", dl_get:"获取于",
     ph_hi:"动态", ph_sub:"你的职业社区 · 达喀尔",
     ph_role:"产品设计师 · 2小时", ph_follow:"关注",
@@ -1721,11 +1775,12 @@ const T = {
     q2r:"市场营销 · 达喀尔，塞内加尔",
     q3:'"我通过 Jobé 上的一个职位找到了在达喀尔的第一份工作。简单、快速、100%免费——正是我们需要的。"',
     q3r:"开发者 · 达喀尔，塞内加尔",
-    dl_label:"立即可用", dl_h1:"今天开始。", dl_h2:"免费。",
-    dl_sub:"下载 Jobé，加入社区，5分钟内扩展你的人脉。免费，塞内加尔制造。",
-    dl_on:"下载于", dl_get:"获取于", dl_web_sup:"直接访问", dl_web_nm:"网页版",
-    dl_note:"✓ 免费 · ✓ 无需信用卡 · ✓ iOS和Android · ✓ 塞内加尔制造",
+    dl_label:"即将推出", dl_h1:"成为首批用户。", dl_h2:"加入名单。",
+    dl_sub:"Jobé 即将在塞内加尔上线。留下你的邮箱，上线时第一时间通知你——成为社区的首批成员。",
+    dl_on:"即将上线", dl_get:"即将上线", dl_web_sup:"直接访问", dl_web_nm:"网页版",
+    dl_note:"✓ 免费 · ✓ iOS 和 Android 即将推出 · ✓ 塞内加尔制造",
     dl_ig:"在 Instagram 关注我们 @jobeapp",
+    wl_ph:"你的邮箱@email.com", wl_btn:"加入名单 →", wl_ok:"✓ 你已加入名单！上线时我们会通知你。", wl_hint:"免费 · 无垃圾邮件 · 达喀尔，塞内加尔制造 🇸🇳",
     as_h:"在应用中继续", as_p:"下载 Jobé 即可互动、发布并连接你的社区。", as_cta:"下载应用 →", as_later:"以后再说",
     fd:"塞内加尔年轻人的职业社交网络。社区、人脉与机会——达喀尔制造。iOS 和 Android 应用。",
     f_pl:"平台", f_jobs:"职位", f_train:"培训", f_net:"人脉", f_mob:"移动应用",
@@ -1740,6 +1795,11 @@ const T = {
 const FR = {};
 document.querySelectorAll('[data-i18n]').forEach(el => {
   FR[el.getAttribute('data-i18n')] = el.innerHTML;
+});
+/* FR originals for translatable placeholders */
+const FR_PH = {};
+document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+  FR_PH[el.getAttribute('data-i18n-ph')] = el.getAttribute('placeholder');
 });
 
 let lang = 'fr'; // always load in French; toggling still works in-session
@@ -1779,7 +1839,36 @@ function setLang(l) {
     const k = el.getAttribute('data-i18n');
     if (map[k] !== undefined) el.innerHTML = map[k];
   });
+  const phmap = l === 'fr' ? FR_PH : (T[l] || {});
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const k = el.getAttribute('data-i18n-ph');
+    if (phmap[k] !== undefined) el.setAttribute('placeholder', phmap[k]);
+  });
   startFlip();
+}
+
+/* ── WAITLIST (Formspree, AJAX) ── */
+function submitWaitlist(e) {
+  e.preventDefault();
+  const f = e.target;
+  const btn = f.querySelector('.wl-btn');
+  if (btn) btn.disabled = true;
+  fetch(f.action, { method: 'POST', body: new FormData(f), headers: { Accept: 'application/json' } })
+    .then(r => {
+      if (r.ok) {
+        f.hidden = true;
+        const ok = document.getElementById('wl-success');
+        if (ok) ok.hidden = false;
+      } else {
+        if (btn) btn.disabled = false;
+        r.json().then(d => {
+          const msg = (d && d.errors && d.errors[0] && d.errors[0].message) || 'Oups — réessaie.';
+          alert(msg);
+        }).catch(() => alert('Oups — réessaie.'));
+      }
+    })
+    .catch(() => { if (btn) btn.disabled = false; alert('Erreur réseau — réessaie.'); });
+  return false;
 }
 
 /* ── THEME ── */
