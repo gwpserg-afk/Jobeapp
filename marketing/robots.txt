@@ -1,5 +1,7 @@
 # Jobé — block AI scrapers/trainers, allow search engines (SEO)
 
+Sitemap: https://jobeapp.com/sitemap.xml
+
 # AI crawlers / scrapers — blocked
 User-agent: GPTBot
 Disallow: /

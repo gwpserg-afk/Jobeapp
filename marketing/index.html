@@ -6,35 +6,46 @@
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="apple-touch-icon" href="favicon.png" />
   <title>Jobé — Connecte-toi à ta communauté. Construis ton avenir.</title>
-  <meta name="description" content="Le réseau social professionnel n°1 de la jeunesse africaine francophone. Communauté, réseau, opportunités et formation — gratuit. Disponible sur iOS et Android." />
-  <meta property="og:title" content="Jobé — Trouve ton opportunité." />
-  <meta property="og:description" content="Le réseau social professionnel n°1 de la jeunesse africaine francophone. Connecte-toi, partage, évolue." />
+  <meta name="description" content="Le réseau social des entrepreneurs et pros du Sénégal. Connecte-toi, construis ta communauté et fais grandir ton activité. Conçu à Dakar — bientôt sur iOS & Android." />
+  <meta property="og:title" content="Jobé — Le réseau social des entrepreneurs du Sénégal." />
+  <meta property="og:description" content="Connecte-toi, construis ton réseau et fais grandir ton business. La communauté pro nouvelle génération, conçue à Dakar." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://jobeapp.com/" />
+  <meta property="og:site_name" content="Jobé" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:image" content="https://jobeapp.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Jobé — Le réseau social des entrepreneurs du Sénégal." />
+  <meta name="twitter:description" content="Connecte-toi, construis ton réseau et fais grandir ton business. Conçu à Dakar — bientôt sur iOS &amp; Android." />
+  <meta name="twitter:image" content="https://jobeapp.com/og-image.png" />
+  <link rel="canonical" href="https://jobeapp.com/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <style>
     /* ══════════════════════════════════════════
        TOKENS
     ══════════════════════════════════════════ */
     :root, :root[data-theme="dark"] {
-      --bg:       #14130F;
-      --surface:  #1B1A14;
-      --elevated: #211F18;
-      --border:   #2C2A22;
-      --border-l: #3A372D;
+      --bg:       #09090B;
+      --surface:  #111114;
+      --elevated: #18181C;
+      --border:   #252529;
+      --border-l: #32323A;
       --green:    #1DB954;
       --green-d:  rgba(29,185,84,0.10);
       --green-g:  rgba(29,185,84,0.22);
-      --blue:     #5B9BE0;
-      --blue-d:   rgba(91,155,224,0.10);
-      --text:     #F3EFE6;
-      --sub:      #B7B1A2;
-      --muted:    #7C7768;
+      --blue:     #2D7DD2;
+      --blue-d:   rgba(45,125,210,0.10);
+      --text:     #F4F4F6;
+      --sub:      #9A9AA8;
+      --muted:    #52525C;
       /* theme-specific surfaces & effects */
-      --nav-bg:   rgba(20,19,15,0.86);
-      --drawer-bg: rgba(20,19,15,0.97);
+      --nav-bg:   rgba(9,9,11,0.86);
+      --drawer-bg: rgba(9,9,11,0.97);
       --hairline: rgba(255,255,255,0.07);
       --grid:     rgba(255,255,255,0.02);
       --shadow:   rgba(0,0,0,0.5);
@@ -42,25 +53,25 @@
       --phone-ring: rgba(255,255,255,0.04);
       --r:        16px;
       --r-sm:     10px;
-      --serif:    'Fraunces', Georgia, 'Times New Roman', serif;
+      --serif: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --font:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     :root[data-theme="light"] {
-      --bg:       #F4F1E9;
-      --surface:  #FBF9F3;
-      --elevated: #EFEBE0;
-      --border:   #E2DCCD;
-      --border-l: #D6CFBC;
-      --green:    #15803D;
+      --bg:       #F7F8FA;
+      --surface:  #FFFFFF;
+      --elevated: #F1F2F5;
+      --border:   #E7E8EE;
+      --border-l: #D9DBE3;
+      --green:    #16A34A;
       --green-d:  rgba(21,128,61,0.08);
       --green-g:  rgba(21,128,61,0.20);
       --blue:     #2563EB;
       --blue-d:   rgba(37,99,235,0.07);
-      --text:     #1A1712;
-      --sub:      #5C564A;
-      --muted:    #948E7E;
-      --nav-bg:   rgba(244,241,233,0.85);
-      --drawer-bg: rgba(244,241,233,0.98);
+      --text:     #0B0B0F;
+      --sub:      #51525C;
+      --muted:    #8A8B95;
+      --nav-bg:   rgba(255,255,255,0.85);
+      --drawer-bg: rgba(255,255,255,0.98);
       --hairline: rgba(0,0,0,0.06);
       --grid:     rgba(0,0,0,0.025);
       --shadow:   rgba(40,34,20,0.10);
@@ -69,7 +80,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-y: scroll; }
     body {
       background: var(--bg);
       color: var(--text);
@@ -235,15 +246,15 @@
     .hero-left {}
     .hero-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
     .hero-h1 {
-      font-size: clamp(38px, 5vw, 64px);
-      font-weight: 900; letter-spacing: -2px; line-height: 1.04;
-      margin-bottom: 6px;
+      font-size: clamp(38px, 5vw, 62px);
+      font-weight: 600; letter-spacing: -1.5px; line-height: 1.05;
+      margin-bottom: 2px;
     }
     .hero-h1 .g { color: var(--green); }
     .hero-h2 {
-      font-size: clamp(38px, 5vw, 64px);
-      font-weight: 900; letter-spacing: -2px; line-height: 1.04;
-      color: var(--sub); margin-bottom: 24px;
+      font-size: clamp(38px, 5vw, 62px);
+      font-weight: 600; letter-spacing: -1.5px; line-height: 1.05;
+      color: var(--sub); margin-bottom: 22px;
     }
     .hero-desc {
       font-size: 19px; color: var(--sub); max-width: 480px;
@@ -698,7 +709,7 @@
       border-radius: var(--r); padding: 28px;
     }
     .tes-stars { font-size: 15px; margin-bottom: 16px; }
-    .tes-q { font-size: 15px; color: var(--sub); line-height: 1.72; margin-bottom: 22px; font-style: italic; }
+    .tes-q { font-size: 15px; color: var(--sub); line-height: 1.72; margin-bottom: 22px; font-style: normal; }
     .tes-author { display: flex; align-items: center; gap: 12px; }
     .tes-av {
       width: 44px; height: 44px; border-radius: 50%;
@@ -812,7 +823,7 @@
       .nav-links { display: none; }
       .lang-box, .nav-dl { display: none; }   /* declutter top bar — they live in the menu */
       .ham { display: block; }
-      .hero-h1, .hero-h2 { font-size: 40px; letter-spacing: -1.5px; }
+      .hero-h1, .hero-h2 { font-size: 38px; letter-spacing: -1px; }
       .hero-desc { font-size: 17px; }
       .jobs-head { flex-direction: column; align-items: flex-start; gap: 16px; }
       .job-grid     { grid-template-columns: 1fr; }
@@ -979,19 +990,19 @@
     /* ══════════════════════════════════════════
        EDITORIAL TYPOGRAPHY (Fraunces serif) — site-wide vibe
     ══════════════════════════════════════════ */
-    .logo { font-family: var(--serif); font-weight: 600; letter-spacing: -0.5px; }
-    .logo span { font-style: italic; }
-    .hero-h1 { font-family: var(--serif); font-weight: 500; letter-spacing: -1.5px; }
-    .hero-h2 { font-family: var(--serif); font-weight: 400; font-style: italic; color: var(--sub); }
-    .flip-word { font-family: var(--serif); font-weight: 500; font-style: italic; }
-    .sh { font-family: var(--serif); font-weight: 500; letter-spacing: -0.8px; }
-    .sh .g, .cta-h .g, .cta-banner-h .g { font-style: italic; }
-    .cta-h { font-family: var(--serif); font-weight: 500; letter-spacing: -1.5px; }
-    .cta-banner-h { font-family: var(--serif); font-weight: 500; letter-spacing: -0.6px; }
-    .tes-q { font-family: var(--serif); font-size: 17px; font-style: italic; }
-    .a-ph, .phone-greeting { font-family: var(--serif); font-weight: 600; }
-    .stat-n { font-family: var(--serif); font-weight: 600; letter-spacing: -1px; }
+    /* Skinny, straight, bold sans headlines — no cursive */
+    .logo { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+    .hero-h1 { font-weight: 600; letter-spacing: -1.5px; }
+    .hero-h2 { font-weight: 600; letter-spacing: -1.5px; color: var(--sub); }
+    .flip-word { font-weight: 600; }
+    .sh { font-weight: 700; letter-spacing: -1px; }
+    .cta-h { font-weight: 700; letter-spacing: -1.5px; }
+    .cta-banner-h { font-weight: 700; letter-spacing: -0.6px; }
+    .stat-n { font-weight: 700; letter-spacing: -1px; }
   </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"Jobé","url":"https://jobeapp.com/","description":"Le réseau social des entrepreneurs et pros du Sénégal — connecte-toi, construis ton réseau et fais grandir ton activité.","foundingLocation":{"@type":"Place","name":"Dakar, Sénégal"},"areaServed":"SN","logo":"https://jobeapp.com/og-image.png","sameAs":["https://www.instagram.com/jobeapp"]}
+  </script>
 </head>
 <body>
 
@@ -1041,7 +1052,7 @@
   <div class="hero-inner">
     <div class="hero-left">
       <div class="hero-pills up">
-        <span class="pill pill-green"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6z"/></svg> <span data-i18n="h_p1">Le réseau pro nouvelle génération</span></span>
+        <span class="pill pill-green"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6z"/></svg> <span data-i18n="h_p1">Le réseau social des entrepreneurs</span></span>
         <span class="pill pill-blue">🇸🇳 <span data-i18n="h_p2">Conçu au Sénégal</span></span>
       </div>
       <h1 class="hero-h1 up" style="transition-delay:.05s">
@@ -1050,11 +1061,11 @@
       </h1>
       <p class="hero-h2 up" style="transition-delay:.08s" data-i18n="h_l3">Construis ton avenir.</p>
       <p class="hero-desc up" style="transition-delay:.12s" data-i18n="h_desc">
-        L'application mobile qui connecte la jeunesse sénégalaise. Réseau, communauté et opportunités — dans ta poche. Gratuit, bientôt sur iOS &amp; Android.
+        L'app mobile qui connecte les entrepreneurs et pros du Sénégal. Réseau, communauté et opportunités d'affaires — dans ta poche. Gratuit, bientôt sur iOS &amp; Android.
       </p>
       <div class="hero-ctas up" style="transition-delay:.16s">
         <a href="#audience" class="btn btn-primary" data-i18n="h_c1">Rejoindre la communauté →</a>
-        <a href="#jobs" class="btn btn-outline" data-i18n="h_c2">Explorer les offres</a>
+        <a href="#audience" class="btn btn-outline" data-i18n="h_c2">Découvrir le réseau</a>
       </div>
       <div class="dl-row up" style="transition-delay:.2s; display:block;">
         <div class="dl-label"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg> <span data-i18n="dl_first">Bientôt : une app mobile — rejoins la liste</span></div>
@@ -1174,7 +1185,7 @@
     </div>
     <div class="stat-item up" style="transition-delay:.05s">
       <span class="stat-n" data-count="100" data-suf="%">0</span>
-      <span class="stat-l" data-i18n="s2">Gratuit pour les candidats</span>
+      <span class="stat-l" data-i18n="s2">100% gratuit pour les membres</span>
     </div>
     <div class="stat-item up" style="transition-delay:.1s">
       <span class="stat-n" data-count="3">0</span>
@@ -1234,7 +1245,7 @@
     </div>
     <div class="tab-row up" style="transition-delay:.05s">
       <button class="t-btn on" onclick="tab('cand',this)"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5.5 20v-1a4.5 4.5 0 0 1 4.5-4.5h4a4.5 4.5 0 0 1 4.5 4.5v1"/></svg><span data-i18n="tc">Membres</span></button>
-      <button class="t-btn"    onclick="tab('rec',this)"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M10 21v-3h4v3"/></svg><span data-i18n="tr">Recruteurs</span></button>
+      <button class="t-btn"    onclick="tab('rec',this)"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M10 21v-3h4v3"/></svg><span data-i18n="tr">Entreprises</span></button>
     </div>
 
     <!-- Members -->
@@ -1257,7 +1268,7 @@
         </div>
         <div class="ben-item">
           <div class="ben-ic g"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A2.5 2.5 0 0 1 10.5 3h3A2.5 2.5 0 0 1 16 5.5V7M3 12h18"/></svg></div>
-          <div><div class="ben-t" data-i18n="c4t">Opportunités &amp; emploi</div>
+          <div><div class="ben-t" data-i18n="c4t">Opportunités &amp; business</div>
           <div class="ben-d" data-i18n="c4d">Quand tu cherches un job, postule en 1 clic. 100% gratuit, sans frais cachés.</div></div>
         </div>
         <a href="download.html" class="btn btn-primary" style="width:fit-content;margin-top:8px" data-i18n="c_cta">Rejoindre Jobé gratuitement →</a>
@@ -1289,13 +1300,13 @@
       </div>
     </div>
 
-    <!-- Recruiters -->
+    <!-- Businesses -->
     <div class="t-panel" id="tp-rec">
       <div class="ben-list up">
         <div class="ben-item">
           <div class="ben-ic b"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
-          <div><div class="ben-t" data-i18n="r1t">Une communauté de talents locaux</div>
-          <div class="ben-d" data-i18n="r1d">Publie ton offre et touche des candidats motivés et qualifiés, partout au Sénégal.</div></div>
+          <div><div class="ben-t" data-i18n="r1t">Une communauté d'entrepreneurs & de clients</div>
+          <div class="ben-d" data-i18n="r1d">Touche des clients, des partenaires et des talents motivés, partout au Sénégal.</div></div>
         </div>
         <div class="ben-item">
           <div class="ben-ic b"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div>
@@ -1304,7 +1315,7 @@
         </div>
         <div class="ben-item">
           <div class="ben-ic b"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M10 21v-3h4v3"/></svg></div>
-          <div><div class="ben-t" data-i18n="r3t">Construis ta marque employeur</div>
+          <div><div class="ben-t" data-i18n="r3t">Construis ta marque & ta présence</div>
           <div class="ben-d" data-i18n="r3d">Crée la page de ton entreprise, publie et fais-toi connaître auprès de la communauté.</div></div>
         </div>
         <div class="ben-item">
@@ -1312,11 +1323,11 @@
           <div><div class="ben-t" data-i18n="r4t">Messagerie avec traduction auto</div>
           <div class="ben-d" data-i18n="r4d">Échange directement avec les candidats. Traduction automatique en FR, EN et 中文.</div></div>
         </div>
-        <a href="download.html" class="btn btn-outline" style="width:fit-content;margin-top:8px" data-i18n="r_cta">Commencer à recruter →</a>
+        <a href="download.html" class="btn btn-outline" style="width:fit-content;margin-top:8px" data-i18n="r_cta">Créer ma page entreprise →</a>
       </div>
       <div class="a-preview" style="border-color:rgba(45,125,210,0.2)">
         <div>
-          <div class="a-ph" data-i18n="rec_h">Espace Recruteur</div>
+          <div class="a-ph" data-i18n="rec_h">Espace Entreprise</div>
           <div class="a-ps" data-i18n="rec_s">Tes offres &amp; candidatures</div>
         </div>
         <div class="m-card">
@@ -1335,7 +1346,7 @@
           <div class="p-connect" data-i18n="rec_b">Voir</div>
         </div>
         <div style="margin-top:auto;padding:14px;background:var(--blue-d);border-radius:12px;border:1px solid rgba(45,125,210,0.15)">
-          <div style="font-size:13px;font-weight:700" data-i18n="rec_k">Publie une offre en</div>
+          <div style="font-size:13px;font-weight:700" data-i18n="rec_k">Crée ta page en</div>
           <div style="font-size:22px;font-weight:900;letter-spacing:-1px;color:var(--blue);margin-top:4px" data-i18n="rec_v">2 minutes</div>
         </div>
       </div>
@@ -1380,8 +1391,8 @@
       </div>
       <div class="feat-card up" style="transition-delay:.12s">
         <div class="feat-ic b"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A2.5 2.5 0 0 1 10.5 3h3A2.5 2.5 0 0 1 16 5.5V7M3 12h18"/></svg></div>
-        <div><div class="feat-t" data-i18n="f6t">Offres &amp; candidature</div>
-        <div class="feat-d" data-i18n="f6d">Trouve un job et postule en 1 clic, gratuitement.</div></div>
+        <div><div class="feat-t" data-i18n="f6t">Opportunités &amp; business</div>
+        <div class="feat-d" data-i18n="f6d">Missions, clients et offres — saisis-les en 1 clic.</div></div>
       </div>
     </div>
   </div>
@@ -1511,10 +1522,10 @@
       </div>
       <div class="tes-card up" style="transition-delay:.1s">
         <div class="tes-stars" aria-label="5 / 5"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.6-5 4.3 1.5 6.5L12 17.8 6 19.9l1.5-6.5-5-4.3 6.6-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.6-5 4.3 1.5 6.5L12 17.8 6 19.9l1.5-6.5-5-4.3 6.6-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.6-5 4.3 1.5 6.5L12 17.8 6 19.9l1.5-6.5-5-4.3 6.6-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.6-5 4.3 1.5 6.5L12 17.8 6 19.9l1.5-6.5-5-4.3 6.6-.6z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.6-5 4.3 1.5 6.5L12 17.8 6 19.9l1.5-6.5-5-4.3 6.6-.6z"/></svg></div>
-        <p class="tes-q" data-i18n="q3">"J'ai décroché mon premier job à Dakar via une offre sur Jobé. Simple, rapide, et 100% gratuit — exactement ce qu'il nous fallait."</p>
+        <p class="tes-q" data-i18n="q3">"J'ai trouvé mes premiers clients à Dakar grâce à la communauté Jobé. Simple, rapide, et 100% gratuit — exactement ce qu'il nous fallait."</p>
         <div class="tes-author">
           <div class="tes-av av-ini">MS</div>
-          <div><div class="tes-name">Mamadou S.</div><div class="tes-role" data-i18n="q3r">Développeur · Dakar, Sénégal</div></div>
+          <div><div class="tes-name">Mamadou S.</div><div class="tes-role" data-i18n="q3r">Freelance · Dakar, Sénégal</div></div>
         </div>
       </div>
     </div>
@@ -1584,7 +1595,7 @@
     <div class="foot-top">
       <div class="foot-brand">
         <a href="#" class="logo">Job<span>é</span></a>
-        <p data-i18n="fd">Le réseau social professionnel de la jeunesse sénégalaise. Communauté, réseau et opportunités — conçu à Dakar, Sénégal. App iOS &amp; Android.</p>
+        <p data-i18n="fd">Le réseau social des entrepreneurs et pros du Sénégal. Communauté, réseau et opportunités — conçu à Dakar, Sénégal. App iOS &amp; Android.</p>
       </div>
       <div>
         <div class="foot-col-h" data-i18n="f_pl">Plateforme</div>
@@ -1596,7 +1607,7 @@
         </div>
       </div>
       <div>
-        <div class="foot-col-h" data-i18n="f_emp">Recruteurs</div>
+        <div class="foot-col-h" data-i18n="f_emp">Entreprises</div>
         <div class="foot-links">
           <a href="#audience" class="foot-a" data-i18n="f_post">Publier une offre</a>
           <a href="#audience" class="foot-a" data-i18n="f_tal">Trouver des talents</a>
@@ -1643,10 +1654,10 @@
 const T = {
   en: {
     n_jobs:"Jobs", n_rec:"For you", n_how:"How it works", n_contact:"Contact", n_dl:"Download",
-    h_p1:"The next-gen pro network", h_p2:"Built in Senegal",
+    h_p1:"The social network for entrepreneurs", h_p2:"Built in Senegal",
     h_l1:"Connect to", h_l3:"Build your future.",
-    h_desc:"The mobile app connecting Senegal's youth. Network, community and opportunities — in your pocket. Free, coming soon to iOS &amp; Android.",
-    h_c1:"Join the community →", h_c2:"Explore jobs",
+    h_desc:"The mobile app connecting Senegal's entrepreneurs and professionals. Network, community and business opportunities — in your pocket. Free, coming soon to iOS &amp; Android.",
+    h_c1:"Join the community →", h_c2:"Explore the network",
     dl_first:"Coming soon: a mobile app — join the list",
     dl_on:"Download on", dl_get:"Get it on",
     ph_hi:"Feed", ph_sub:"Your pro community · Dakar",
@@ -1656,7 +1667,7 @@ const T = {
     ph_post2:"We're hiring 3 people for our Dakar startup 🇸🇳 DMs open 👇",
     ph_mutual:"Dev · 12 mutual connections", ph_connect:"+ Connect",
     ph_badge:"Trending post", ph_badge2:"+1.2k connections",
-    s1:"Built in Dakar, Senegal", s2:"Free for members", s3:"Languages · FR/EN/中文", s4:"Hidden fees",
+    s1:"Built in Dakar, Senegal", s2:"100% free for members", s3:"Languages · FR/EN/中文", s4:"Hidden fees",
     jl:"Also: opportunities", jt:"Jobs near you", ja:"See all →",
     j1t:"Full-Stack Web Developer", j2t:"Accounting Assistant", j3t:"Community Manager",
     j_new:"New", j_app_cta:"See all jobs in the app →",
@@ -1666,29 +1677,29 @@ const T = {
     h2t:"Connect & engage", h2d:"Join groups, follow pros who inspire you and grow your network in Senegal.",
     h3t:"Seize your opportunities", h3d:"The right people and the right offers land in your feed. Apply or connect in one click.",
     how_cta:"Join the community →",
-    al:"For you", at:"The platform for everyone", tc:"Members", tr:"Recruiters",
+    al:"For you", at:"The platform for everyone", tc:"Members", tr:"Businesses",
     c1t:"A network that opens doors", c1d:"Connect with pros, entrepreneurs and companies in Senegal. Your network becomes your greatest asset.",
     c2t:"Groups & communities", c2d:"Join groups by industry, city or passion. Exchange, learn and make connections that matter.",
     c3t:"Share & get inspired", c3d:"Post your wins, follow people who inspire you and stay on top of what's happening in your field.",
-    c4t:"Opportunities & jobs", c4d:"When you're job hunting, apply in 1 click. 100% free, no hidden fees.",
+    c4t:"Opportunities & business", c4d:"When you're job hunting, apply in 1 click. 100% free, no hidden fees.",
     c_cta:"Join Jobé for free →", prof_c:"Profile complete",
     ca_hi:"Suggestions for you", ca_sub:"Grow your network · Dakar",
     ca_p1:"Product Designer · 12 mutual connections", ca_b1:"+ Connect",
     ca_g:"Tech & Startups Dakar", ca_p2:"Group · 3,200 members", ca_b2:"Join",
     ca_p3:"Entrepreneur · 8 mutual connections",
-    r1t:"A community of local talent", r1d:"Post your offer and reach motivated, qualified candidates all over Senegal.",
+    r1t:"A community of entrepreneurs & customers", r1d:"Reach customers, partners and motivated talent all over Senegal.",
     r2t:"Advanced filters", r2d:"Filter by skills, location, education and experience to find the right profile.",
-    r3t:"Build your employer brand", r3d:"Create your company page, post and get known by the community.",
+    r3t:"Build your brand & reach", r3d:"Create your company page, post and get known by the community.",
     r4t:"Messaging with auto-translation", r4d:"Chat directly with candidates. Auto-translation in FR, EN and 中文.",
-    r_cta:"Start recruiting →", rec_h:"Recruiter Space", rec_s:"Your offers & applications",
-    rec_b:"View", rec_k:"Post an offer in", rec_v:"2 minutes",
+    r_cta:"Create your business page →", rec_h:"Business Space", rec_s:"Your offers & applications",
+    rec_b:"View", rec_k:"Create your page in", rec_v:"2 minutes",
     fl:"All-in-one", ft:"One app, everything you need",
     f1t:"Professional network", f1d:"Connect with pros and companies in Senegal.",
     f2t:"Feed &amp; stories", f2d:"Post, like, comment and share every day.",
     f3t:"Groups &amp; communities", f3d:"Join groups by industry, city or passion.",
     f4t:"Instant messaging", f4d:"Chat with your network, auto-translate FR/EN/中文.",
     f5t:"Certified training", f5d:"Level up your skills and stand out.",
-    f6t:"Jobs &amp; apply", f6d:"Find a job and apply in 1 click, for free.",
+    f6t:"Opportunities &amp; business", f6d:"Gigs, clients and offers — grab them in one click.",
     mid_h:"Your pro community awaits.", mid_p:"Join the first members of Jobé in Senegal. Connect, share and grow your network — for free.",
     mid_c1:"Download the app →", mid_c2:"Follow on Instagram",
     tl:"The first stories", tt:"What they say about Jobé",
@@ -1696,8 +1707,8 @@ const T = {
     q1r:"Founder · Dakar, Senegal",
     q2:'"Thanks to Jobé groups, I met pros in my field I never would have crossed paths with. My network exploded in a few weeks."',
     q2r:"Marketing · Dakar, Senegal",
-    q3:'"I landed my first job in Dakar through an offer on Jobé. Simple, fast and 100% free — exactly what we needed."',
-    q3r:"Developer · Dakar, Senegal",
+    q3:'"I found my first clients in Dakar through the Jobé community. Simple, fast and 100% free — exactly what we needed."',
+    q3r:"Freelancer · Dakar, Senegal",
     dl_label:"Coming soon",
     dl_h1:"Be one of the first.", dl_h2:"Join the list.",
     dl_sub:"Jobé is launching soon in Senegal. Drop your email to get notified at launch — and be among the first members of the community.",
@@ -1706,19 +1717,19 @@ const T = {
     dl_ig:"Follow us on Instagram @jobeapp",
     wl_ph:"you@email.com", wl_btn:"Join the list →", wl_ok:"✓ You're on the list! We'll let you know at launch.", wl_hint:"Free · No spam · Built in Dakar, Senegal 🇸🇳",
     as_h:"Continue in the app", as_p:"Download Jobé to interact, post and connect with your community.", as_cta:"Get the app →", as_later:"Maybe later",
-    fd:"The professional social network for Senegal's youth. Community, network and opportunities — built in Dakar, Senegal. iOS &amp; Android app.",
+    fd:"The social network for Senegal's entrepreneurs and professionals. Community, network and opportunities — built in Dakar, Senegal. iOS &amp; Android app.",
     f_pl:"Platform", f_jobs:"Jobs", f_train:"Training", f_net:"Network", f_mob:"Mobile app",
-    f_emp:"Recruiters", f_post:"Post a job", f_tal:"Find talent", f_pri:"Pricing", f_dash:"Recruiter dashboard",
+    f_emp:"Businesses", f_post:"Post a job", f_tal:"Find talent", f_pri:"Pricing", f_dash:"Recruiter dashboard",
     f_co:"Company", f_ab:"About", f_bl:"Blog", f_ca:"Careers", f_pr:"Press",
     f_su:"Support", f_he:"Help center", f_cn:"Contact", f_pv:"Privacy", f_tm:"Terms",
     f_r:"All rights reserved."
   },
   zh: {
     n_jobs:"职位", n_rec:"为你服务", n_how:"使用方法", n_contact:"联系", n_dl:"下载",
-    h_p1:"新一代职业网络", h_p2:"塞内加尔制造",
+    h_p1:"创业者的社交网络", h_p2:"塞内加尔制造",
     h_l1:"连接你的", h_l3:"构建你的未来。",
-    h_desc:"连接塞内加尔年轻人的移动应用。人脉、社区和机会，尽在掌中。免费，即将登陆 iOS 和 Android。",
-    h_c1:"加入社区 →", h_c2:"浏览职位",
+    h_desc:"连接塞内加尔创业者与专业人士的移动应用。人脉、社区与商业机会，尽在掌中。免费，即将登陆 iOS 和 Android。",
+    h_c1:"加入社区 →", h_c2:"探索人脉",
     dl_first:"即将推出：移动应用 — 加入名单",
     dl_on:"下载于", dl_get:"获取于",
     ph_hi:"动态", ph_sub:"你的职业社区 · 达喀尔",
@@ -1728,7 +1739,7 @@ const T = {
     ph_post2:"我们的达喀尔初创公司正在招聘3人 🇸🇳 私信开放 👇",
     ph_mutual:"开发者 · 12个共同好友", ph_connect:"+ 连接",
     ph_badge:"热门动态", ph_badge2:"+1.2k 人脉",
-    s1:"塞内加尔达喀尔制造", s2:"对会员免费", s3:"语言 · FR/EN/中文", s4:"隐藏费用",
+    s1:"塞内加尔达喀尔制造", s2:"对所有成员免费", s3:"语言 · FR/EN/中文", s4:"隐藏费用",
     jl:"还有：机会", jt:"你附近的职位", ja:"查看全部 →",
     j1t:"全栈Web开发者", j2t:"会计助理", j3t:"社区经理",
     j_new:"最新", j_app_cta:"在应用中查看全部职位 →",
@@ -1737,29 +1748,29 @@ const T = {
     h2t:"连接并交流", h2d:"加入群组，关注启发你的专业人士，在塞内加尔扩展你的人脉。",
     h3t:"把握机会", h3d:"合适的人和合适的机会会出现在你的动态中。一键申请或连接。",
     how_cta:"加入社区 →",
-    al:"为你服务", at:"适合所有人的平台", tc:"会员", tr:"招聘方",
+    al:"为你服务", at:"适合所有人的平台", tc:"会员", tr:"企业",
     c1t:"开启机遇的人脉网", c1d:"与塞内加尔的专业人士、创业者和企业连接。你的人脉就是你最大的财富。",
     c2t:"群组与社区", c2d:"按行业、城市或兴趣加入群组。交流、学习并结识重要的人。",
     c3t:"分享与获取灵感", c3d:"发布你的成就，关注启发你的人，了解你领域的最新动态。",
-    c4t:"机会与就业", c4d:"求职时一键申请。100%免费，无隐藏费用。",
+    c4t:"机会与业务", c4d:"求职时一键申请。100%免费，无隐藏费用。",
     c_cta:"免费加入Jobé →", prof_c:"档案完成度",
     ca_hi:"为你推荐", ca_sub:"扩展你的人脉 · 达喀尔",
     ca_p1:"产品设计师 · 12个共同好友", ca_b1:"+ 连接",
     ca_g:"达喀尔科技与创业", ca_p2:"群组 · 3,200名成员", ca_b2:"加入",
     ca_p3:"创业者 · 8个共同好友",
-    r1t:"本地人才社区", r1d:"发布职位，触达塞内加尔各地积极且合格的候选人。",
+    r1t:"创业者与客户社区", r1d:"触达塞内加尔各地的客户、合作伙伴与积极人才。",
     r2t:"高级筛选", r2d:"按技能、地点、学历和经验筛选，找到合适的人选。",
-    r3t:"打造雇主品牌", r3d:"创建公司主页，发布内容，让社区认识你。",
+    r3t:"打造品牌与影响力", r3d:"创建公司主页，发布内容，让社区认识你。",
     r4t:"带自动翻译的消息", r4d:"直接与候选人交流。自动翻译 FR、EN 和中文。",
-    r_cta:"开始招聘 →", rec_h:"招聘方空间", rec_s:"你的职位与申请",
-    rec_b:"查看", rec_k:"发布职位仅需", rec_v:"2分钟",
+    r_cta:"创建企业主页 →", rec_h:"企业空间", rec_s:"你的机会与业务",
+    rec_b:"查看", rec_k:"创建主页仅需", rec_v:"2分钟",
     fl:"一体化", ft:"一个应用，满足所有需求",
     f1t:"职业人脉网", f1d:"与塞内加尔的专业人士和企业连接。",
     f2t:"动态与快拍", f2d:"每天发布、点赞、评论和分享。",
     f3t:"群组与社区", f3d:"按行业、城市或兴趣加入群组。",
     f4t:"即时通讯", f4d:"与人脉交流，自动翻译 FR/EN/中文。",
     f5t:"认证培训", f5d:"提升技能，脱颖而出。",
-    f6t:"职位与申请", f6d:"找到工作并一键免费申请。",
+    f6t:"职位与申请", f6d:"项目、客户与机会，一键把握。",
     mid_h:"你的职业社区在等你。", mid_p:"成为 Jobé 塞内加尔的首批会员。连接、分享并扩展你的人脉——免费。",
     mid_c1:"下载应用 →", mid_c2:"在 Instagram 关注",
     tl:"最初的故事", tt:"用户评价",
@@ -1767,8 +1778,8 @@ const T = {
     q1r:"创始人 · 达喀尔，塞内加尔",
     q2:'"通过 Jobé 群组，我结识了本行业中本来不会遇到的专业人士。几周内我的人脉大幅增长。"',
     q2r:"市场营销 · 达喀尔，塞内加尔",
-    q3:'"我通过 Jobé 上的一个职位找到了在达喀尔的第一份工作。简单、快速、100%免费——正是我们需要的。"',
-    q3r:"开发者 · 达喀尔，塞内加尔",
+    q3:'"我通过 Jobé 社区在达喀尔找到了第一批客户。简单、快速、100%免费——正是我们需要的。"',
+    q3r:"自由职业者 · 达喀尔，塞内加尔",
     dl_label:"即将推出", dl_h1:"成为首批用户。", dl_h2:"加入名单。",
     dl_sub:"Jobé 即将在塞内加尔上线。留下你的邮箱，上线时第一时间通知你——成为社区的首批成员。",
     dl_on:"即将上线", dl_get:"即将上线", dl_web_sup:"直接访问", dl_web_nm:"网页版",
@@ -1776,9 +1787,9 @@ const T = {
     dl_ig:"在 Instagram 关注我们 @jobeapp",
     wl_ph:"你的邮箱@email.com", wl_btn:"加入名单 →", wl_ok:"✓ 你已加入名单！上线时我们会通知你。", wl_hint:"免费 · 无垃圾邮件 · 达喀尔，塞内加尔制造 🇸🇳",
     as_h:"在应用中继续", as_p:"下载 Jobé 即可互动、发布并连接你的社区。", as_cta:"下载应用 →", as_later:"以后再说",
-    fd:"塞内加尔年轻人的职业社交网络。社区、人脉与机会——达喀尔制造。iOS 和 Android 应用。",
+    fd:"塞内加尔创业者与专业人士的社交网络。社区、人脉与机会——达喀尔制造。iOS 和 Android 应用。",
     f_pl:"平台", f_jobs:"职位", f_train:"培训", f_net:"人脉", f_mob:"移动应用",
-    f_emp:"招聘方", f_post:"发布职位", f_tal:"寻找人才", f_pri:"价格", f_dash:"招聘控制台",
+    f_emp:"企业", f_post:"发布职位", f_tal:"寻找人才", f_pri:"价格", f_dash:"招聘控制台",
     f_co:"公司", f_ab:"关于", f_bl:"博客", f_ca:"招聘", f_pr:"媒体",
     f_su:"支持", f_he:"帮助中心", f_cn:"联系", f_pv:"隐私", f_tm:"条款",
     f_r:"版权所有。"
@@ -1796,13 +1807,13 @@ document.querySelectorAll('[data-i18n-ph]').forEach(el => {
   FR_PH[el.getAttribute('data-i18n-ph')] = el.getAttribute('placeholder');
 });
 
-let lang = 'fr'; // always load in French; toggling still works in-session
+let lang = localStorage.getItem('jobe-lang') || 'fr'; // always load in French; toggling still works in-session
 
 /* Rotating headline words per language */
 const flipWords = {
-  fr: ['ta communauté.', 'ton réseau.', 'ton opportunité.', 'ta tribu pro.'],
-  en: ['your community.', 'your network.', 'your opportunity.', 'your people.'],
-  zh: ['你的社区。', '你的人脉。', '你的机会。', '你的圈子。']
+  fr: ['ta communauté.', 'ton réseau.', 'ton business.', 'ta tribu pro.'],
+  en: ['your community.', 'your network.', 'your business.', 'your people.'],
+  zh: ['你的社区。', '你的人脉。', '你的事业。', '你的圈子。']
 };
 let flipIdx = 0, flipTimer = null;
 function startFlip() {
