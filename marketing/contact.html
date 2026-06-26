@@ -53,7 +53,7 @@
 
     /* NAV */
     .nav { position:fixed; top:0; left:0; right:0; z-index:200; height:66px; padding:0 28px; display:flex; align-items:center; background:var(--nav-bg); backdrop-filter:blur(24px); border-bottom:1px solid var(--border); }
-    .nav-inner { max-width:1180px; margin:0 auto; width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .nav-inner { max-width:1140px; margin:0 auto; width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; }
     .logo { font-family:var(--serif); font-size:24px; font-weight:800; letter-spacing:-.5px; text-decoration:none; color:var(--text); flex-shrink:0; }
     .logo span { color:var(--green); font-style:normal; }
     .nav-links { display:flex; gap:2px; }
@@ -68,7 +68,7 @@
     .lang-box { display:flex; gap:2px; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:4px; }
     .lang-b { padding:5px 10px; font-size:12px; font-weight:700; color:var(--muted); background:none; border:none; border-radius:7px; cursor:pointer; transition:all .15s; }
     .lang-b.on { background:var(--elevated); color:var(--text); }
-    .nav-dl { padding:9px 20px; background:var(--green); color:#fff; border:none; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; text-decoration:none; transition:all .18s; }
+    .nav-dl { padding:9px 20px; background:var(--green); color:#000; border:none; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; text-decoration:none; transition:all .18s; }
     .nav-dl:hover { opacity:.88; }
     .ham { display:none; background:none; border:none; color:var(--text); cursor:pointer; }
     .ham svg { width:24px; height:24px; }
@@ -80,7 +80,7 @@
 
     /* LAYOUT */
     .c-wrap {
-      max-width:1180px; margin:0 auto; padding:150px 40px 110px;
+      max-width:1140px; margin:0 auto; padding:150px 40px 110px;
       display:grid; grid-template-columns:1fr 1fr; gap:90px; align-items:start;
     }
 
@@ -146,7 +146,7 @@
 
     /* FOOTER */
     footer { border-top:1px solid var(--border); padding:46px 40px 40px; }
-    .foot-inner { max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+    .foot-inner { max-width:1140px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
     .foot-brand p { font-size:13px; color:var(--muted); margin-top:8px; max-width:360px; }
     .soc { display:flex; gap:10px; }
     .soc-a { width:36px; height:36px; border-radius:9px; background:var(--elevated); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--sub); text-decoration:none; font-size:15px; transition:all .15s; }
@@ -173,6 +173,7 @@
     <div class="nav-links">
       <a class="nav-a" href="index.html#audience" data-i18n="n_rec">Pour vous</a>
       <a class="nav-a" href="index.html#how" data-i18n="n_how">Comment ça marche</a>
+      <a class="nav-a" href="index.html#jobs" data-i18n="n_jobs">Offres</a>
       <a class="nav-a active" href="contact.html" data-i18n="n_contact">Contact</a>
     </div>
     <div class="nav-right">
@@ -183,7 +184,7 @@
         <button class="lang-b" onclick="setLang('en')">EN</button>
         <button class="lang-b" onclick="setLang('zh')">中</button>
       </div>
-      <a href="index.html#download" class="nav-dl" data-i18n="n_dl">Rejoindre</a>
+      <a href="download.html" class="nav-dl" data-i18n="n_dl">Télécharger</a>
     </div>
     <button class="ham" onclick="openMenu()" aria-label="Menu"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   </div>
@@ -193,8 +194,9 @@
   <button class="close-btn" onclick="closeMenu()" aria-label="Close"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
   <a class="nav-a" href="index.html#audience" onclick="closeMenu()" data-i18n="n_rec">Pour vous</a>
   <a class="nav-a" href="index.html#how" onclick="closeMenu()" data-i18n="n_how">Comment ça marche</a>
+  <a class="nav-a" href="index.html#jobs" onclick="closeMenu()" data-i18n="n_jobs">Offres</a>
   <a class="nav-a" href="contact.html" onclick="closeMenu()" data-i18n="n_contact">Contact</a>
-  <a href="index.html#download" class="nav-dl" onclick="closeMenu()" data-i18n="n_dl" style="display:inline-block;margin-top:8px">Rejoindre</a>
+  <a href="download.html" class="nav-dl" onclick="closeMenu()" data-i18n="n_dl" style="display:inline-block;margin-top:8px">Télécharger</a>
 </div>
 
 <!-- CONTACT -->
@@ -295,7 +297,7 @@
 /* ── I18N ── */
 const T = {
   en: {
-    n_rec:"For you", n_how:"How it works", n_contact:"Contact", n_dl:"Join",
+    n_rec:"For you", n_how:"How it works", n_contact:"Contact", n_jobs:"Jobs", n_dl:"Download",
     c_label:"Contact", c_h1:"Let's talk.", c_h2:"We're listening.",
     c_sub:"A question, an idea, a partnership? Write to us and we'll reply — usually within 24h. Fastest in Senegal: WhatsApp.",
     c_email_l:"Email", c_reach_l:"Other ways",
@@ -313,7 +315,7 @@ const T = {
     fc:"Built in Dakar, Senegal 🇸🇳"
   },
   zh: {
-    n_rec:"为你服务", n_how:"使用方法", n_contact:"联系", n_dl:"加入",
+    n_rec:"为你服务", n_how:"使用方法", n_contact:"联系", n_jobs:"职位", n_dl:"下载",
     c_label:"联系", c_h1:"聊聊吧。", c_h2:"我们在听。",
     c_sub:"有问题、想法或合作？给我们留言，我们会回复你——通常在24小时内。在塞内加尔最快的方式：WhatsApp。",
     c_email_l:"邮箱", c_reach_l:"其他方式",
