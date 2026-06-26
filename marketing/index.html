@@ -134,8 +134,8 @@
     }
 
     /* Scroll-triggered animation */
-    .up { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
-    .up.in { opacity: 1; transform: none; }
+    .up { opacity: 0; transform: translateY(24px); filter: blur(6px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1), filter .7s ease; }
+    .up.in { opacity: 1; transform: none; filter: blur(0); }
 
     /* ══════════════════════════════════════════
        NAVBAR
@@ -1004,6 +1004,44 @@
     .why-ic svg { width: 23px; height: 23px; }
     .why-t { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 8px; }
     .why-d { font-size: 14.5px; color: var(--sub); line-height: 1.6; }
+
+    /* ══════════════════════════════════════════
+       CUSTOM ANIMATIONS / MICRO-INTERACTIONS
+    ══════════════════════════════════════════ */
+    /* primary button sheen sweep on hover */
+    .btn-primary { position: relative; overflow: hidden; }
+    .btn-primary::after {
+      content: ''; position: absolute; top: 0; left: -130%; width: 55%; height: 100%;
+      background: linear-gradient(110deg, transparent, rgba(255,255,255,0.45), transparent);
+      transform: skewX(-18deg); transition: left .6s ease; pointer-events: none;
+    }
+    .btn-primary:hover::after { left: 150%; }
+    /* phone: idle float + 3D mouse tilt */
+    .hero-phone { perspective: 1100px; }
+    .phone-stack { animation: floaty 7s ease-in-out infinite; will-change: transform; }
+    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    .phone-shell { transition: transform .25s cubic-bezier(.2,.7,.2,1); transform-style: preserve-3d; }
+    .hero-phone.tilt .phone-stack { animation-play-state: paused; }
+    /* animated nav underline */
+    .nav-a { position: relative; }
+    .nav-a::after {
+      content: ''; position: absolute; left: 14px; right: 14px; bottom: 3px; height: 2px;
+      background: var(--green); border-radius: 2px; transform: scaleX(0); transform-origin: center;
+      transition: transform .28s cubic-bezier(.2,.7,.2,1);
+    }
+    .nav-a:hover::after, .nav-a.active::after { transform: scaleX(1); }
+    /* subtle lift on feature/why/job cards already exists; add green-pop ring on hover */
+    .feat-card, .j-card, .tes-card, .how-item { transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s ease, border-color .25s ease; }
+    .feat-card:hover, .j-card:hover, .tes-card:hover { transform: translateY(-5px); box-shadow: 0 18px 44px var(--shadow); }
+    /* CTA pills gentle pulse to draw the eye (waitlist) */
+    @keyframes softpulse { 0%,100% { box-shadow: 0 0 0 0 rgba(29,185,84,0); } 50% { box-shadow: 0 0 0 7px rgba(29,185,84,0.10); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .up { opacity: 1; transform: none; filter: none; transition: none; }
+      .phone-stack { animation: none; }
+      .phone-shell { transition: none; }
+      .btn-primary::after { display: none; }
+    }
   </style>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Organization","name":"Jobé","url":"https://jobeapp.com/","description":"Le réseau social des entrepreneurs et pros du Sénégal — connecte-toi, construis ton réseau et fais grandir ton activité.","foundingLocation":{"@type":"Place","name":"Dakar, Sénégal"},"areaServed":"SN","logo":"https://jobeapp.com/og-image.png","sameAs":["https://www.instagram.com/jobeapp"]}
@@ -1953,6 +1991,31 @@ function hideAppSheet() { const s = document.getElementById('app-sheet'); if (s)
       setTimeout(() => t.classList.remove('tap-pulse'), 300);
     }
     setTimeout(showAppSheet, 150);
+  });
+})();
+
+/* ── PHONE 3D TILT (desktop, reduced-motion safe) ── */
+(function phoneTilt() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia('(hover: none)').matches) return;
+  const wrap = document.querySelector('.hero-phone');
+  const shell = document.querySelector('.phone-shell');
+  if (!wrap || !shell) return;
+  let raf;
+  wrap.addEventListener('mousemove', e => {
+    const r = wrap.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      wrap.classList.add('tilt');
+      shell.style.transform = `rotateY(${px * 9}deg) rotateX(${-py * 9}deg)`;
+    });
+  });
+  wrap.addEventListener('mouseleave', () => {
+    cancelAnimationFrame(raf);
+    wrap.classList.remove('tilt');
+    shell.style.transform = '';
   });
 })();
 
