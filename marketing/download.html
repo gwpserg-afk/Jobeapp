@@ -124,6 +124,7 @@
     .wl-btn:disabled { opacity:.5; cursor:default; transform:none; }
     .wl-success { max-width:450px; margin:0 0 12px; padding:14px 16px; border-radius:12px; background:var(--green-d); border:1px solid var(--green-g); color:var(--green); font-weight:700; font-size:14px; }
     .dl-note { font-size:13px; color:var(--muted); margin-top:18px; display:flex; align-items:center; gap:8px; }
+    .dl-founding { display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--green); font-weight:600; margin:2px 0 8px; }
     .dl-secondary { display:flex; flex-wrap:wrap; gap:12px; margin-top:26px; }
     .ig-btn { display:inline-flex; align-items:center; gap:9px; padding:12px 20px; border-radius:12px; font-size:14px; font-weight:700; text-decoration:none; color:#fff; border:none; background:linear-gradient(120deg,#7c3aed,#d6249f 48%,#fd5949 78%,#fdc468); }
     .ig-btn:hover { opacity:.92; transform:translateY(-2px); }
@@ -243,6 +244,7 @@
         <button type="submit" class="wl-btn" data-i18n="d_wl_btn">Préviens-moi au lancement →</button>
       </form>
       <div class="wl-success" id="wl-success" data-i18n="d_wl_ok" hidden>✓ Tu es sur la liste ! On te prévient dès le lancement.</div>
+      <div class="dl-founding" data-i18n="d_founding"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="flex-shrink:0"><path d="m12 3 2.5 5.6 6.1.5-4.6 4 1.4 6L12 21l-5.4 3.1 1.4-6-4.6-4 6.1-.5z"/></svg> Les inscrits deviennent membres fondateurs — accès en avant-première à Dakar.</div>
 
       <div class="stores">
         <a class="store" aria-disabled="true" role="button">
@@ -262,7 +264,7 @@
         </a>
       </div>
 
-      <p class="dl-note"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v5l3 2"/></svg> <span data-i18n="d_note">Pas encore en ligne — suis-nous pour connaître la date de lancement.</span></p>
+      <p class="dl-note"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v5l3 2"/></svg> <span data-i18n="d_note">Pas encore en ligne — laisse ton email, on te prévient au lancement (zéro spam).</span></p>
 
       <div class="dl-secondary">
         <a class="ig-btn" href="https://www.instagram.com/jobeapp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.25" fill="currentColor" stroke="none"/></svg> <span data-i18n="d_ig">Suis @jobeapp</span></a>
@@ -338,7 +340,8 @@ const T = {
     d_badge_soon:"Soon", d_badge_soon2:"Soon",
     d_apple_top:"Coming soon to", d_apple_big:"App Store",
     d_g_top:"Coming soon to", d_g_big:"Google Play",
-    d_note:"Not live yet — follow us to know the launch date.",
+    d_note:"Not live yet — drop your email and we'll tell you at launch (zero spam).",
+    d_founding:"Sign-ups become founding members — early access in Dakar.",
     d_ig:"Follow @jobeapp", d_contact:"A question?",
     pf_tag:"Meet. Connect. Seize the opportunity.", pf_pill:"iOS · Android · Soon",
     g_label:"In the app", g_h:"What you'll find on Jobé",
@@ -357,7 +360,8 @@ const T = {
     d_badge_soon:"即将", d_badge_soon2:"即将",
     d_apple_top:"即将上架", d_apple_big:"App Store",
     d_g_top:"即将上架", d_g_big:"Google Play",
-    d_note:"尚未上线——关注我们以获取发布日期。",
+    d_note:"尚未上线——留下邮箱，上线时通知你（绝无垃圾邮件）。",
+    d_founding:"注册者将成为创始成员——达喀尔抢先体验。",
     d_ig:"关注 @jobeapp", d_contact:"有问题？",
     pf_tag:"相遇。连接。把握机会。", pf_pill:"iOS · Android · 即将",
     g_label:"应用内", g_h:"你将在 Jobé 发现什么",
