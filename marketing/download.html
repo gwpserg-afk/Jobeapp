@@ -237,9 +237,9 @@
       <h1 class="d-h1"><span data-i18n="d_h1">Télécharge </span><span class="g" data-i18n="d_h1g">Jobé</span></h1>
       <p class="d-sub" data-i18n="d_sub">Le réseau social professionnel de la jeunesse sénégalaise — connexions, groupes et opportunités, dans ta poche. L'app arrive bientôt sur iOS et Android.</p>
 
-      <form class="wl-form" id="wl-form" action="https://formspree.io/f/xeebeyzn" method="POST" onsubmit="return submitWaitlist(event)">
+      <form class="wl-form" id="wl-form" action="/api/waitlist" method="POST" onsubmit="return submitWaitlist(event)">
         <input class="wl-input" type="email" name="email" required placeholder="ton@email.com" data-i18n-ph="d_wl_ph" aria-label="Email" />
-        <input type="hidden" name="_subject" value="Nouvelle inscription waitlist Jobé (page download)" />
+        <input class="wl-input" type="tel" name="phone" placeholder="Téléphone (optionnel)" data-i18n-ph="d_wl_phone" aria-label="Téléphone" />
         <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <button type="submit" class="wl-btn" data-i18n="d_wl_btn">Préviens-moi au lancement →</button>
       </form>
@@ -336,7 +336,7 @@ const T = {
     n_rec:"For you", n_how:"How it works", n_contact:"Contact", n_jobs:"Jobs", n_dl:"Download",
     d_soon:"Coming soon 🇸🇳", d_h1:"Download ", d_h1g:"Jobé",
     d_sub:"The professional social network for Senegal's youth — connections, groups and opportunities, in your pocket. The app lands soon on iOS and Android.",
-    d_wl_ph:"you@email.com", d_wl_btn:"Notify me at launch →", d_wl_ok:"✓ You're on the list! We'll let you know at launch.",
+    d_wl_ph:"you@email.com", d_wl_phone:"Phone (optional)", d_wl_btn:"Notify me at launch →", d_wl_ok:"✓ You're on the list! We'll let you know at launch.",
     d_badge_soon:"Soon", d_badge_soon2:"Soon",
     d_apple_top:"Coming soon to", d_apple_big:"App Store",
     d_g_top:"Coming soon to", d_g_big:"Google Play",
@@ -356,7 +356,7 @@ const T = {
     n_rec:"为你服务", n_how:"使用方法", n_contact:"联系", n_jobs:"职位", n_dl:"下载",
     d_soon:"即将上线 🇸🇳", d_h1:"下载 ", d_h1g:"Jobé",
     d_sub:"塞内加尔年轻人的职业社交网络——人脉、社群与机会，尽在掌中。应用即将登陆 iOS 和 Android。",
-    d_wl_ph:"你的邮箱@email.com", d_wl_btn:"上线时通知我 →", d_wl_ok:"✓ 你已加入名单！上线时我们会通知你。",
+    d_wl_ph:"你的邮箱@email.com", d_wl_phone:"电话（可选）", d_wl_btn:"上线时通知我 →", d_wl_ok:"✓ 你已加入名单！上线时我们会通知你。",
     d_badge_soon:"即将", d_badge_soon2:"即将",
     d_apple_top:"即将上架", d_apple_big:"App Store",
     d_g_top:"即将上架", d_g_big:"Google Play",
@@ -392,7 +392,9 @@ function submitWaitlist(e){
   e.preventDefault();
   const f = e.target, btn = f.querySelector('.wl-btn');
   if (btn) btn.disabled = true;
-  fetch(f.action, { method:'POST', body:new FormData(f), headers:{ Accept:'application/json' } })
+  const data = { email: f.email.value.trim(), phone: f.phone ? f.phone.value.trim() : '',
+                 lang: (typeof lang !== 'undefined' ? lang : 'fr'), _gotcha: f._gotcha ? f._gotcha.value : '' };
+  fetch('/api/waitlist', { method:'POST', headers:{ 'Content-Type':'application/json', Accept:'application/json' }, body: JSON.stringify(data) })
     .then(r => {
       if (r.ok) { f.hidden = true; const ok = document.getElementById('wl-success'); if (ok) ok.hidden = false; }
       else { if (btn) btn.disabled = false; alert('Oups — réessaie.'); }

@@ -1583,9 +1583,9 @@
         <span class="g" data-i18n="dl_h2">Rejoins la liste.</span>
       </h2>
       <p class="cta-sub" data-i18n="dl_sub">Jobé arrive bientôt au Sénégal. Laisse ton email pour être prévenu(e) dès le lancement — et faire partie des premiers membres de la communauté.</p>
-      <form class="wl-form" id="wl-form" action="https://formspree.io/f/xeebeyzn" method="POST" onsubmit="return submitWaitlist(event)">
+      <form class="wl-form" id="wl-form" action="/api/waitlist" method="POST" onsubmit="return submitWaitlist(event)">
         <input class="wl-input" type="email" name="email" required placeholder="ton@email.com" data-i18n-ph="wl_ph" aria-label="Email" />
-        <input type="hidden" name="_subject" value="Nouvelle inscription waitlist Jobé" />
+        <input class="wl-input" type="tel" name="phone" placeholder="Téléphone (optionnel)" data-i18n-ph="wl_phone" aria-label="Téléphone" />
         <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <button type="submit" class="wl-btn" data-i18n="wl_btn">Rejoindre la liste →</button>
       </form>
@@ -1752,7 +1752,7 @@ const T = {
     dl_on:"Coming soon to", dl_get:"Coming soon to", dl_web_sup:"Direct access", dl_web_nm:"Web Version",
     dl_note:"✓ Free · ✓ Coming soon on iOS & Android · ✓ Built in Senegal",
     dl_ig:"Follow us on Instagram @jobeapp",
-    wl_ph:"you@email.com", wl_btn:"Join the list →", wl_ok:"✓ You're on the list! We'll let you know at launch.", wl_hint:"Free · No spam · Built in Dakar, Senegal 🇸🇳",
+    wl_ph:"you@email.com", wl_phone:"Phone (optional)", wl_btn:"Join the list →", wl_ok:"✓ You're on the list! We'll let you know at launch.", wl_hint:"Free · No spam · Built in Dakar, Senegal 🇸🇳",
     as_h:"Continue in the app", as_p:"Download Jobé to interact, post and connect with your community.", as_cta:"Get the app →", as_later:"Maybe later",
     fd:"The social network for Senegal's entrepreneurs and professionals. Community, network and opportunities — built in Dakar, Senegal. iOS &amp; Android app.",
     f_pl:"Platform", f_jobs:"Jobs", f_train:"Training", f_net:"Network", f_mob:"Mobile app",
@@ -1821,7 +1821,7 @@ const T = {
     dl_on:"即将上线", dl_get:"即将上线", dl_web_sup:"直接访问", dl_web_nm:"网页版",
     dl_note:"✓ 免费 · ✓ iOS 和 Android 即将推出 · ✓ 塞内加尔制造",
     dl_ig:"在 Instagram 关注我们 @jobeapp",
-    wl_ph:"你的邮箱@email.com", wl_btn:"加入名单 →", wl_ok:"✓ 你已加入名单！上线时我们会通知你。", wl_hint:"免费 · 无垃圾邮件 · 达喀尔，塞内加尔制造 🇸🇳",
+    wl_ph:"你的邮箱@email.com", wl_phone:"电话（可选）", wl_btn:"加入名单 →", wl_ok:"✓ 你已加入名单！上线时我们会通知你。", wl_hint:"免费 · 无垃圾邮件 · 达喀尔，塞内加尔制造 🇸🇳",
     as_h:"在应用中继续", as_p:"下载 Jobé 即可互动、发布并连接你的社区。", as_cta:"下载应用 →", as_later:"以后再说",
     fd:"塞内加尔创业者与专业人士的社交网络。社区、人脉与机会——达喀尔制造。iOS 和 Android 应用。",
     f_pl:"平台", f_jobs:"职位", f_train:"培训", f_net:"人脉", f_mob:"移动应用",
@@ -1894,7 +1894,9 @@ function submitWaitlist(e) {
   const f = e.target;
   const btn = f.querySelector('.wl-btn');
   if (btn) btn.disabled = true;
-  fetch(f.action, { method: 'POST', body: new FormData(f), headers: { Accept: 'application/json' } })
+  const data = { email: f.email.value.trim(), phone: f.phone ? f.phone.value.trim() : '',
+                 lang: (typeof lang !== 'undefined' ? lang : 'fr'), _gotcha: f._gotcha ? f._gotcha.value : '' };
+  fetch('/api/waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
     .then(r => {
       if (r.ok) {
         f.hidden = true;
@@ -1902,10 +1904,7 @@ function submitWaitlist(e) {
         if (ok) ok.hidden = false;
       } else {
         if (btn) btn.disabled = false;
-        r.json().then(d => {
-          const msg = (d && d.errors && d.errors[0] && d.errors[0].message) || 'Oups — réessaie.';
-          alert(msg);
-        }).catch(() => alert('Oups — réessaie.'));
+        alert('Oups — réessaie.');
       }
     })
     .catch(() => { if (btn) btn.disabled = false; alert('Erreur réseau — réessaie.'); });
