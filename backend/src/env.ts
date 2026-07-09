@@ -54,6 +54,13 @@ function validateEnv() {
  */
 export const env = validateEnv();
 
+// On Render (and similar hosts) the public URL is provided automatically.
+// Use it as BACKEND_URL when we didn't set one explicitly, so Better Auth's
+// baseURL is correct in production without hardcoding the deploy URL.
+if (!env.BACKEND_URL && process.env.RENDER_EXTERNAL_URL) {
+  env.BACKEND_URL = process.env.RENDER_EXTERNAL_URL;
+}
+
 /**
  * Type of the validated environment variables
  */

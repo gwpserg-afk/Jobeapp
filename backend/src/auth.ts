@@ -17,6 +17,10 @@ export const auth = betterAuth({
     "exp://*/*",
     "http://localhost:*",
     "http://127.0.0.1:*",
+    "https://*.trycloudflare.com",
+    "https://*.onrender.com",
+    "https://*.expo.dev",
+    "https://*.exp.direct",
   ],
   plugins: [
     expo(),
@@ -30,6 +34,16 @@ export const auth = betterAuth({
   ],
   user: {
     additionalFields: {
+      username: {
+        type: "string",
+        required: false,
+        input: true,
+      },
+      bio: {
+        type: "string",
+        required: false,
+        input: true,
+      },
       accountType: {
         type: "string",
         defaultValue: "candidate",
