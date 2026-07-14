@@ -44,6 +44,16 @@ export const auth = betterAuth({
         required: false,
         input: true,
       },
+      location: {
+        type: "string",
+        required: false,
+        input: true,
+      },
+      instagram: {
+        type: "string",
+        required: false,
+        input: true,
+      },
       accountType: {
         type: "string",
         defaultValue: "candidate",
