@@ -67,6 +67,7 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html, body { overflow-x: hidden; max-width: 100%; }
     body {
       background: var(--bg);
       color: var(--text);
@@ -475,22 +476,54 @@
       .three-col { grid-template-columns: 1fr; }
     }
     @media (max-width: 860px) {
-      .sidebar { transform: translateX(-100%); box-shadow: var(--shadow); }
+      .sidebar { transform: translateX(-100%); box-shadow: var(--shadow); width: 260px; }
       .sidebar.open { transform: translateX(0); }
-      .main { margin-left: 0; }
+      .main { margin-left: 0; width: 100%; min-width: 0; }
       .hamburger { display: flex; }
-      .content { padding: 20px 16px; }
+      .content { padding: 18px 14px; }
       .two-col { grid-template-columns: 1fr; }
       .qr-section { flex-direction: column; }
       .qr-box { align-self: center; }
       .status-dot span:not(.dot) { display: none; }
       .status-dot { padding: 7px; }
     }
-    @media (max-width: 480px) {
-      .stats-grid { grid-template-columns: 1fr 1fr; }
-      .topbar { padding: 0 14px; }
-      .lang-btn { padding: 4px 7px; }
-      .card { padding: 18px; }
+    /* Phone pass — make everything usable + edge-to-edge clean */
+    @media (max-width: 600px) {
+      .topbar { padding: 0 14px; height: 56px; }
+      .topbar-right { gap: 6px; }
+      .lang-group { padding: 2px; }
+      .lang-btn { padding: 5px 8px; font-size: 12px; }
+      .theme-btn { width: 34px; height: 34px; }
+      .status-dot { display: none; }            /* free up topbar space on phones */
+      .hamburger { width: 40px; height: 40px; font-size: 20px; }
+      .page-title { font-size: 16px; }
+
+      .content { padding: 16px 12px; gap: 20px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .stat-card { padding: 14px; }
+      .stat-value { font-size: 22px !important; }
+      .card { padding: 16px; border-radius: 14px; }
+      .section-title { font-size: 15px; }
+
+      /* wrap any chip/tag rows so nothing overflows sideways */
+      .chips, .tags, .tag-row, .person-row, .link-list { flex-wrap: wrap; }
+      .tag, .chip { font-size: 11px; }
+
+      /* sidebar nav = bigger tap targets */
+      .sidebar-nav a, .nav-item { padding: 12px 16px; font-size: 15px; }
+
+      /* build plan / roadmap / activity rows stack cleanly */
+      .roadmap-item, .build-item, .activity-item { gap: 10px; }
+      .mytask-input-row { flex-direction: column; }
+      .mytask-add-btn { padding: 11px; }
+
+      /* QR block full width, input readable */
+      .qr-input { font-size: 13px; }
+      .qr-url-row { flex-direction: column; }
+      .qr-btn { padding: 10px; }
+    }
+    @media (max-width: 380px) {
+      .stats-grid { grid-template-columns: 1fr; }
     }
 
     /* ── MY TO-DO ── */
