@@ -4,6 +4,8 @@ import { logger } from "hono/logger";
 import "./env";
 import { auth } from "./auth";
 import { authMiddleware } from "./middleware";
+import { followRouter } from "./routes/follow";
+import { blockRouter } from "./routes/block";
 import { prisma } from "./prisma";
 import type { Variables } from "./types";
 
@@ -147,6 +149,8 @@ app.route("/api/generate-images", generateImagesRouter);
 app.route("/api/phone-verify", phoneVerifyRouter);
 app.route("/api/search", searchRouter);
 app.route("/api/posts", postsRouter);
+app.route("/api/follow", followRouter);
+app.route("/api/block", blockRouter);
 app.route("/api/profile-views", profileViewsRouter);
 app.route("/api/reports", reportsRouter);
 app.route("/api/report", reportRouter);

@@ -3,7 +3,7 @@ import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 import { prisma } from "../prisma";
 import type { Variables } from "../types";
-import { containsProfanity, getProfanityError } from "../utils/profanityFilter";
+import { containsProfanity, getProfanityError, moderateAI } from "../utils/profanityFilter";
 
 const router = new Hono<{ Variables: Variables }>();
 
@@ -37,8 +37,16 @@ router.get("/feed", async (c) => {
   const page = Math.max(1, parseInt(pageStr, 10) || 1);
   const limit = Math.min(50, parseInt(limitStr, 10) || 20);
 
+  // Hide posts from users I've blocked (and who blocked me).
+  const blocks = await prisma.block.findMany({
+    where: { OR: [{ blockerId: user.id }, { blockedId: user.id }] },
+    select: { blockerId: true, blockedId: true },
+  });
+  const excludeIds = new Set<string>();
+  blocks.forEach((b) => { excludeIds.add(b.blockerId === user.id ? b.blockedId : b.blockerId); });
+
   const posts = await prisma.post.findMany({
-    where: { isHidden: false },
+    where: { isHidden: false, userId: { notIn: Array.from(excludeIds) } },
     orderBy: [{ isPinned: "desc" }, { createdAt: "desc" }],
     skip: (page - 1) * limit,
     take: limit,
@@ -47,6 +55,7 @@ router.get("/feed", async (c) => {
         select: {
           id: true,
           name: true,
+          username: true,
           image: true,
           accountType: true,
           isVerified: true,
@@ -159,6 +168,10 @@ router.post(
     if (containsProfanity(data.content)) {
       return c.json({ error: { message: getProfanityError(), code: "PROFANITY" } }, 422);
     }
+    // AI moderation for text + image (no-op unless OPENAI_API_KEY is set on host)
+    if (await moderateAI({ text: data.content, imageUrl: data.imageUrl ?? undefined })) {
+      return c.json({ error: { message: getProfanityError(), code: "MODERATION" } }, 422);
+    }
 
     const post = await prisma.post.create({
       data: {
@@ -200,6 +213,7 @@ router.get("/my-comments", async (c) => {
         select: {
           id: true,
           name: true,
+          username: true,
           image: true,
           accountType: true,
           isVerified: true,
@@ -235,6 +249,7 @@ router.get("/:id", async (c) => {
         select: {
           id: true,
           name: true,
+          username: true,
           image: true,
           accountType: true,
           isVerified: true,
@@ -256,7 +271,7 @@ router.get("/:id", async (c) => {
       orderBy: { createdAt: "asc" },
       include: {
         user: {
-          select: { id: true, name: true, image: true, accountType: true, isVerified: true, isGoldVerified: true, isPremium: true },
+          select: { id: true, name: true, username: true, image: true, accountType: true, isVerified: true, isGoldVerified: true, isPremium: true },
         },
       },
     }),
@@ -375,6 +390,10 @@ router.post(
 
     const postId = c.req.param("id");
     const { content } = c.req.valid("json");
+
+    if (containsProfanity(content)) {
+      return c.json({ error: { message: getProfanityError(), code: "PROFANITY" } }, 422);
+    }
 
     const comment = await prisma.postComment.create({
       data: { userId: user.id, postId, content },

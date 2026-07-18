@@ -44,4 +44,42 @@ reportsRouter.post(
   }
 );
 
+// GET /api/reports?key=ADMIN_KEY — admin: list all reports for the dashboard.
+// Protected by ADMIN_KEY (not a user session) so the internal dashboard can read it.
+reportsRouter.get("/", async (c) => {
+  const key = c.req.query("key") ?? c.req.header("x-admin-key");
+  if (!process.env.ADMIN_KEY || key !== process.env.ADMIN_KEY) {
+    return c.json({ error: { message: "Forbidden", code: "FORBIDDEN" } }, 403);
+  }
+
+  const reports = await prisma.report.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 200,
+    include: {
+      reporter: { select: { id: true, name: true, username: true } },
+    },
+  });
+
+  // Enrich with a snippet of what was reported
+  const enriched = await Promise.all(
+    reports.map(async (r) => {
+      let snippet = "";
+      let author = "";
+      if (r.type === "post" || r.type === "comment") {
+        const row = r.type === "post"
+          ? await prisma.post.findUnique({ where: { id: r.targetId }, include: { user: { select: { name: true, username: true } } } })
+          : await prisma.postComment.findUnique({ where: { id: r.targetId }, include: { user: { select: { name: true, username: true } } } });
+        snippet = (row as { content?: string } | null)?.content?.slice(0, 140) ?? "(deleted)";
+        author = (row as { user?: { name?: string } } | null)?.user?.name ?? "";
+      }
+      return {
+        id: r.id, type: r.type, targetId: r.targetId, reason: r.reason,
+        createdAt: r.createdAt, reporter: r.reporter, snippet, author,
+      };
+    })
+  );
+
+  return c.json({ data: { reports: enriched } });
+});
+
 export { reportsRouter };
