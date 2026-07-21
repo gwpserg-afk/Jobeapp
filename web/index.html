@@ -714,6 +714,36 @@
       </div>
     </div>
 
+    <!-- ═══ REPORTS ═══ -->
+    <div class="page" id="page-reports">
+      <div class="card">
+        <div class="card-title" data-i18n="rep_title">Reported content</div>
+        <div class="card-sub" data-i18n="rep_sub">User reports from the app. Reported posts are auto-hidden pending review.</div>
+
+        <!-- key gate -->
+        <div id="rep-keygate" style="display:none">
+          <div style="font-size:13px;color:var(--muted);margin:14px 0 10px" data-i18n="rep_key_hint">Enter your admin key once to view reports (stored only in this browser).</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input id="rep-key-input" type="password" placeholder="ADMIN_KEY" style="flex:1;min-width:200px;background:var(--elevated);border:1px solid var(--border);border-radius:12px;padding:12px 14px;color:var(--text);font-size:14px;outline:none" />
+            <button class="mytask-add-btn" onclick="saveReportKey()" data-i18n="rep_unlock">Unlock</button>
+          </div>
+          <div id="rep-key-err" style="display:none;color:var(--red);font-size:12px;margin-top:8px"></div>
+        </div>
+
+        <!-- reports view -->
+        <div id="rep-view" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin:14px 0 4px;flex-wrap:wrap;gap:10px">
+            <div id="rep-count" style="font-size:13px;color:var(--muted)"></div>
+            <div style="display:flex;gap:8px">
+              <button class="qr-btn" onclick="loadReports()" data-i18n="rep_refresh">Refresh</button>
+              <button class="qr-btn" onclick="forgetReportKey()" style="background:var(--elevated);color:var(--sub)" data-i18n="rep_lock">Lock</button>
+            </div>
+          </div>
+          <div id="rep-list" class="activity-list"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- ═══ ROADMAP ═══ -->
     <div class="page" id="page-roadmap">
       <div class="card">
@@ -921,6 +951,7 @@ const NAV = [
   { section: "nav_overview" },
   { id: "overview", icon: "◎", key: "nav_home" },
   { id: "app", icon: "📱", key: "nav_app" },
+  { id: "reports", icon: "🛡", key: "nav_reports", badgeId: "nav-reports-badge" },
   { id: "roadmap", icon: "🗺", key: "nav_roadmap" },
   { id: "build", icon: "🧱", key: "nav_build", badgeId: "nav-build-badge" },
   { section: "nav_personal" },
@@ -936,6 +967,7 @@ const NAV = [
 
 const T = {
   en: {
+    nav_reports:"Reports", rep_title:"Reported content", rep_sub:"User reports from the app. Reported posts are auto-hidden pending review.", rep_key_hint:"Enter your admin key once to view reports (stored only in this browser).", rep_unlock:"Unlock", rep_refresh:"Refresh", rep_lock:"Lock", rep_empty:"No reports yet — nothing flagged. 🎉", rep_badkey:"Wrong key — try again.",
     dashboard:"Internal Dashboard", nav_overview:"Overview", nav_home:"Home", nav_app:"Application",
     nav_roadmap:"Roadmap", nav_product:"Product", nav_design:"Design & Brand", nav_stack:"Stack",
     nav_growth:"Growth", nav_tasks:"Tasks", nav_marketing:"Marketing", nav_links:"Links & Resources",
@@ -1082,10 +1114,11 @@ const T = {
         {id:"t-backend", title:"Backend + auth working", desc:"Hono + Prisma + Better Auth email OTP", color:"green"}
       ]
     },
-    pageTitles:{overview:"Overview", app:"Mobile App", roadmap:"Roadmap", build:"Build Plan", mytasks:"My To-Do", design:"Design & Brand", stack:"Tech Stack", marketing:"Marketing", links:"Links", tasks:"Tasks"}
+    pageTitles:{overview:"Overview", app:"Mobile App", reports:"Reports", roadmap:"Roadmap", build:"Build Plan", mytasks:"My To-Do", design:"Design & Brand", stack:"Tech Stack", marketing:"Marketing", links:"Links", tasks:"Tasks"}
   },
 
   fr: {
+    nav_reports:"Signalements", rep_title:"Contenu signalé", rep_sub:"Signalements des utilisateurs. Les publications signalées sont masquées automatiquement en attendant vérification.", rep_key_hint:"Entrez votre clé admin une fois pour voir les signalements (stockée uniquement dans ce navigateur).", rep_unlock:"Déverrouiller", rep_refresh:"Actualiser", rep_lock:"Verrouiller", rep_empty:"Aucun signalement — rien à modérer. 🎉", rep_badkey:"Clé incorrecte — réessayez.",
     dashboard:"Dashboard interne", nav_overview:"Vue d'ensemble", nav_home:"Accueil", nav_app:"Application",
     nav_roadmap:"Roadmap", nav_product:"Produit", nav_design:"Design & Brand", nav_stack:"Stack",
     nav_growth:"Croissance", nav_tasks:"Tâches", nav_marketing:"Marketing", nav_links:"Liens & Ressources",
@@ -1231,10 +1264,11 @@ const T = {
         {id:"t-backend", title:"Backend + auth fonctionnels", desc:"Hono + Prisma + Better Auth OTP email", color:"green"}
       ]
     },
-    pageTitles:{overview:"Vue d'ensemble", app:"Application mobile", roadmap:"Roadmap", build:"Plan de build", mytasks:"Mes tâches", design:"Design & Brand", stack:"Stack technique", marketing:"Marketing", links:"Liens", tasks:"Tâches"}
+    pageTitles:{overview:"Vue d'ensemble", app:"Application mobile", reports:"Signalements", roadmap:"Roadmap", build:"Plan de build", mytasks:"Mes tâches", design:"Design & Brand", stack:"Stack technique", marketing:"Marketing", links:"Liens", tasks:"Tâches"}
   },
 
   zh: {
+    nav_reports:"举报", rep_title:"被举报内容", rep_sub:"来自应用的用户举报。被举报的帖子会自动隐藏，等待审核。", rep_key_hint:"输入一次管理员密钥即可查看举报（仅存储在此浏览器）。", rep_unlock:"解锁", rep_refresh:"刷新", rep_lock:"锁定", rep_empty:"暂无举报——一切正常。🎉", rep_badkey:"密钥错误——请重试。",
     dashboard:"内部仪表板", nav_overview:"概览", nav_home:"首页", nav_app:"应用程序",
     nav_roadmap:"路线图", nav_product:"产品", nav_design:"设计与品牌", nav_stack:"技术栈",
     nav_growth:"增长", nav_tasks:"任务", nav_marketing:"市场营销", nav_links:"链接与资源",
@@ -1380,7 +1414,7 @@ const T = {
         {id:"t-backend", title:"后端 + 认证正常", desc:"Hono + Prisma + Better Auth 邮箱OTP", color:"green"}
       ]
     },
-    pageTitles:{overview:"概览", app:"移动应用", roadmap:"路线图", build:"构建计划", mytasks:"我的待办", design:"设计与品牌", stack:"技术栈", marketing:"市场营销", links:"链接", tasks:"任务"}
+    pageTitles:{overview:"概览", app:"移动应用", reports:"举报", roadmap:"路线图", build:"构建计划", mytasks:"我的待办", design:"设计与品牌", stack:"技术栈", marketing:"市场营销", links:"链接", tasks:"任务"}
   }
 };
 
@@ -1722,6 +1756,63 @@ function showPage(id) {
   document.getElementById('page-title').textContent = T[currentLang].pageTitles[id];
   closeSidebar();
   window.scrollTo(0,0);
+  if (id === 'reports') initReports();
+}
+
+/* ── REPORTS ── */
+const REPORTS_API = "https://jobe-backend-6aox.onrender.com/api/reports";
+function repKey() { return localStorage.getItem('jobe_admin_key') || ''; }
+function initReports() {
+  const hasKey = !!repKey();
+  document.getElementById('rep-keygate').style.display = hasKey ? 'none' : 'block';
+  document.getElementById('rep-view').style.display = hasKey ? 'block' : 'none';
+  if (hasKey) loadReports();
+}
+async function saveReportKey() {
+  const v = document.getElementById('rep-key-input').value.trim();
+  if (!v) return;
+  localStorage.setItem('jobe_admin_key', v);
+  document.getElementById('rep-key-err').style.display = 'none';
+  initReports();
+}
+function forgetReportKey() { localStorage.removeItem('jobe_admin_key'); initReports(); }
+function esc2(s){ return String(s??'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+async function loadReports() {
+  const list = document.getElementById('rep-list');
+  const t = T[currentLang];
+  list.innerHTML = `<div style="padding:20px;color:var(--muted);font-size:13px">…</div>`;
+  try {
+    const res = await fetch(`${REPORTS_API}?key=${encodeURIComponent(repKey())}`);
+    if (res.status === 403) {
+      const err = document.getElementById('rep-key-err');
+      forgetReportKey();
+      document.getElementById('rep-keygate').style.display = 'block';
+      document.getElementById('rep-view').style.display = 'none';
+      err.textContent = t.rep_badkey; err.style.display = 'block';
+      return;
+    }
+    const json = await res.json();
+    const reports = json?.data?.reports || [];
+    document.getElementById('rep-count').textContent = `${reports.length} ${reports.length === 1 ? 'report' : 'reports'}`;
+    if (!reports.length) { list.innerHTML = `<div style="padding:28px 8px;text-align:center;color:var(--muted);font-size:14px">${esc2(t.rep_empty)}</div>`; return; }
+    list.innerHTML = reports.map(r => {
+      const when = new Date(r.createdAt).toLocaleString();
+      const rep = r.reporter ? (r.reporter.username ? '@'+r.reporter.username : r.reporter.name) : '?';
+      const typeColor = r.type==='post' ? 'var(--red)' : r.type==='comment' ? 'var(--yellow)' : 'var(--blue)';
+      return `<div class="activity-item" style="align-items:flex-start">
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px">
+            <span style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:${typeColor};background:var(--elevated);padding:2px 8px;border-radius:6px">${esc2(r.type)}</span>
+            <span style="font-size:12px;color:var(--muted)">${esc2(r.reason)}</span>
+          </div>
+          ${r.snippet ? `<div style="font-size:13px;color:var(--text);margin:2px 0">“${esc2(r.snippet)}”</div>` : ''}
+          <div style="font-size:11px;color:var(--muted)">${r.author?('by '+esc2(r.author)+' · '):''}reported by ${esc2(rep)} · ${esc2(when)}</div>
+        </div>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    list.innerHTML = `<div style="padding:20px;color:var(--red);font-size:13px">Error loading reports</div>`;
+  }
 }
 
 /* ── MOBILE SIDEBAR ── */
