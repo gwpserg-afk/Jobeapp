@@ -6,6 +6,7 @@ import { auth } from "./auth";
 import { authMiddleware } from "./middleware";
 import { followRouter } from "./routes/follow";
 import { blockRouter } from "./routes/block";
+import { diagRouter } from "./routes/diag";
 import { prisma } from "./prisma";
 import type { Variables } from "./types";
 
@@ -151,6 +152,7 @@ app.route("/api/search", searchRouter);
 app.route("/api/posts", postsRouter);
 app.route("/api/follow", followRouter);
 app.route("/api/block", blockRouter);
+app.route("/api/_diag", diagRouter);
 app.route("/api/profile-views", profileViewsRouter);
 app.route("/api/reports", reportsRouter);
 app.route("/api/report", reportRouter);
