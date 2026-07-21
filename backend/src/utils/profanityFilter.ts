@@ -33,10 +33,12 @@ const WORD_TERMS = [
   "nigger", "nigga", "faggot", "fag", "retarded", "chink", "spic", "kike", "tranny",
   // FR sexual / explicit
   "salope", "salopes", "pute", "putes", "putain", "chatte", "bite", "nichon",
-  "nichons", "branler", "sodomie", "viol", "violer", "zoophile",
+  "nichons", "branler", "sodomie", "viol", "violer", "zoophile", "couille",
+  "couilles", "nique", "niquer", "niquez", "foutre",
   // FR profanity / slurs
-  "merde", "merdique", "salaud", "batard", "conne", "connard", "connasse",
-  "pede", "tapette", "bougnoule", "negre", "encule", "encules",
+  "merde", "merdique", "salaud", "salopard", "batard", "conne", "connard",
+  "connasse", "connards", "pede", "tapette", "bougnoule", "negre", "encule",
+  "encules", "enfoire", "pouffiasse", "petasse", "chier", "chiant", "trouduc",
 ];
 
 // Normalize leetspeak/obfuscation so "f*ck", "sh1t", "p0rn", "f.u.c.k" match.
