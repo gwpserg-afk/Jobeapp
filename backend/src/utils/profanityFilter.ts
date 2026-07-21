@@ -1,41 +1,45 @@
 // Content moderation for Jobé — a professional network for entrepreneurs.
-// Goal: keep it organized/professional. Blocks explicit sexual content, slurs,
-// and hard profanity in BOTH English and French (the core user languages).
+// Blocks explicit sexual content, slurs, and hard profanity in EN + FR.
 //
-// Two tiers:
-//  - HARD terms (sexual/hate/slurs): matched even inside words, after leetspeak
-//    normalization, because these have no legitimate place here.
-//  - WORD terms (general profanity): matched on word boundaries to limit false
-//    positives (e.g. "hell" in "hello" must not trip).
+// Matching strategy (tuned to avoid false positives on business language):
+//  - SUBSTRING terms: only phrases that NEVER appear inside legitimate words
+//    (e.g. "blowjob", "pornographie"). Safe to match anywhere.
+//  - WORD terms: matched as whole tokens after normalization, so business words
+//    that merely CONTAIN a flagged fragment are NOT blocked:
+//      analytics⊃anal, dispute⊃pute, suspicious⊃spic, cocktail⊃cock,
+//      violation⊃viol, and FR "retard" (=late) must all PASS.
 //
-// NOTE: fast local filter for obvious cases. Nuanced text + IMAGE moderation
-// should use an AI moderation API (OpenAI /moderations handles text + images)
-// once OPENAI_API_KEY is set on the host — see moderateAI().
+// Nuanced/contextual cases and IMAGES are handled by moderateAI() (OpenAI).
 
-const HARD_TERMS = [
-  // sexual / explicit (EN)
-  "porn", "pornhub", "xxx", "blowjob", "handjob", "cumshot", "creampie", "gangbang",
-  "dildo", "masturbat", "ejaculat", "cunnilingus", "fellatio", "hentai", "bukkake",
-  "pussy", "cunt", "cock", "boobs", "titties", "nipple", "anal", "rimjob",
-  // slurs / hate (EN)
-  "nigger", "nigga", "faggot", "retard", "chink", "spic", "kike", "tranny",
-  // sexual / explicit (FR)
-  "pornographie", "salope", "pute", "putain", "enculer", "encule", "chatte",
-  "branler", "branlette", "nichon", "penetration", "sodomie", "zoophilie",
-  "pedophile", "viol",
-  // slurs / hate (FR)
-  "bougnoule", "tapette", "connard", "connasse",
+// Always-bad compounds — safe to match as substrings.
+const SUBSTRING_TERMS = [
+  "porn", "blowjob", "handjob", "cumshot", "creampie", "gangbang",
+  "masturbat", "ejaculat", "cunnilingus", "fellatio", "bukkake", "rimjob",
+  "deepthroat", "cameltoe",
+  "pornographie", "enculer", "encule", "branlette", "zoophilie", "pedophile",
+  "motherfuck",
 ];
 
+// Whole-word terms (exact token match). Short/ambiguous fragments go HERE so
+// they never trip on legitimate words.
 const WORD_TERMS = [
-  // EN general profanity
+  // EN sexual / explicit
+  "porn", "xxx", "pussy", "cunt", "cock", "dick", "boobs", "titties", "nipple",
+  "nipples", "anal", "dildo", "hentai", "slut", "whore",
+  // EN profanity
   "fuck", "fucking", "fucker", "motherfucker", "shit", "bullshit", "asshole",
-  "bitch", "bastard", "whore", "slut", "dick", "wtf", "stfu",
-  // FR general profanity
-  "merde", "merdique", "salaud", "batard", "conne", "pede", "negre", "bite", "baiser",
+  "bitch", "bastard", "wtf", "stfu",
+  // EN slurs (note: bare "retard" excluded — it's FR for "late"; "retarded" kept)
+  "nigger", "nigga", "faggot", "fag", "retarded", "chink", "spic", "kike", "tranny",
+  // FR sexual / explicit
+  "salope", "salopes", "pute", "putes", "putain", "chatte", "bite", "nichon",
+  "nichons", "branler", "sodomie", "viol", "violer", "zoophile",
+  // FR profanity / slurs
+  "merde", "merdique", "salaud", "batard", "conne", "connard", "connasse",
+  "pede", "tapette", "bougnoule", "negre", "encule", "encules",
 ];
 
-// Normalize common leetspeak/obfuscation so "f*ck", "sh1t", "p0rn" still match.
+// Normalize leetspeak/obfuscation so "f*ck", "sh1t", "p0rn", "f.u.c.k" match.
 function normalize(text: string): string {
   return text
     .toLowerCase()
@@ -46,15 +50,16 @@ function normalize(text: string): string {
     .replace(/[1!|]/g, "i")
     .replace(/3/g, "e")
     .replace(/7/g, "t")
-    .replace(/[^a-z\s]/g, ""); // drop punctuation/symbols → collapses "f.u.c.k"
+    .replace(/[^a-z\s]/g, ""); // drop punctuation → collapses "f.u.c.k" → "fuck"
 }
 
 export function containsProfanity(text: string): boolean {
   if (!text) return false;
   const norm = normalize(text);
-  if (HARD_TERMS.some((t) => norm.includes(t))) return true;
+  if (SUBSTRING_TERMS.some((t) => norm.includes(t))) return true;
   const tokens = norm.split(/\s+/).filter(Boolean);
-  return tokens.some((tok) => WORD_TERMS.includes(tok));
+  const wordSet = new Set(WORD_TERMS);
+  return tokens.some((tok) => wordSet.has(tok));
 }
 
 export function getProfanityError() {
@@ -85,6 +90,6 @@ export async function moderateAI(input: { text?: string; imageUrl?: string }): P
     const data = (await res.json()) as { results?: { flagged?: boolean }[] };
     return !!data.results?.[0]?.flagged;
   } catch {
-    return false; // never block on moderation-service failure
+    return false;
   }
 }
