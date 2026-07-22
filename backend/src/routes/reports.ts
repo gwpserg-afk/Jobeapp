@@ -3,8 +3,13 @@ import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 import { prisma } from "../prisma";
 import type { Variables } from "../types";
+import { containsProfanity, moderateAI } from "../utils/profanityFilter";
 
 const reportsRouter = new Hono<{ Variables: Variables }>();
+
+// A post is auto-hidden when the community consensus reaches this many reports,
+// even if AI didn't flag it (catches spam/scams AI moderation doesn't cover).
+const REPORT_HIDE_THRESHOLD = 5;
 
 reportsRouter.post(
   "/",
@@ -19,28 +24,38 @@ reportsRouter.post(
 
     const { type, targetId, reason } = c.req.valid("json");
 
-    // Check if already reported by this user
+    // One report per user per target
     const existing = await prisma.report.findFirst({
-      where: { reporterId: user.id, type, targetId }
+      where: { reporterId: user.id, type, targetId },
     });
-
     if (existing) {
       return c.json({ data: { alreadyReported: true } });
     }
 
     await prisma.report.create({
-      data: { reporterId: user.id, type, targetId, reason }
+      data: { reporterId: user.id, type, targetId, reason },
     });
 
-    // If reporting a post, hide it immediately
+    // Smart moderation for posts: a single report must NOT nuke a good post.
+    // Re-analyze the content; hide only if AI/filter confirms it's bad, OR the
+    // report count crosses the community-consensus threshold.
+    let hidden = false;
     if (type === "post") {
-      await prisma.post.update({
-        where: { id: targetId },
-        data: { isHidden: true }
-      }).catch(() => {}); // ignore if post not found
+      const post = await prisma.post.findUnique({ where: { id: targetId } }).catch(() => null);
+      if (post && !post.isHidden) {
+        const aiFlagged =
+          containsProfanity(post.content) ||
+          (await moderateAI({ text: post.content, imageUrl: post.imageUrl ?? undefined }));
+        const reportCount = await prisma.report.count({ where: { type: "post", targetId } });
+
+        if (aiFlagged || reportCount >= REPORT_HIDE_THRESHOLD) {
+          await prisma.post.update({ where: { id: targetId }, data: { isHidden: true } }).catch(() => {});
+          hidden = true;
+        }
+      }
     }
 
-    return c.json({ data: { reported: true } }, 201);
+    return c.json({ data: { reported: true, hidden } }, 201);
   }
 );
 
