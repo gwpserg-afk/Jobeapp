@@ -7,9 +7,13 @@ import { containsProfanity, moderateAI } from "../utils/profanityFilter";
 
 const reportsRouter = new Hono<{ Variables: Variables }>();
 
-// A post is auto-hidden when the community consensus reaches this many reports,
-// even if AI didn't flag it (catches spam/scams AI moderation doesn't cover).
-const REPORT_HIDE_THRESHOLD = 5;
+// AI-confirmed bad content is hidden on the FIRST report. Content the AI judges
+// CLEAN is never taken down by a few troll reports — it only auto-hides once a
+// large community consensus is reached (this many distinct reporters), which is
+// the backstop for spam/scams the AI moderation can't detect (it only catches
+// sexual/violence/hate). Everything reported still surfaces in the admin dashboard
+// for human review regardless.
+const REPORT_HIDE_THRESHOLD = 10;
 
 reportsRouter.post(
   "/",
