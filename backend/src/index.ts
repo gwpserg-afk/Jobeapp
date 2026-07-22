@@ -42,6 +42,8 @@ const app = new Hono<{ Variables: Variables }>();
 const allowed = [
   /^http:\/\/localhost(:\d+)?$/,
   /^http:\/\/127\.0\.0\.1(:\d+)?$/,
+  /^https:\/\/([a-z0-9-]+\.)*jobeapp\.com$/,   // admin.jobeapp.com dashboard
+  /^https:\/\/([a-z0-9-]+\.)*vercel\.app$/,    // vercel preview deploys
 ];
 
 app.use(
