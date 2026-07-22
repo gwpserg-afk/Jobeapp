@@ -7,13 +7,14 @@ import { containsProfanity, moderateAI } from "../utils/profanityFilter";
 
 const reportsRouter = new Hono<{ Variables: Variables }>();
 
-// AI-confirmed bad content is hidden on the FIRST report. Content the AI judges
-// CLEAN is never taken down by a few troll reports — it only auto-hides once a
-// large community consensus is reached (this many distinct reporters), which is
-// the backstop for spam/scams the AI moderation can't detect (it only catches
-// sexual/violence/hate). Everything reported still surfaces in the admin dashboard
-// for human review regardless.
-const REPORT_HIDE_THRESHOLD = 10;
+// Tiered auto-hide. Never on a single report (avoids false flags / trolling).
+//  - If AI RE-FLAGS the reported content as bad → hide once a few people agree.
+//  - If AI judges it CLEAN (e.g. spam/scam the AI can't detect) → only hide on
+//    strong community consensus.
+// The worst content (explicit/hate/violence/profanity) never gets here — it's
+// blocked at post-creation. Everything reported still shows in the dashboard.
+const AI_FLAGGED_THRESHOLD = 3;   // AI + 3 reporters agree → hide
+const CONSENSUS_THRESHOLD = 10;   // AI-clean, but 10 reporters → hide (spam backstop)
 
 reportsRouter.post(
   "/",
@@ -52,7 +53,8 @@ reportsRouter.post(
           (await moderateAI({ text: post.content, imageUrl: post.imageUrl ?? undefined }));
         const reportCount = await prisma.report.count({ where: { type: "post", targetId } });
 
-        if (aiFlagged || reportCount >= REPORT_HIDE_THRESHOLD) {
+        const threshold = aiFlagged ? AI_FLAGGED_THRESHOLD : CONSENSUS_THRESHOLD;
+        if (reportCount >= threshold) {
           await prisma.post.update({ where: { id: targetId }, data: { isHidden: true } }).catch(() => {});
           hidden = true;
         }
