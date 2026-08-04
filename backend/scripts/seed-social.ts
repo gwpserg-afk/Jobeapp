@@ -10,25 +10,35 @@ import { prisma } from "../src/prisma";
 const now = Date.now();
 const hoursAgo = (h: number) => new Date(now - h * 3600_000);
 
+// Realistic demo avatars (Unsplash portraits). Cropped to faces, small + optimized.
+const AV = (id: string) => `https://images.unsplash.com/photo-${id}?w=256&h=256&fit=crop&crop=faces&auto=format&q=70`;
+// Post images (Unsplash). Wide crop, optimized for feed.
+const IMG = (id: string) => `https://images.unsplash.com/photo-${id}?w=1080&h=720&fit=crop&auto=format&q=70`;
+
 const USERS = [
   { username: "awa_ndiaye", name: "Awa Ndiaye", accountType: "candidate", isVerified: true,
+    image: AV("1531123897727-8f129e1688ce"),
     bio: "Fondatrice de Teranga Cosmetics 🌿 · Beauté naturelle made in Sénégal" },
   { username: "moussa_ba", name: "Moussa Ba", accountType: "candidate", isVerified: false,
+    image: AV("1500648767791-00dcc994a43e"),
     bio: "Dev & co-fondateur d'une startup fintech à Dakar 💳 · On code pour l'Afrique" },
   { username: "fatou_sarr", name: "Fatou Sarr", accountType: "recruiter", isVerified: true,
+    image: AV("1494790108377-be9c29b29330"),
     bio: "Je connecte les artisans de Dakar au monde 🧵 · E-commerce" },
   { username: "cheikh_diop", name: "Cheikh Diop", accountType: "candidate", isVerified: false,
+    image: AV("1506794778202-cad84cf45f1d"),
     bio: "Agritech · On aide les producteurs sénégalais à mieux vendre 🌾" },
   { username: "sokhna_mbaye", name: "Sokhna Mbaye", accountType: "recruiter", isVerified: true,
+    image: AV("1487412720507-e7ab37603c6f"),
     bio: "Coach business & mentor pour jeunes entrepreneurs 🚀 · Dakar" },
 ];
 
-const POSTS: { by: string; content: string; h: number }[] = [
-  { by: "awa_ndiaye", h: 2, content: "Premier lot de nos savons naturels prêt à partir 🌿 Six mois de travail… et on y est enfin. Merci à toute l'équipe 🙏" },
-  { by: "moussa_ba", h: 4, content: "Question aux devs de Dakar : vous codez plutôt tôt le matin ou tard le soir ? Moi c'est 5h, avant que la ville se réveille ☕️" },
+const POSTS: { by: string; content: string; h: number; img?: string }[] = [
+  { by: "awa_ndiaye", h: 2, content: "Premier lot de nos savons naturels prêt à partir 🌿 Six mois de travail… et on y est enfin. Merci à toute l'équipe 🙏", img: IMG("1600857544200-b2f666a9a2ec") },
+  { by: "moussa_ba", h: 4, content: "Question aux devs de Dakar : vous codez plutôt tôt le matin ou tard le soir ? Moi c'est 5h, avant que la ville se réveille ☕️", img: IMG("1461749280684-dccba630e2f6") },
   { by: "sokhna_mbaye", h: 6, content: "Rappel du jour pour les jeunes entrepreneurs : votre premier client ne viendra pas d'une pub. Il viendra d'une relation. Sortez, parlez aux gens." },
-  { by: "fatou_sarr", h: 9, content: "On vient d'expédier nos premiers colis de tissus artisanaux vers l'Europe 📦 Fière de porter le savoir-faire sénégalais plus loin." },
-  { by: "cheikh_diop", h: 12, content: "Sur le terrain à Thiès aujourd'hui avec des producteurs de mangues. Le potentiel est énorme — il manque juste les bons outils pour vendre." },
+  { by: "fatou_sarr", h: 9, content: "On vient d'expédier nos premiers colis de tissus artisanaux vers l'Europe 📦 Fière de porter le savoir-faire sénégalais plus loin.", img: IMG("1596462502278-27bfdc403348") },
+  { by: "cheikh_diop", h: 12, content: "Sur le terrain à Thiès aujourd'hui avec des producteurs de mangues. Le potentiel est énorme — il manque juste les bons outils pour vendre.", img: IMG("1553279768-865429fa0078") },
   { by: "moussa_ba", h: 20, content: "On cherche un(e) designer produit passionné(e) pour rejoindre l'aventure. B2B/B2C, on construit pour les commerçants du Sénégal. DM ouverts 👇" },
   { by: "awa_ndiaye", h: 28, content: "Petit conseil : ne pas attendre que le produit soit 'parfait'. Mon premier savon était moche 😅 mais les retours clients ont tout changé." },
   { by: "sokhna_mbaye", h: 34, content: "Aujourd'hui j'ai mentoré 3 fondateurs. Le point commun de ceux qui réussissent ? Ils exécutent vite et écoutent leurs clients. C'est tout." },
@@ -64,10 +74,26 @@ const FOLLOWS: [string, string][] = [
   ["moussa_ba", "fatou_sarr"], ["awa_ndiaye", "fatou_sarr"],
 ];
 
+// If the seed users already exist, just refresh their avatars + post images
+// (so an already-seeded database picks up the new demo imagery).
+async function refreshImages() {
+  for (const u of USERS) {
+    await prisma.user.updateMany({ where: { username: u.username }, data: { image: u.image } });
+  }
+  for (const p of POSTS) {
+    if (!p.img) continue;
+    const author = await prisma.user.findFirst({ where: { username: p.by }, select: { id: true } });
+    if (!author) continue;
+    await prisma.post.updateMany({ where: { userId: author.id, content: p.content }, data: { imageUrl: p.img } });
+  }
+  console.log("✅ Refreshed avatars + post images on existing seed data.");
+}
+
 async function main() {
   const exists = await prisma.user.findFirst({ where: { username: "awa_ndiaye" } });
   if (exists) {
-    console.log("Seed users already exist — skipping (idempotent).");
+    console.log("Seed users already exist — refreshing images instead of recreating.");
+    await refreshImages();
     return;
   }
 
@@ -77,7 +103,7 @@ async function main() {
     idByUsername[u.username] = id;
     await prisma.user.create({
       data: {
-        id, name: u.name, username: u.username, bio: u.bio,
+        id, name: u.name, username: u.username, bio: u.bio, image: u.image,
         email: `${u.username}@jobe.seed`, emailVerified: true,
         accountType: u.accountType, isVerified: u.isVerified,
         createdAt: hoursAgo(72), updatedAt: hoursAgo(72),
@@ -89,7 +115,7 @@ async function main() {
   const postIds: string[] = [];
   for (const p of POSTS) {
     const post = await prisma.post.create({
-      data: { userId: idByUsername[p.by], content: p.content, createdAt: hoursAgo(p.h), updatedAt: hoursAgo(p.h) },
+      data: { userId: idByUsername[p.by], content: p.content, imageUrl: p.img ?? null, createdAt: hoursAgo(p.h), updatedAt: hoursAgo(p.h) },
     });
     postIds.push(post.id);
   }

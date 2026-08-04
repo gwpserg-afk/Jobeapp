@@ -44,4 +44,17 @@ router.get("/", async (c) => {
   return c.json({ data: { blockedIds: rows.map((r) => r.blockedId) } });
 });
 
+// GET /api/block/list — blocked users with profile info (for the blocked-accounts screen)
+router.get("/list", async (c) => {
+  const user = c.get("user");
+  if (!user) return c.json({ error: { message: "Unauthorized", code: "UNAUTHORIZED" } }, 401);
+  const rows = await prisma.block.findMany({
+    where: { blockerId: user.id },
+    orderBy: { createdAt: "desc" },
+    include: { blocked: { select: { id: true, name: true, username: true, image: true } } },
+  });
+  const users = rows.map((r) => r.blocked).filter(Boolean);
+  return c.json({ data: { users } });
+});
+
 export { router as blockRouter };

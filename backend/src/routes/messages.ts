@@ -3,6 +3,7 @@ import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 import { prisma } from "../prisma";
 import type { Variables } from "../types";
+import { containsProfanity, getProfanityError } from "../utils/profanityFilter";
 
 const router = new Hono<{ Variables: Variables }>();
 
@@ -198,6 +199,11 @@ router.post(
     }
 
     const { receiverId, content, jobId, attachmentUrl } = c.req.valid("json");
+
+    // Moderation: block the worst content instantly (local filter, no latency).
+    if (containsProfanity(content)) {
+      return c.json({ error: { message: getProfanityError(), code: "INAPPROPRIATE_CONTENT" } }, 422);
+    }
 
     // Verify receiver exists
     const receiver = await prisma.user.findUnique({

@@ -5,6 +5,18 @@ import { emailOTP } from "better-auth/plugins";
 import { prisma } from "./prisma";
 import { env } from "./env";
 
+// Enable "Sign in with Google" only when the OAuth credentials are configured,
+// so the backend runs fine before they're added on the host.
+const socialProviders =
+  env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET
+    ? {
+        google: {
+          clientId: env.GOOGLE_CLIENT_ID,
+          clientSecret: env.GOOGLE_CLIENT_SECRET,
+        },
+      }
+    : undefined;
+
 export const auth = betterAuth({
   database: prismaAdapter(prisma, { provider: "sqlite" }),
   secret: env.BETTER_AUTH_SECRET,
@@ -12,6 +24,7 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+  socialProviders,
   trustedOrigins: [
     "jobe://*/*",
     "exp://*/*",

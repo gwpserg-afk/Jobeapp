@@ -10,13 +10,11 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import * as Haptics from "expo-haptics";
-import { Settings, BadgeCheck, Camera, Grid3x3, Instagram, MapPin, Share2, Pencil } from "lucide-react-native";
-import { authClient } from "@/lib/auth";
+import { ArrowLeft, BadgeCheck, Grid3x3, MapPin, MessageCircle, Check, UserPlus } from "lucide-react-native";
 import { api } from "@/lib/api";
-import { pickImageAsDataUri } from "@/lib/pick-image";
 import type { Post, FollowInfo } from "@/lib/types";
 import { useTheme, fonts, radius, spacing } from "@/lib/theme";
 import { useI18n } from "@/lib/i18n";
@@ -24,54 +22,73 @@ import { useI18n } from "@/lib/i18n";
 const { width } = Dimensions.get("window");
 const GRID_GAP = 2;
 const CELL = (width - GRID_GAP * 2) / 3;
+const AV = 96;
 
 function initials(name: string) {
   const p = name.trim().split(/\s+/).filter(Boolean);
   return ((p[0]?.[0] ?? "?") + (p[1]?.[0] ?? "")).toUpperCase();
 }
 
-export default function Profile() {
+type PublicUser = {
+  id: string; name: string; username?: string | null; image?: string | null;
+  bio?: string | null; location?: string | null; accountType?: string | null;
+  isVerified?: boolean; isGoldVerified?: boolean;
+};
+
+export default function UserProfile() {
   const router = useRouter();
-  const { data: session } = authClient.useSession();
   const colors = useTheme((s) => s.colors);
-  const isDark = useTheme((s) => s.isDark);
   const { t } = useI18n();
+  const p = useLocalSearchParams<{
+    id: string; name?: string; username?: string; image?: string;
+    accountType?: string; isVerified?: string; isGoldVerified?: string;
+  }>();
   const qc = useQueryClient();
 
-  const user = (session?.user ?? {}) as {
-    id?: string; name?: string; username?: string; image?: string | null; bio?: string;
-    location?: string; instagram?: string;
-    accountType?: string; isVerified?: boolean; isGoldVerified?: boolean;
+  // Full public profile (bio/location). Falls back to nav params while loading.
+  const userQuery = useQuery({
+    queryKey: ["user-meta", p.id],
+    queryFn: () => api.get<PublicUser>(`/api/users/${p.id}`),
+    enabled: !!p.id,
+  });
+  const u: PublicUser = userQuery.data ?? {
+    id: p.id, name: p.name ?? "—", username: p.username, image: p.image,
+    accountType: p.accountType, isVerified: p.isVerified === "true", isGoldVerified: p.isGoldVerified === "true",
   };
 
   const postsQuery = useQuery({
-    queryKey: ["my-posts"],
-    queryFn: () => api.get<Post[]>("/api/posts"),
+    queryKey: ["user-posts", p.id],
+    queryFn: () => api.get<Post[]>(`/api/posts/user/${p.id}`),
+    enabled: !!p.id,
   });
-  const myPosts = postsQuery.data ?? [];
+  const posts = postsQuery.data ?? [];
 
   const followQuery = useQuery({
-    queryKey: ["follow", user.id],
-    queryFn: () => api.get<FollowInfo>(`/api/follow/${user.id}`),
-    enabled: !!user.id,
+    queryKey: ["follow", p.id],
+    queryFn: () => api.get<FollowInfo>(`/api/follow/${p.id}`),
+    enabled: !!p.id,
   });
   const follow = followQuery.data;
 
-  const isBusiness = (user.accountType ?? "").toLowerCase().includes("recruit") ||
-    (user.accountType ?? "").toLowerCase().includes("business");
-
-  const avatarMutation = useMutation({
-    mutationFn: (dataUri: string) =>
-      authClient.updateUser({ image: dataUri } as Parameters<typeof authClient.updateUser>[0]),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["my-posts"] }),
+  const followMutation = useMutation({
+    mutationFn: () => api.post<{ following: boolean }>(`/api/follow/${p.id}`, {}),
+    onMutate: async () => {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      await qc.cancelQueries({ queryKey: ["follow", p.id] });
+      const prev = qc.getQueryData<FollowInfo>(["follow", p.id]);
+      if (prev) qc.setQueryData<FollowInfo>(["follow", p.id], {
+        ...prev, isFollowing: !prev.isFollowing, followers: prev.followers + (prev.isFollowing ? -1 : 1),
+      });
+      return { prev };
+    },
+    onError: (_e, _v, ctx) => { if (ctx?.prev) qc.setQueryData(["follow", p.id], ctx.prev); },
   });
-  async function changePhoto() {
-    const uri = await pickImageAsDataUri([1, 1]);
-    if (uri) avatarMutation.mutate(uri);
-  }
+
+  const isBusiness = (u.accountType ?? "").toLowerCase().includes("recruit") ||
+    (u.accountType ?? "").toLowerCase().includes("business");
 
   const stats = [
-    { label: t.p_posts, value: myPosts.length },
+    { label: t.p_posts, value: posts.length },
     { label: t.p_followers, value: follow?.followers ?? 0 },
     { label: t.p_following, value: follow?.following ?? 0 },
   ];
@@ -81,33 +98,41 @@ export default function Profile() {
     router.push({ pathname: "/(app)/post/[id]", params: { id } });
   };
 
+  const openChat = () => {
+    Haptics.selectionAsync();
+    router.push({
+      pathname: "/(app)/chat/[id]",
+      params: { id: u.id, name: u.name, username: u.username ?? "", image: u.image ?? "" },
+    });
+  };
+
   return (
     <View style={[styles.root, { backgroundColor: colors.bg }]}>
       <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
-        {/* Floating top bar: logo left, settings right */}
+        {/* Top bar: back left, logo right */}
         <View style={styles.topBar}>
+          <Pressable onPress={() => router.back()} hitSlop={10} testID="user-back">
+            <ArrowLeft size={24} color={colors.textPrimary} strokeWidth={2.2} />
+          </Pressable>
           <Text style={styles.logo} allowFontScaling={false}>
             <Text style={{ color: colors.navy }}>Job</Text>
             <Text style={{ color: colors.primary }}>é</Text>
           </Text>
-          <Pressable onPress={() => { Haptics.selectionAsync(); router.push("/(app)/settings"); }} hitSlop={8} testID="profile-settings">
-            <Settings size={24} color={colors.textPrimary} strokeWidth={2} />
-          </Pressable>
         </View>
 
-        <ScrollView showsVerticalScrollIndicator={false} testID="profile-screen">
+        <ScrollView showsVerticalScrollIndicator={false} testID="user-screen">
           {/* Two-column header: left = name/handle/stats, right = big avatar */}
           <View style={styles.header}>
             <View style={styles.headerLeft}>
               <View style={styles.nameRow}>
-                <Text style={[styles.name, { color: colors.textPrimary }]} numberOfLines={1}>{user.name ?? "Jobé"}</Text>
-                {user.isGoldVerified ? (
+                <Text style={[styles.name, { color: colors.textPrimary }]} numberOfLines={1}>{u.name}</Text>
+                {u.isGoldVerified ? (
                   <BadgeCheck size={19} color={colors.warning} strokeWidth={2.5} fill={colors.warning} />
-                ) : user.isVerified ? (
+                ) : u.isVerified ? (
                   <BadgeCheck size={19} color={colors.blue} strokeWidth={2.5} fill={colors.blueDim} />
                 ) : null}
               </View>
-              {user.username ? <Text style={[styles.handle, { color: colors.textMuted }]}>@{user.username}</Text> : null}
+              {u.username ? <Text style={[styles.handle, { color: colors.textMuted }]}>@{u.username}</Text> : null}
 
               <View style={styles.statsRow}>
                 {stats.map((s) => (
@@ -119,32 +144,41 @@ export default function Profile() {
               </View>
             </View>
 
-            <Pressable onPress={changePhoto} style={styles.avatarWrap} testID="profile-avatar">
-              {user.image ? (
-                <Image source={{ uri: user.image }} style={styles.avatar} />
+            <View style={styles.avatarWrap}>
+              {u.image ? (
+                <Image source={{ uri: u.image }} style={styles.avatar} />
               ) : (
                 <LinearGradient colors={["#1DB954", "#1E2A5C"]} style={[styles.avatar, styles.avatarFallback]}>
-                  <Text style={styles.avatarInitials}>{initials(user.name ?? "Jobé")}</Text>
+                  <Text style={styles.avatarInitials}>{initials(u.name)}</Text>
                 </LinearGradient>
               )}
-              <View style={[styles.cameraBadge, { backgroundColor: colors.primary, borderColor: colors.bg }]}>
-                {avatarMutation.isPending ? <ActivityIndicator size="small" color="#fff" /> : <Camera size={13} color="#fff" strokeWidth={2.4} />}
-              </View>
-            </Pressable>
+            </View>
           </View>
 
-          {/* Action row: wide Edit pill + share icon */}
+          {/* Action row: Follow pill + Message */}
           <View style={styles.actionRow}>
             <Pressable
-              onPress={() => { Haptics.selectionAsync(); router.push("/(app)/edit-profile"); }}
-              style={({ pressed }) => [styles.editBtn, { backgroundColor: colors.primary, shadowColor: colors.primary }, pressed && { opacity: 0.88, transform: [{ scale: 0.99 }] }]}
-              testID="profile-edit"
+              onPress={() => followMutation.mutate()}
+              style={({ pressed }) => [
+                styles.followBtn,
+                follow?.isFollowing
+                  ? { backgroundColor: colors.bgElevated, borderColor: colors.border, borderWidth: 1 }
+                  : { backgroundColor: colors.primary, shadowColor: colors.primary },
+                pressed && { opacity: 0.88, transform: [{ scale: 0.99 }] },
+              ]}
+              testID="follow-btn"
             >
-              <Pencil size={17} color="#fff" strokeWidth={2.6} />
-              <Text style={styles.editText} numberOfLines={1}>{t.p_edit}</Text>
+              {follow?.isFollowing ? (
+                <Check size={17} color={colors.textPrimary} strokeWidth={2.6} />
+              ) : (
+                <UserPlus size={17} color="#fff" strokeWidth={2.4} />
+              )}
+              <Text style={[styles.followText, { color: follow?.isFollowing ? colors.textPrimary : "#fff" }]}>
+                {follow?.isFollowing ? t.f_following : t.f_follow}
+              </Text>
             </Pressable>
-            <Pressable style={[styles.iconBtn, { backgroundColor: colors.bgElevated, borderColor: colors.border }]} testID="profile-share">
-              <Share2 size={19} color={colors.textPrimary} strokeWidth={2} />
+            <Pressable onPress={openChat} style={[styles.iconBtn, { backgroundColor: colors.bgElevated, borderColor: colors.border }]} testID="user-message">
+              <MessageCircle size={19} color={colors.textPrimary} strokeWidth={2} />
             </Pressable>
           </View>
 
@@ -155,19 +189,11 @@ export default function Profile() {
                 {isBusiness ? t.business : t.member}
               </Text>
             </View>
-            {user.bio ? <Text style={[styles.bio, { color: colors.textSecondary }]}>{user.bio}</Text> : null}
-            {user.instagram ? (
-              <View style={styles.metaLine}>
-                <Instagram size={14} color={colors.textMuted} strokeWidth={2} />
-                <Text style={[styles.metaText, { color: colors.textSecondary }]}>
-                  {user.instagram.startsWith("@") ? user.instagram : `@${user.instagram}`}
-                </Text>
-              </View>
-            ) : null}
-            {user.location ? (
+            {u.bio ? <Text style={[styles.bio, { color: colors.textSecondary }]}>{u.bio}</Text> : null}
+            {u.location ? (
               <View style={styles.metaLine}>
                 <MapPin size={14} color={colors.textMuted} strokeWidth={2} />
-                <Text style={[styles.metaText, { color: colors.textSecondary }]}>{user.location}</Text>
+                <Text style={[styles.metaText, { color: colors.textSecondary }]}>{u.location}</Text>
               </View>
             ) : null}
           </View>
@@ -180,11 +206,11 @@ export default function Profile() {
           {/* Posts grid */}
           {postsQuery.isLoading ? (
             <View style={styles.center}><ActivityIndicator color={colors.primary} /></View>
-          ) : myPosts.length === 0 ? (
+          ) : posts.length === 0 ? (
             <View style={styles.center}><Text style={[styles.emptyText, { color: colors.textMuted }]}>{t.p_no_posts}</Text></View>
           ) : (
             <View style={styles.grid}>
-              {myPosts.map((post, i) => (
+              {posts.map((post, i) => (
                 <Pressable
                   key={post.id}
                   onPress={() => openPost(post.id)}
@@ -210,7 +236,6 @@ export default function Profile() {
   );
 }
 
-const AV = 96;
 const styles = StyleSheet.create({
   root: { flex: 1 },
   topBar: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: spacing.xl, paddingVertical: spacing.md },
@@ -230,15 +255,14 @@ const styles = StyleSheet.create({
   avatar: { width: AV, height: AV, borderRadius: AV / 2 },
   avatarFallback: { alignItems: "center", justifyContent: "center" },
   avatarInitials: { color: "#fff", fontSize: 36, fontWeight: "900", letterSpacing: -1 },
-  cameraBadge: { position: "absolute", bottom: 0, right: 0, width: 28, height: 28, borderRadius: 14, borderWidth: 2.5, alignItems: "center", justifyContent: "center" },
 
   actionRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm, paddingHorizontal: spacing.xl, marginTop: spacing.xl },
-  editBtn: {
+  followBtn: {
     flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8,
     height: 48, borderRadius: radius.lg,
     shadowOpacity: 0.3, shadowRadius: 12, shadowOffset: { width: 0, height: 5 }, elevation: 4,
   },
-  editText: { color: "#fff", fontSize: fonts.sizes.md, fontWeight: fonts.weights.bold, letterSpacing: 0.2 },
+  followText: { fontSize: fonts.sizes.md, fontWeight: fonts.weights.bold, letterSpacing: 0.2 },
   iconBtn: { width: 48, height: 48, borderRadius: radius.lg, borderWidth: 1, alignItems: "center", justifyContent: "center" },
 
   bioBlock: { paddingHorizontal: spacing.xl, marginTop: spacing.lg, gap: 6 },

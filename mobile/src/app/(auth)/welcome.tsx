@@ -1,134 +1,118 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-  Image,
-} from "react-native";
+import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
+import * as Haptics from "expo-haptics";
+import { Rocket, Moon, Sun } from "lucide-react-native";
 import { useTheme, fonts, radius, spacing } from "@/lib/theme";
 import { useI18n, type Lang } from "@/lib/i18n";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const LANGS: { code: Lang; label: string }[] = [
   { code: "fr", label: "FR" },
   { code: "en", label: "EN" },
-  { code: "zh", label: "中文" },
+  { code: "zh", label: "中" },
 ];
 
 export default function Welcome() {
   const router = useRouter();
   const colors = useTheme((s) => s.colors);
   const isDark = useTheme((s) => s.isDark);
-  const { lang, setLang, t } = useI18n();
+  const toggleTheme = useTheme((s) => s.toggle);
+  const { lang, setLang } = useI18n();
+  const t = useI18n((s) => s.t);
+
+  const getStarted = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    router.push("/(auth)/sign-up");
+  };
 
   return (
     <View style={styles.root}>
-      {/* Full-screen gradient background */}
       <LinearGradient
-        colors={isDark ? ["#0D0D0F", "#0D0D0F", "#0A1A10"] : ["#F7F7FA", "#F0F7F3"]}
+        colors={isDark ? ["#0C0C0E", "#0B0B0D", "#0A120E"] : ["#FFFFFF", "#FFFFFF", "#F4FBF6"]}
         style={StyleSheet.absoluteFill}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
       />
 
-      {/* Glow orb — bottom center */}
-      <View style={[styles.glowOrb, { backgroundColor: colors.primary }]} />
-
       <SafeAreaView style={styles.safe}>
-        {/* Language picker */}
-        <View style={styles.langRow}>
-          {LANGS.map((l) => (
-            <TouchableOpacity
-              key={l.code}
-              onPress={() => setLang(l.code)}
-              style={[
-                styles.langBtn,
-                lang === l.code && { backgroundColor: colors.primaryDim },
-              ]}
-              activeOpacity={0.7}
-            >
-              <Text
-                style={[
-                  styles.langText,
-                  { color: lang === l.code ? colors.primary : colors.textMuted },
-                ]}
-              >
-                {l.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
+        {/* Top bar */}
+        <View style={styles.topBar}>
+          <Pressable
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              toggleTheme();
+            }}
+            style={({ pressed }) => [
+              styles.iconBtn,
+              { backgroundColor: colors.bgCard, borderColor: colors.border },
+              pressed && { opacity: 0.7 },
+            ]}
+            hitSlop={8}
+            testID="theme-toggle"
+          >
+            {isDark ? (
+              <Sun size={20} color={colors.textPrimary} strokeWidth={2} />
+            ) : (
+              <Moon size={20} color={colors.textPrimary} strokeWidth={2} />
+            )}
+          </Pressable>
+
+          <View style={[styles.langBox, { backgroundColor: colors.bgCard, borderColor: colors.border }]}>
+            {LANGS.map((l) => {
+              const on = lang === l.code;
+              return (
+                <Pressable
+                  key={l.code}
+                  onPress={() => {
+                    Haptics.selectionAsync();
+                    setLang(l.code);
+                  }}
+                  style={[styles.langBtn, on && { backgroundColor: colors.navy }]}
+                  testID={`lang-${l.code}`}
+                >
+                  <Text style={[styles.langText, { color: on ? "#fff" : colors.textMuted }]}>{l.label}</Text>
+                </Pressable>
+              );
+            })}
+          </View>
         </View>
 
-        {/* Logo */}
-        <View style={styles.logoWrap}>
-          <Image
-            source={
-              isDark
-                ? require("../../../assets/logo-dark.png")
-                : require("../../../assets/logo-light.png")
-            }
-            style={styles.logo}
-            resizeMode="contain"
-          />
-        </View>
-
-        {/* Hero headline */}
-        <View style={styles.heroWrap}>
-          <Text style={[styles.headline, { color: colors.textPrimary }]}>
-            {t.hero.split("\n")[0]}
+        {/* Center: text wordmark + tagline */}
+        <View style={styles.center}>
+          <Text style={styles.wordmark} allowFontScaling={false}>
+            <Text style={{ color: colors.navy }}>Job</Text>
+            <Text style={{ color: colors.primary }}>é</Text>
           </Text>
-          <Text style={[styles.headline, { color: colors.primary }]}>
-            {t.hero.split("\n")[1]}
-          </Text>
-          <Text style={[styles.sub, { color: colors.textMuted }]}>{t.sub}</Text>
+          <Text style={[styles.tagline, { color: colors.textMuted }]}>{t.tagline}</Text>
         </View>
 
-        {/* CTAs */}
+        {/* Actions — single portal */}
         <View style={styles.actions}>
-          {/* Candidate — primary green */}
-          <TouchableOpacity
-            onPress={() => router.push("/(auth)/sign-in?type=candidate")}
-            activeOpacity={0.88}
+          <Pressable
+            onPress={getStarted}
+            style={({ pressed }) => [pressed && styles.pressed]}
+            testID="cta-get-started"
           >
             <LinearGradient
               colors={[colors.primaryLight, colors.primary]}
-              style={styles.btnPrimary}
+              style={[styles.btn, { shadowColor: colors.primary }]}
               start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
+              end={{ x: 1, y: 1 }}
             >
-              <Text style={styles.btnPrimaryText}>{t.candidate}</Text>
+              <Rocket size={20} color="#fff" strokeWidth={2.4} />
+              <Text style={styles.btnText}>{t.joinPrimary}</Text>
             </LinearGradient>
-          </TouchableOpacity>
+          </Pressable>
 
-          {/* Recruiter — dark outlined */}
-          <TouchableOpacity
-            style={[styles.btnSecondary, { backgroundColor: colors.bgCard, borderColor: colors.border }]}
-            onPress={() => router.push("/(auth)/sign-in?type=recruiter")}
-            activeOpacity={0.85}
-          >
-            <Text style={[styles.btnSecondaryText, { color: colors.textPrimary }]}>
-              {t.recruiter}
-            </Text>
-          </TouchableOpacity>
-
-          {/* Sign in link */}
-          <TouchableOpacity
-            style={styles.signinRow}
-            onPress={() => router.push("/(auth)/sign-in")}
-            activeOpacity={0.7}
-          >
+          <Pressable style={styles.signinRow} onPress={() => router.push("/(auth)/sign-in")} testID="cta-signin">
             <Text style={[styles.signinText, { color: colors.textMuted }]}>
               {t.login}{" "}
-              <Text style={{ color: colors.primary, fontWeight: fonts.weights.semibold }}>
-                {t.signin}
-              </Text>
+              <Text style={{ color: colors.primary, fontWeight: fonts.weights.bold }}>{t.signin}</Text>
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </SafeAreaView>
     </View>
@@ -138,77 +122,80 @@ export default function Welcome() {
 const styles = StyleSheet.create({
   root: { flex: 1 },
   safe: { flex: 1, paddingHorizontal: spacing.xl },
-  glowOrb: {
-    position: "absolute",
-    width: width * 1.2,
-    height: width * 1.2,
-    borderRadius: width * 0.6,
-    bottom: -width * 0.8,
-    left: -width * 0.1,
-    opacity: 0.06,
-  },
-  langRow: {
+  topBar: {
     flexDirection: "row",
-    justifyContent: "flex-end",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingTop: spacing.sm,
-    gap: spacing.xs,
+  },
+  iconBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  langBox: {
+    flexDirection: "row",
+    borderRadius: radius.full,
+    borderWidth: 1,
+    padding: 4,
+    gap: 2,
   },
   langBtn: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 15,
+    paddingVertical: 7,
     borderRadius: radius.full,
   },
   langText: {
     fontSize: fonts.sizes.sm,
-    fontWeight: fonts.weights.semibold,
+    fontWeight: fonts.weights.bold,
     letterSpacing: 0.4,
   },
-  logoWrap: {
+  center: {
     flex: 1,
+    alignItems: "center",
     justifyContent: "center",
-    alignItems: "flex-start",
-    paddingTop: spacing.xxl,
   },
-  logo: { width: width * 0.5, height: 52 },
-  heroWrap: {
-    paddingBottom: spacing.xxl + spacing.lg,
+  wordmark: {
+    fontSize: Math.min(96, width * 0.26),
+    fontWeight: "900",
+    fontStyle: "italic",
+    letterSpacing: -3,
   },
-  headline: {
-    fontSize: 46,
-    fontWeight: fonts.weights.heavy,
-    lineHeight: 52,
-    letterSpacing: -1,
-  },
-  sub: {
-    fontSize: fonts.sizes.base,
-    marginTop: spacing.md,
-    lineHeight: 22,
-    letterSpacing: 0.1,
+  tagline: {
+    fontSize: fonts.sizes.md,
+    fontWeight: fonts.weights.medium,
+    letterSpacing: 0.3,
+    marginTop: spacing.lg,
+    textAlign: "center",
   },
   actions: {
-    gap: spacing.md,
+    gap: spacing.lg,
     paddingBottom: spacing.xl,
   },
-  btnPrimary: {
-    borderRadius: radius.full,
-    paddingVertical: 17,
+  btn: {
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    borderRadius: radius.lg,
+    paddingVertical: 19,
+    shadowOpacity: 0.34,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 10 },
+    elevation: 6,
   },
-  btnPrimaryText: {
+  btnText: {
     color: "#fff",
     fontSize: fonts.sizes.md,
     fontWeight: fonts.weights.bold,
     letterSpacing: 0.2,
   },
-  btnSecondary: {
-    borderRadius: radius.full,
-    paddingVertical: 16,
-    alignItems: "center",
-    borderWidth: 1,
-  },
-  btnSecondaryText: {
-    fontSize: fonts.sizes.md,
-    fontWeight: fonts.weights.semibold,
+  pressed: {
+    transform: [{ scale: 0.975 }],
+    opacity: 0.92,
   },
   signinRow: {
     alignItems: "center",

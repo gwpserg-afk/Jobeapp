@@ -10,6 +10,8 @@ export const darkColors = {
   blue: "#2D7DD2",
   blueLight: "#5B9FE8",
   blueDim: "#0E2A4A",
+  navy: "#4C6FFF",
+  navyDim: "rgba(76,111,255,0.14)",
   primary: "#1DB954",
   primaryLight: "#3DD670",
   primaryDim: "#0E3D1F",
@@ -33,6 +35,8 @@ export const lightColors = {
   blue: "#2563EB",
   blueLight: "#3B82F6",
   blueDim: "#DBEAFE",
+  navy: "#1E2A5C",
+  navyDim: "rgba(30,42,92,0.07)",
   primary: "#16A34A",
   primaryLight: "#22C55E",
   primaryDim: "#DCFCE7",
@@ -53,8 +57,8 @@ interface ThemeStore {
 }
 
 export const useTheme = create<ThemeStore>((set) => ({
-  isDark: true,
-  colors: darkColors,
+  isDark: false,
+  colors: lightColors,
   toggle: () =>
     set((s) => ({
       isDark: !s.isDark,

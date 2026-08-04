@@ -1,14 +1,23 @@
+import { authClient } from "./auth";
+
 const BASE = process.env.EXPO_PUBLIC_BACKEND_URL ?? "http://localhost:3000";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  // React Native has no cookie jar, so credentials:"include" alone never sends
+  // the Better Auth session. The Expo client stores it in SecureStore — attach it.
+  const cookie = authClient.getCookie();
   const res = await fetch(`${BASE}${path}`, {
     ...init,
     credentials: "include",
-    headers: { "Content-Type": "application/json", ...init?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...(cookie ? { Cookie: cookie } : {}),
+      ...init?.headers,
+    },
   });
-  const json = await res.json();
-  if (!res.ok) throw new Error(json?.error?.message ?? "Request failed");
-  return json.data as T;
+  const json = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(json?.error?.message ?? `Request failed (${res.status})`);
+  return json?.data as T;
 }
 
 export const api = {

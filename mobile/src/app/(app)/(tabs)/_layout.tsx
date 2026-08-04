@@ -1,65 +1,86 @@
 import { Tabs } from "expo-router";
-import { useTheme, fonts } from "@/lib/theme";
-import { useI18n } from "@/lib/i18n";
-import { View, Text } from "react-native";
-
-function TabIcon({ label, emoji, focused }: { label: string; emoji: string; focused: boolean }) {
-  const colors = useTheme((s) => s.colors);
-  return (
-    <View style={{ alignItems: "center", gap: 2 }}>
-      <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.45 }}>{emoji}</Text>
-      <Text style={{
-        fontSize: fonts.sizes.xs,
-        color: focused ? colors.primary : colors.textMuted,
-        fontWeight: focused ? fonts.weights.semibold : fonts.weights.regular,
-      }}>{label}</Text>
-    </View>
-  );
-}
+import { View } from "react-native";
+import { Home, Search, Plus, MessageCircle, User } from "lucide-react-native";
+import { useTheme } from "@/lib/theme";
 
 export default function TabsLayout() {
   const colors = useTheme((s) => s.colors);
-  const { t } = useI18n();
 
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textMuted,
         tabBarStyle: {
           backgroundColor: colors.bgCard,
           borderTopColor: colors.border,
           borderTopWidth: 1,
-          height: 80,
-          paddingBottom: 12,
-          paddingTop: 8,
+          height: 84,
+          paddingBottom: 16,
+          paddingTop: 10,
         },
-        tabBarShowLabel: false,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          tabBarIcon: ({ focused }) => <TabIcon label={t.feed} emoji="🏠" focused={focused} />,
+          tabBarIcon: ({ color, focused }) => (
+            <Home size={25} color={color} strokeWidth={focused ? 2.6 : 2} />
+          ),
         }}
       />
       <Tabs.Screen
-        name="jobs"
+        name="discover"
         options={{
-          tabBarIcon: ({ focused }) => <TabIcon label={t.jobs} emoji="💼" focused={focused} />,
+          tabBarIcon: ({ color, focused }) => (
+            <Search size={25} color={color} strokeWidth={focused ? 2.6 : 2} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="create"
+        options={{
+          tabBarIcon: () => (
+            <View
+              testID="tab-create"
+              style={{
+                width: 52,
+                height: 38,
+                borderRadius: 14,
+                backgroundColor: colors.primary,
+                alignItems: "center",
+                justifyContent: "center",
+                shadowColor: colors.primary,
+                shadowOpacity: 0.45,
+                shadowRadius: 10,
+                shadowOffset: { width: 0, height: 4 },
+              }}
+            >
+              <Plus size={24} color="#fff" strokeWidth={2.8} />
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
         name="messages"
         options={{
-          tabBarIcon: ({ focused }) => <TabIcon label={t.messages} emoji="💬" focused={focused} />,
+          tabBarIcon: ({ color, focused }) => (
+            <MessageCircle size={25} color={color} strokeWidth={focused ? 2.6 : 2} />
+          ),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          tabBarIcon: ({ focused }) => <TabIcon label={t.profile} emoji="👤" focused={focused} />,
+          tabBarIcon: ({ color, focused }) => (
+            <User size={25} color={color} strokeWidth={focused ? 2.6 : 2} />
+          ),
         }}
       />
+      {/* Jobs de-emphasized in the 100%-social pivot — keep the route, hide the tab */}
+      <Tabs.Screen name="jobs" options={{ href: null }} />
     </Tabs>
   );
 }

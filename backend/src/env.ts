@@ -24,6 +24,11 @@ const envSchema = z.object({
   // Google API (Nano Banana)
   GOOGLE_API_KEY: z.string().optional(),
 
+  // Google OAuth (Sign in with Google). Optional — social login is enabled
+  // only when BOTH are present, so the app runs fine before they're set.
+  GOOGLE_CLIENT_ID: z.string().optional(),
+  GOOGLE_CLIENT_SECRET: z.string().optional(),
+
 });
 
 /**

@@ -136,4 +136,15 @@ router.put("/", async (c) => {
   });
 });
 
+// DELETE /api/me - Permanently delete the current user's account and all their data.
+// Cascade relations (posts, follows, blocks, etc.) are removed via onDelete: Cascade.
+router.delete("/", async (c) => {
+  const user = c.get("user");
+  if (!user) {
+    return c.json({ error: { message: "Unauthorized", code: "UNAUTHORIZED" } }, 401);
+  }
+  await prisma.user.delete({ where: { id: user.id } }).catch(() => {});
+  return c.json({ data: { deleted: true } });
+});
+
 export { router as meRouter };

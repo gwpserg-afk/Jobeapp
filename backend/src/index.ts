@@ -35,6 +35,8 @@ import { promotionsRouter } from "./routes/promotions";
 import { identityVerifyRouter } from "./routes/identity-verify";
 import { resolveIdentifierRouter } from "./routes/resolve-identifier";
 import { passwordResetRouter } from "./routes/password-reset";
+import { usersRouter } from "./routes/users";
+import { translateRouter } from "./routes/translate";
 
 const app = new Hono<{ Variables: Variables }>();
 
@@ -146,6 +148,8 @@ app.route("/api/candidates", candidatesRouter);
 app.route("/api/onboarding", onboardingRouter);
 app.route("/api/saved-jobs", savedJobsRouter);
 app.route("/api/me", meRouter);
+app.route("/api/users", usersRouter);
+app.route("/api/translate", translateRouter);
 app.route("/api/chat", chatRouter);
 app.route("/api/generate-images", generateImagesRouter);
 app.route("/api/phone-verify", phoneVerifyRouter);
