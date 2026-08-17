@@ -4,6 +4,7 @@ import { z } from "zod";
 import { prisma } from "../prisma";
 import type { Variables } from "../types";
 import { containsProfanity, getProfanityError, moderateAI } from "../utils/profanityFilter";
+import { notify } from "../utils/notify";
 
 const router = new Hono<{ Variables: Variables }>();
 
@@ -325,6 +326,18 @@ router.post("/:id/like", async (c) => {
     await prisma.postLike.delete({ where: { userId_postId: { userId: user.id, postId } } });
   } else {
     await prisma.postLike.create({ data: { userId: user.id, postId } });
+    // Notify the post's author that their post was liked.
+    const post = await prisma.post.findUnique({ where: { id: postId }, select: { userId: true } });
+    if (post) {
+      await notify({
+        userId: post.userId,
+        actorId: user.id,
+        type: "like",
+        title: "Nouveau j'aime",
+        body: `${user.name} a aimé ta publication`,
+        postId,
+      });
+    }
   }
 
   const likeCount = await prisma.postLike.count({ where: { postId } });

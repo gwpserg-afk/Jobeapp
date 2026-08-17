@@ -30,7 +30,7 @@ import {
 } from "lucide-react-native";
 import { authClient } from "@/lib/auth";
 import { api } from "@/lib/api";
-import type { Post, FeedResponse } from "@/lib/types";
+import type { Post, FeedResponse, NotificationsResponse } from "@/lib/types";
 import { PostText } from "@/components/PostText";
 import { useTheme, fonts, radius, spacing } from "@/lib/theme";
 import { useI18n } from "@/lib/i18n";
@@ -86,6 +86,13 @@ export default function Feed() {
     queryKey: ["feed"],
     queryFn: () => api.get<FeedResponse>("/api/posts/feed").then((r) => r.posts),
   });
+
+  const notifQuery = useQuery({
+    queryKey: ["notifications"],
+    queryFn: () => api.get<NotificationsResponse>("/api/notifications"),
+    refetchInterval: 30000,
+  });
+  const unreadNotifs = notifQuery.data?.unreadCount ?? 0;
 
   const likeMutation = useMutation({
     mutationFn: (postId: string) => api.post(`/api/posts/${postId}/like`, {}),
@@ -292,8 +299,14 @@ export default function Feed() {
           <Pressable
             style={[styles.notifBtn, { backgroundColor: colors.bgCard, borderColor: colors.border }]}
             hitSlop={8}
+            onPress={() => { Haptics.selectionAsync(); router.push("/(app)/notifications"); }}
+            testID="feed-notifications"
           >
-            <View style={[styles.notifDot, { backgroundColor: colors.primary, borderColor: colors.bgCard }]} />
+            {unreadNotifs > 0 ? (
+              <View style={[styles.notifBadge, { backgroundColor: colors.error, borderColor: colors.bgCard }]}>
+                <Text style={styles.notifBadgeText}>{unreadNotifs > 9 ? "9+" : unreadNotifs}</Text>
+              </View>
+            ) : null}
             <Bell size={19} color={colors.textPrimary} strokeWidth={2} />
           </Pressable>
         </View>
@@ -509,7 +522,8 @@ const styles = StyleSheet.create({
     width: 44, height: 44, borderRadius: radius.full, borderWidth: 1,
     alignItems: "center", justifyContent: "center",
   },
-  notifDot: { position: "absolute", top: 10, right: 11, width: 9, height: 9, borderRadius: 5, borderWidth: 2, zIndex: 2 },
+  notifBadge: { position: "absolute", top: 6, right: 6, minWidth: 16, height: 16, paddingHorizontal: 3, borderRadius: 8, borderWidth: 1.5, alignItems: "center", justifyContent: "center", zIndex: 2 },
+  notifBadgeText: { color: "#fff", fontSize: 9, fontWeight: "800" },
   feed: { paddingHorizontal: spacing.xl },
 
   composer: {

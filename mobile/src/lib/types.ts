@@ -67,6 +67,22 @@ export interface Conversation {
   unreadCount: number;
 }
 
+// GET /api/notifications → { notifications, unreadCount, pagination }
+export interface AppNotification {
+  id: string;
+  type: string; // follow | like | comment | message | welcome
+  title: string;
+  body: string;
+  dataJson: string | null;
+  isRead: boolean;
+  createdAt: string;
+}
+
+export interface NotificationsResponse {
+  notifications: AppNotification[];
+  unreadCount: number;
+}
+
 // GET /api/messages/:userId  and  POST /api/messages
 export interface Message {
   id: string;

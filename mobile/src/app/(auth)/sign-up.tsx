@@ -13,9 +13,10 @@ import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Haptics from "expo-haptics";
-import { ArrowLeft, AtSign, User, Phone, Lock, Eye, EyeOff } from "lucide-react-native";
+import { ArrowLeft, AtSign, User, Lock, Eye, EyeOff } from "lucide-react-native";
 import { usePendingSignup } from "@/lib/pending-signup";
 import { SocialAuth } from "@/components/SocialAuth";
+import { PhoneInput } from "@/components/PhoneInput";
 import { useTheme, fonts, radius, spacing } from "@/lib/theme";
 import { useI18n } from "@/lib/i18n";
 
@@ -168,20 +169,13 @@ export default function SignUp() {
               </View>
 
               {/* Phone (required — primary identifier, SMS verification next) */}
-              <View style={fieldStyle("phone")}>
-                <Phone size={19} color={focused === "phone" ? colors.primary : colors.textMuted} strokeWidth={2} />
-                <TextInput
-                  style={[styles.input, { color: colors.textPrimary }]}
-                  placeholder={t.su_phone_ph}
-                  placeholderTextColor={colors.textMuted}
-                  keyboardType="phone-pad"
-                  value={phone}
-                  onChangeText={setPhone}
-                  onFocus={() => setFocused("phone")}
-                  onBlur={() => setFocused(null)}
-                  testID="signup-phone"
-                />
-              </View>
+              <PhoneInput
+                value={phone}
+                onChangeE164={(full) => setPhone(full)}
+                focused={focused === "phone"}
+                onFocus={() => setFocused("phone")}
+                onBlur={() => setFocused(null)}
+              />
 
               {/* Password */}
               <View style={fieldStyle("password")}>

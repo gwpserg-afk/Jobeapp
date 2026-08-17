@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { prisma } from "../prisma";
 import type { Variables } from "../types";
+import { notify } from "../utils/notify";
 
 const router = new Hono<{ Variables: Variables }>();
 
@@ -24,6 +25,13 @@ router.post("/:userId", async (c) => {
   }
 
   await prisma.follow.create({ data: { followerId: user.id, followingId: targetId } });
+  await notify({
+    userId: targetId,
+    actorId: user.id,
+    type: "follow",
+    title: "Nouvel abonné",
+    body: `${user.name} a commencé à te suivre`,
+  });
   return c.json({ data: { following: true } });
 });
 
