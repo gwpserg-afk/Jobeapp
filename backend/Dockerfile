@@ -15,5 +15,7 @@ RUN bun node_modules/prisma/build/index.js generate
 ENV NODE_ENV=production
 EXPOSE 3000
 
-# Sync schema, seed/refresh demo content (idempotent, non-fatal), then start.
-CMD ["sh", "-c", "bun node_modules/prisma/build/index.js db push --accept-data-loss && (bun scripts/seed-social.ts || true) && bun run src/index.ts"]
+# Start via a resilient script: retries `db push` on transient DB blips so a
+# momentary database hiccup during deploy can't fail the whole deploy.
+RUN chmod +x start.sh
+CMD ["sh", "start.sh"]
