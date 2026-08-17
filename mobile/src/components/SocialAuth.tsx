@@ -40,7 +40,8 @@ export function SocialAuth({ onMessage }: { onMessage?: (m: string) => void }) {
         disabled={loading}
         style={({ pressed }) => [
           styles.btn,
-          { backgroundColor: "#FFFFFF", borderColor: "#E0E0E0" },
+          styles.googleBtn,
+          { backgroundColor: "#FFFFFF", borderColor: "#DADCE0" },
           pressed && { opacity: 0.9, transform: [{ scale: 0.99 }] },
         ]}
         testID="google-signin"
@@ -77,6 +78,14 @@ const styles = StyleSheet.create({
   btn: {
     flexDirection: "row", alignItems: "center", justifyContent: "center",
     height: 52, borderRadius: radius.lg, borderWidth: 1, paddingHorizontal: spacing.lg,
+  },
+  googleBtn: {
+    borderWidth: 1.5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 3,
   },
   iconSlot: { width: 24, alignItems: "center", justifyContent: "center", marginRight: spacing.sm },
   btnText: { fontSize: fonts.sizes.base, fontWeight: fonts.weights.bold, letterSpacing: 0.2 },

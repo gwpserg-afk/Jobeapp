@@ -1,7 +1,7 @@
 # Jobé — Working Status & Notes
 
 > Persistent cross-chat notes. Not served on the site (Vercel roots are `marketing/` and `web/`).
-> Last updated: 2026-06-25
+> Last updated: 2026-08-17
 
 ## What Jobé is  ⭐ DIRECTION UPDATED 2026-06-25
 Mobile-app-first **professional social network** for Senegal — now **100% social** (the job
@@ -20,7 +20,58 @@ DMs, groups/communities. Jobs become just *one more kind of post*, not a separat
 
 Positioning rules (honest, pre-launch): **social-first (100%)**, **Senegal-first** ("built in
 Dakar"), **no fabricated numbers/stats**, keep AI off the home screen. Languages: FR (default) /
-EN / 中文. Brand: green `#1DB954`, blue `#2D7DD2`. IG: instagram.com/jobeapp (other socials "soon").
+EN / 中文. Brand: green + blue + navy (full palette below). IG: instagram.com/jobeapp (other socials "soon").
+
+## 2026-08-17: Dashboard pro-redesign + Google button + OAuth crash
+- **Founders dashboard (`web/index.html`) Overview rebuilt** to a pro analytics layout (per Serg's reference):
+  toolbar row, hero **"Build momentum" SVG trend chart**, KPI cards with **icon badges + delta chips**,
+  **Module breakdown** card (segmented bar), and a **live System health** card that pings the Render backend
+  (`jobe-backend-6aox.onrender.com/health`, no-cors, 7s timeout → Online/Waking/Offline). i18n added for EN/FR/中.
+  Validated: bun JS syntax OK, HTML well-formed, all IDs resolve. **Needs a Vercel deploy to show live.**
+- **Google button (`components/SocialAuth.tsx`)** — logo was already inline; added stronger 1.5px border +
+  soft shadow so it "pops" as a button (Serg's ask). Apple button unchanged.
+- **`expo-web-browser` crash on Google login** = STALE bundle on device. Code is correct: eager
+  `import "expo-web-browser"` in `index.ts` + used in `lib/auth.ts`; **verified the live Metro bundle contains it**
+  (7 refs + `openAuthSessionAsync`). Fix = full reload / re-scan (fresh bundle), not a code change.
+
+## 🎨 Design system & current UI — CANONICAL (updated 2026-08-17)
+> Source of truth = `mobile/src/lib/theme.ts`. App **defaults to LIGHT** (`isDark:false`); dark is a toggle.
+> Keep this section in sync whenever `theme.ts`, the wordmark, or the logo changes.
+
+**Brand colors (the identity):** green, blue, navy — all three used together in the logo & UI.
+
+**LIGHT theme (default / what users see):**
+- Backgrounds: `bg #F7F7FA` · `bgCard #FFFFFF` · `bgElevated #EFEFF4`
+- Green (primary): `#16A34A` · light `#22C55E` · dim `#DCFCE7`
+- Blue: `#2563EB` · light `#3B82F6` · dim `#DBEAFE`
+- Navy: `#1E2A5C`
+- Text: primary `#0D0D0F` · secondary `#4A4A58` · muted `#9A9AA8`
+- Borders: `#E4E4EC` / `#EDEDF5` · Success `#16A34A` · Error `#DC2626` · Warning `#D97706`
+
+**DARK theme (toggle):**
+- Backgrounds: `bg #0D0D0F` · `bgCard #141418` · `bgElevated #1E1E24`
+- Green (primary): `#1DB954` · light `#3DD670` · dim `#0E3D1F`
+- Blue: `#2D7DD2` · light `#5B9FE8` · dim `#0E2A4A`
+- Navy: `#4C6FFF`
+- Text: primary `#F5F5F7` · secondary `#9A9AA8` · muted `#5A5A68`
+- Borders: `#232328` / `#30303A` · Error `#E05252` · Warning `#E09B3A`
+
+**Type/spacing:** wordmark = 28px, weight 900, italic, letter-spacing -1.2. Sizes xs11→xxxl38.
+Radius sm8/md12/lg16/xl20/xxl28/full. Spacing xs4/sm8/md12/lg16/xl24/xxl32.
+
+**Logos / wordmark:**
+- **Text wordmark** everywhere: "Job"(navy) + "é"(green), italic heavy. Theme-aware.
+- **Welcome / sign-up:** TEXT wordmark only, **no icon** (per Serg; cofounder wants a "head" logo here later — leave to test separately).
+- **Home feed header (NEW 2026-08-17):** hard-hat **icon + text wordmark**. Icon = `mobile/assets/jobe-icon.png`
+  (green helmet + blue check-circle, cropped from `jobe logo 4.png`, white bg made transparent so it works in
+  both themes). 32×32, sits left of the "Jobé" text. **Experimental** — if Serg doesn't like it, revert to
+  text-only (remove `brandRow`/`brandIcon` + Image in `(tabs)/index.tsx:289`).
+- Source logo picked: **`jobe logo 4.png`** (blue check-circle) over `logo 3` (navy circle) because it uses all
+  three brand colors, matching the palette. Full lockup saved at `mobile/assets/jobe-logo.png` (unused for now —
+  its "Job" text is near-black so it can't go on dark bg; that's why only the icon is used in-app).
+
+**Overall look:** Instagram × premium-SaaS. Light-first, green primary CTAs, navy/blue accents, rounded cards,
+lucide icons, 5-tab nav (Feed · Discover · ➕ Create · Chat · Profile).
 
 ## App build state (audited 2026-06-25)
 - **Backend (`backend/`)** = real & substantial. ~30 Hono routes + 30+ Prisma models covering the

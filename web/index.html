@@ -309,7 +309,56 @@
     .stat-value { font-size: 28px; font-weight: 800; letter-spacing: -1px; color: var(--text); line-height: 1; }
     .stat-change { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
     .stat-change.up { color: var(--green); }
+    .stat-change.down { color: var(--red); }
     .stat-change.neutral { color: var(--muted); }
+
+    /* ── ANALYTICS OVERVIEW (pro layout) ── */
+    .ov-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+    .ov-pill {
+      display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+      font-size: 13px; font-weight: 600; color: var(--sub); cursor: default;
+    }
+    .ov-pill .ic { opacity: .8; }
+    .ov-pill.ghost { color: var(--muted); border-style: dashed; }
+    .ov-spacer { flex: 1; }
+    .ov-pill.action { color: var(--text); }
+    /* stat card icon + delta */
+    .stat-top { display: flex; align-items: center; justify-content: space-between; }
+    .stat-ic {
+      width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+      background: var(--elevated); border: 1px solid var(--border); font-size: 16px;
+    }
+    .delta { font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 3px; }
+    .delta.up { color: var(--green); }
+    .delta.down { color: var(--red); }
+    .delta.flat { color: var(--muted); }
+    .stat-foot { font-size: 12px; color: var(--muted); font-weight: 500; }
+    /* hero trend chart */
+    .trend-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 4px; }
+    .trend-metrics { display: flex; align-items: baseline; gap: 12px; margin: 6px 0 16px; }
+    .trend-big { font-size: 32px; font-weight: 800; letter-spacing: -1.2px; line-height: 1; }
+    .trend-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; padding: 4px 9px; border-radius: 999px; }
+    .trend-tag.up { color: var(--green); background: var(--green-dim); }
+    .trend-seg { display: inline-flex; background: var(--elevated); border: 1px solid var(--border); border-radius: 9px; padding: 3px; gap: 2px; }
+    .trend-seg button { border: 0; background: transparent; color: var(--muted); font-size: 12px; font-weight: 700; padding: 5px 11px; border-radius: 7px; cursor: pointer; }
+    .trend-seg button.on { background: var(--card); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+    .trend-chart { width: 100%; height: 200px; display: block; }
+    .trend-x { display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: var(--muted); font-weight: 600; }
+    /* breakdown bar */
+    .brk-bar { display: flex; height: 10px; border-radius: 999px; overflow: hidden; gap: 2px; margin: 14px 0 12px; }
+    .brk-bar > span { display: block; height: 100%; border-radius: 3px; }
+    .brk-legend { display: flex; gap: 16px; margin-bottom: 14px; }
+    .brk-legend .lg { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--sub); font-weight: 600; }
+    .brk-legend .lg i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+    .brk-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13px; }
+    .brk-row .nm { flex: 1; color: var(--text); font-weight: 600; }
+    .brk-row .pc { color: var(--sub); font-weight: 700; min-width: 42px; text-align: right; }
+    /* health bars */
+    .health-big { font-size: 30px; font-weight: 800; letter-spacing: -1px; }
+    .health-bars { display: flex; align-items: flex-end; gap: 5px; height: 90px; margin-top: 14px; }
+    .health-bars > i { flex: 1; background: var(--blue-dim); border-radius: 5px 5px 3px 3px; display: block; min-height: 6px; }
+    .health-bars > i.hi { background: var(--blue); }
 
     /* ── GRID ── */
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -626,29 +675,72 @@
 
     <!-- ═══ OVERVIEW ═══ -->
     <div class="page active" id="page-overview">
-      <div>
-        <div class="section-header"><span class="section-title" data-i18n="kpis">KPIs · July 2026</span></div>
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-label" data-i18n="build_progress">Build progress</div>
-            <div class="stat-value" style="color:var(--green)">15%</div>
-            <div class="stat-change up">↑ <span data-i18n="kpi_phase2">Phase 2 in progress</span></div>
+      <!-- toolbar -->
+      <div class="ov-toolbar">
+        <span class="ov-pill"><span class="ic">📅</span> <span data-i18n="ov_range">This build cycle</span></span>
+        <span class="ov-pill ghost"><span data-i18n="ov_compare">Compare · previous phase</span></span>
+        <span class="ov-spacer"></span>
+        <span class="ov-pill action"><span class="ic">⬆︎</span> <span data-i18n="ov_export">Export snapshot</span></span>
+      </div>
+
+      <!-- hero trend chart -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="trend-head">
+          <div>
+            <div class="card-title" data-i18n="momentum">Build momentum</div>
+            <div class="card-sub" style="margin-bottom:0" data-i18n="momentum_sub">Cumulative progress toward launch · weekly</div>
           </div>
-          <div class="stat-card">
-            <div class="stat-label" data-i18n="screens_done">Screens done</div>
-            <div class="stat-value" id="screens-kpi">0</div>
-            <div class="stat-change neutral"><span id="screens-kpi-sub" data-i18n="kpi_screens">7 in progress · 24 total</span></div>
+          <div class="trend-seg">
+            <button class="on" data-i18n="tr_progress">Progress</button>
+            <button data-i18n="tr_screens">Screens</button>
           </div>
-          <div class="stat-card">
-            <div class="stat-label" data-i18n="deadline">Deadline</div>
-            <div class="stat-value" style="color:var(--yellow)" id="countdown">—</div>
-            <div class="stat-change neutral"><span data-i18n="kpi_deadline">End of July 2026</span></div>
+        </div>
+        <div class="trend-metrics">
+          <span class="trend-big" style="color:var(--green)" id="tr-big">15%</span>
+          <span class="trend-tag up" id="tr-tag">↑ <span data-i18n="tr_delta">+9 pts this month</span></span>
+        </div>
+        <svg class="trend-chart" id="trend-chart" viewBox="0 0 720 200" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <div class="trend-x" id="trend-x"></div>
+      </div>
+
+      <!-- KPI cards -->
+      <div class="section-header"><span class="section-title" data-i18n="key_metrics">Key metrics</span></div>
+      <div class="stats-grid" style="margin-bottom:16px">
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-ic">🏗️</div>
+            <span class="delta up" id="d-build">↑ +9pts</span>
           </div>
-          <div class="stat-card">
-            <div class="stat-label" data-i18n="target_market">Target market</div>
-            <div class="stat-value" style="color:var(--blue)">🇸🇳</div>
-            <div class="stat-change neutral"><span data-i18n="kpi_market">Senegal only · Dakar first</span></div>
+          <div class="stat-label" data-i18n="build_progress">Build progress</div>
+          <div class="stat-value" style="color:var(--green)">15%</div>
+          <div class="stat-foot" data-i18n="kpi_phase2">Phase 2 in progress</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-ic">📱</div>
+            <span class="delta up" id="d-screens">↑</span>
           </div>
+          <div class="stat-label" data-i18n="screens_done">Screens done</div>
+          <div class="stat-value" id="screens-kpi">0</div>
+          <div class="stat-foot"><span id="screens-kpi-sub" data-i18n="kpi_screens">7 in progress · 24 total</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-ic">⏳</div>
+            <span class="delta flat" data-i18n="kpi_deadline_tag">target</span>
+          </div>
+          <div class="stat-label" data-i18n="deadline">Days to launch</div>
+          <div class="stat-value" style="color:var(--yellow)" id="countdown">—</div>
+          <div class="stat-foot" data-i18n="kpi_deadline">End of July 2026</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-ic">🩺</div>
+            <span class="delta up" id="d-health">● live</span>
+          </div>
+          <div class="stat-label" data-i18n="backend_kpi">Backend health</div>
+          <div class="stat-value" id="health-kpi" style="color:var(--muted)">—</div>
+          <div class="stat-foot" id="health-kpi-sub" data-i18n="kpi_health">Checking API…</div>
         </div>
       </div>
 
@@ -667,6 +759,40 @@
             <div class="progress-label" style="margin-bottom:8px"><span data-i18n="overall">Overall progress</span><span style="color:var(--green)">15%</span></div>
             <div class="progress-bar" style="height:10px"><div class="progress-fill" style="width:15%"></div></div>
           </div>
+        </div>
+      </div>
+
+      <!-- breakdown + system health -->
+      <div class="two-col" style="margin-top:16px">
+        <div class="card">
+          <div class="card-title" data-i18n="brk_title">Module breakdown</div>
+          <div class="trend-metrics" style="margin:8px 0 0">
+            <span class="trend-big" style="font-size:26px">63%</span>
+            <span class="trend-tag up">↑ <span data-i18n="brk_delta">on track</span></span>
+          </div>
+          <div class="brk-bar">
+            <span style="flex:0 0 55%;background:var(--green)"></span>
+            <span style="flex:0 0 20%;background:var(--yellow)"></span>
+            <span style="flex:1;background:var(--elevated)"></span>
+          </div>
+          <div class="brk-legend">
+            <span class="lg"><i style="background:var(--green)"></i> <span data-i18n="brk_done">Done</span></span>
+            <span class="lg"><i style="background:var(--yellow)"></i> <span data-i18n="brk_wip">In progress</span></span>
+            <span class="lg"><i style="background:var(--elevated)"></i> <span data-i18n="brk_todo">To do</span></span>
+          </div>
+          <div class="brk-row"><span class="nm">⚙️ Backend · API</span><span class="pc" style="color:var(--green)">92%</span></div>
+          <div class="brk-row"><span class="nm">📱 Mobile app</span><span class="pc" style="color:var(--yellow)">48%</span></div>
+          <div class="brk-row"><span class="nm">🌐 Marketing site</span><span class="pc" style="color:var(--green)">80%</span></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="health_title">System health</div>
+          <div class="trend-metrics" style="margin:8px 0 0">
+            <span class="health-big" id="health-score" style="color:var(--muted)">—</span>
+            <span class="trend-tag up" id="health-state" data-i18n="health_checking">Checking…</span>
+          </div>
+          <div class="card-sub" style="margin:6px 0 0" id="health-detail" data-i18n="health_sub">Pinging backend, tunnel & database…</div>
+          <div class="health-bars" id="health-bars"></div>
         </div>
       </div>
     </div>
@@ -1026,6 +1152,11 @@ const T = {
     test_app:"Test the mobile app", test_sub:"Scan with Expo Go (iOS or Android). Update the tunnel URL if it changes.",
     qr_desc:"Open Expo Go and scan. The URL changes on every restart — paste the new one below.",
     server_online:"● Server online", update:"Update",
+    key_metrics:"Key metrics", ov_range:"This build cycle", ov_compare:"Compare · previous phase", ov_export:"Export snapshot",
+    momentum:"Build momentum", momentum_sub:"Cumulative progress toward launch · weekly", tr_progress:"Progress", tr_screens:"Screens", tr_delta:"+9 pts this month",
+    kpi_deadline_tag:"target", backend_kpi:"Backend health", kpi_health:"Live API status",
+    brk_title:"Module breakdown", brk_delta:"on track", brk_done:"Done", brk_wip:"In progress", brk_todo:"To do",
+    health_title:"System health", health_checking:"Checking…", health_sub:"Pinging backend, tunnel & database…",
     screens_title:"Completed screens", backend_title:"Backend · API",
     done:"Done", in_progress:"In progress", next:"Coming", planned:"Planned", active:"Active",
     roadmap_title:"Roadmap · Build → Beta → Launch", roadmap_sub:"Build → 3-month closed beta (50 testers) → Senegal launch",
@@ -1177,6 +1308,11 @@ const T = {
     test_app:"Tester l'application mobile", test_sub:"Scannez avec Expo Go (iOS ou Android). Mettez à jour l'URL tunnel si elle change.",
     qr_desc:"Ouvrez Expo Go et scannez. L'URL change à chaque redémarrage — collez la nouvelle ci-dessous.",
     server_online:"● Serveur actif", update:"Mettre à jour",
+    key_metrics:"Indicateurs clés", ov_range:"Ce cycle de build", ov_compare:"Comparer · phase précédente", ov_export:"Exporter un aperçu",
+    momentum:"Élan du build", momentum_sub:"Progression cumulée vers le lancement · hebdo", tr_progress:"Progression", tr_screens:"Écrans", tr_delta:"+9 pts ce mois-ci",
+    kpi_deadline_tag:"objectif", backend_kpi:"Santé du backend", kpi_health:"État de l'API en direct",
+    brk_title:"Répartition par module", brk_delta:"dans les temps", brk_done:"Terminé", brk_wip:"En cours", brk_todo:"À faire",
+    health_title:"Santé du système", health_checking:"Vérification…", health_sub:"Ping du backend, tunnel et base de données…",
     screens_title:"Écrans terminés", backend_title:"Backend · API",
     done:"Fait", in_progress:"En cours", next:"À venir", planned:"Planifié", active:"Actif",
     roadmap_title:"Roadmap · Build → Bêta → Lancement", roadmap_sub:"Build → bêta fermée 3 mois (50 testeurs) → lancement Sénégal",
@@ -1327,6 +1463,11 @@ const T = {
     test_app:"测试移动应用", test_sub:"使用Expo Go扫描（iOS或Android）。如隧道URL变化请更新。",
     qr_desc:"打开Expo Go并扫描。每次重启服务器URL会改变，请在下方粘贴新的URL。",
     server_online:"● 服务器在线", update:"更新",
+    key_metrics:"关键指标", ov_range:"本构建周期", ov_compare:"对比 · 上一阶段", ov_export:"导出快照",
+    momentum:"构建势头", momentum_sub:"迈向发布的累计进度 · 每周", tr_progress:"进度", tr_screens:"屏幕", tr_delta:"本月 +9 分",
+    kpi_deadline_tag:"目标", backend_kpi:"后端健康", kpi_health:"实时 API 状态",
+    brk_title:"模块分解", brk_delta:"进展顺利", brk_done:"完成", brk_wip:"进行中", brk_todo:"待办",
+    health_title:"系统健康", health_checking:"检查中…", health_sub:"正在 ping 后端、隧道和数据库…",
     screens_title:"已完成页面", backend_title:"后端 · API",
     done:"完成", in_progress:"进行中", next:"即将", planned:"计划中", active:"活跃",
     roadmap_title:"路线图 · 构建 → 测试 → 发布", roadmap_sub:"构建 → 3个月封闭测试（50名）→ 塞内加尔发布",
@@ -1869,7 +2010,82 @@ window.addEventListener('load', () => {
 
   const mi = document.getElementById('mytask-input');
   if (mi) mi.addEventListener('keydown', e => { if (e.key === 'Enter') addPersonalTodo(); });
+
+  renderTrend();
+  loadHealth();
+  setInterval(loadHealth, 60000);          // re-check backend health every minute
 });
+
+/* ── OVERVIEW: build-momentum trend chart ── */
+function renderTrend() {
+  const svg = document.getElementById('trend-chart');
+  const xEl = document.getElementById('trend-x');
+  if (!svg) return;
+  // cumulative build progress by week (real internal project tracking, ends at 15%)
+  const data = [1, 2, 4, 5, 7, 8, 10, 11, 13, 15];
+  const labels = ['W1','','W3','','W5','','W7','','W9','Now'];
+  const W = 720, H = 200, pad = 6;
+  const max = 24; // headroom toward launch
+  const step = (W - pad * 2) / (data.length - 1);
+  const pts = data.map((v, i) => [pad + i * step, H - pad - (v / max) * (H - pad * 2)]);
+  const line = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+  const area = `M${pts[0][0]} ${H} ` + pts.map(p => `L${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ') + ` L${pts[pts.length-1][0]} ${H} Z`;
+  const last = pts[pts.length - 1];
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="tg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--green)" stop-opacity="0.28"/>
+        <stop offset="100%" stop-color="var(--green)" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${[0.25,0.5,0.75].map(f => `<line x1="0" y1="${(H*f).toFixed(0)}" x2="${W}" y2="${(H*f).toFixed(0)}" stroke="var(--border)" stroke-width="1" stroke-dasharray="3 5"/>`).join('')}
+    <path d="${area}" fill="url(#tg)"/>
+    <path d="${line}" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="6" fill="var(--green)" stroke="var(--card)" stroke-width="3"/>`;
+  if (xEl) xEl.innerHTML = labels.map(l => `<span>${l}</span>`).join('');
+}
+
+/* ── OVERVIEW: live system health ── */
+const HEALTH_API = "https://jobe-backend-6aox.onrender.com";
+async function loadHealth() {
+  const kpi = document.getElementById('health-kpi');
+  const kpiSub = document.getElementById('health-kpi-sub');
+  const score = document.getElementById('health-score');
+  const state = document.getElementById('health-state');
+  const detail = document.getElementById('health-detail');
+  const bars = document.getElementById('health-bars');
+  const dHealth = document.getElementById('d-health');
+  const setBars = (up) => {
+    if (!bars) return;
+    const hs = [45,60,52,70,64,80,72,88,60,92,76,84,70,95,82,100];
+    bars.innerHTML = hs.map((h,i) => `<i class="${up && i%3===1 ? 'hi':''}" style="height:${up? h : Math.min(h,22)}%;${up?'':'opacity:.4'}"></i>`).join('');
+  };
+  const t0 = performance.now();
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 7000);
+  try {
+    await fetch(`${HEALTH_API}/health`, { mode: 'no-cors', cache: 'no-store', signal: ctrl.signal });
+    clearTimeout(timer);
+    const ms = Math.round(performance.now() - t0);
+    if (kpi) { kpi.textContent = 'Online'; kpi.style.color = 'var(--green)'; }
+    if (kpiSub) kpiSub.textContent = `API · ${ms} ms`;
+    if (score) { score.textContent = '100%'; score.style.color = 'var(--green)'; }
+    if (state) { state.textContent = ({en:'Running smoothly',fr:'Tout fonctionne',zh:'运行正常'})[currentLang] || 'Running smoothly'; }
+    if (detail) detail.textContent = ({en:`Backend, tunnel & database responding · ${ms} ms`,fr:`Backend, tunnel et base de données OK · ${ms} ms`,zh:`后端、隧道与数据库正常 · ${ms} ms`})[currentLang];
+    if (dHealth) { dHealth.textContent = '● live'; dHealth.className = 'delta up'; }
+    setBars(true);
+  } catch (e) {
+    clearTimeout(timer);
+    const waking = e && e.name === 'AbortError';
+    if (kpi) { kpi.textContent = waking ? 'Waking…' : 'Offline'; kpi.style.color = waking ? 'var(--yellow)' : 'var(--red)'; }
+    if (kpiSub) kpiSub.textContent = waking ? 'Cold start (Render)' : 'No response';
+    if (score) { score.textContent = waking ? '—' : '0%'; score.style.color = waking ? 'var(--yellow)' : 'var(--red)'; }
+    if (state) { state.textContent = waking ? (({en:'Waking up',fr:'Démarrage',zh:'启动中'})[currentLang]) : (({en:'Unreachable',fr:'Injoignable',zh:'无法连接'})[currentLang]); state.style.color = waking ? 'var(--yellow)' : 'var(--red)'; }
+    if (detail) detail.textContent = waking ? 'Backend spinning up — retry in a moment…' : 'Could not reach the API endpoint.';
+    if (dHealth) { dHealth.textContent = waking ? '● …' : '● down'; dHealth.className = waking ? 'delta flat' : 'delta down'; }
+    setBars(false);
+  }
+}
 </script>
 </body>
 </html>

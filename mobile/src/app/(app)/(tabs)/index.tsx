@@ -288,10 +288,18 @@ export default function Feed() {
         {/* Sticky header */}
         <View style={[styles.header, { backgroundColor: colors.bg, borderBottomColor: colors.border }]}>
           <View>
-            <Text style={styles.wordmark} allowFontScaling={false}>
-              <Text style={{ color: colors.navy }}>Job</Text>
-              <Text style={{ color: colors.primary }}>é</Text>
-            </Text>
+            <View style={styles.brandRow}>
+              <Image
+                source={require("../../../../assets/jobe-icon.png")}
+                style={styles.brandIcon}
+                resizeMode="contain"
+                testID="feed-brand-logo"
+              />
+              <Text style={styles.wordmark} allowFontScaling={false}>
+                <Text style={{ color: colors.navy }}>Job</Text>
+                <Text style={{ color: colors.primary }}>é</Text>
+              </Text>
+            </View>
             <Text style={[styles.greeting, { color: colors.textMuted }]}>
               {t.greeting}{firstName ? `, ${firstName}` : ""}
             </Text>
@@ -516,6 +524,8 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.md,
     borderBottomWidth: 1,
   },
+  brandRow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  brandIcon: { width: 32, height: 32 },
   wordmark: { fontSize: 28, fontWeight: "900", fontStyle: "italic", letterSpacing: -1.2 },
   greeting: { fontSize: fonts.sizes.sm, fontWeight: fonts.weights.medium, letterSpacing: 0.3, marginTop: 1 },
   notifBtn: {
