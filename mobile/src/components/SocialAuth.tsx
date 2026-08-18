@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { View, Text, Pressable, StyleSheet, ActivityIndicator } from "react-native";
+import { useRouter } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { Apple } from "lucide-react-native";
-import { signInWithGoogle } from "@/lib/auth";
+import { authClient, signInWithGoogle } from "@/lib/auth";
 import { GoogleLogo } from "@/components/GoogleLogo";
 import { useTheme, fonts, radius, spacing } from "@/lib/theme";
 import { useI18n } from "@/lib/i18n";
@@ -11,6 +12,7 @@ export function SocialAuth({ onMessage }: { onMessage?: (m: string) => void }) {
   const colors = useTheme((s) => s.colors);
   const isDark = useTheme((s) => s.isDark);
   const { t } = useI18n();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   async function google() {
@@ -18,8 +20,22 @@ export function SocialAuth({ onMessage }: { onMessage?: (m: string) => void }) {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setLoading(true);
     try {
-      await signInWithGoogle();
-      // On success the Expo client persists the session and the root layout redirects.
+      const result = await signInWithGoogle();
+      if (result?.type !== "success") return; // user closed the browser
+      // Cookie is stored — confirm the session then route.
+      const session = await authClient.getSession();
+      const user = session?.data?.user as { username?: string | null; phone?: string | null } | undefined;
+      if (!user) {
+        onMessage?.(t.su_google_err);
+        return;
+      }
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      if (!user.username) {
+        // New Google account with no username yet — let them pick username + phone.
+        router.replace("/(auth)/complete-profile");
+      } else {
+        router.replace("/(app)/(tabs)/");
+      }
     } catch (e) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       onMessage?.((e as Error)?.message ?? t.su_google_err);
@@ -38,10 +54,9 @@ export function SocialAuth({ onMessage }: { onMessage?: (m: string) => void }) {
       <Pressable
         onPress={google}
         disabled={loading}
-        style={({ pressed }) => [
+        style={[
           styles.btn,
           { backgroundColor: colors.bgCard, borderColor: colors.border, shadowColor: isDark ? "#000" : "#3C4043" },
-          pressed && { opacity: 0.85, transform: [{ scale: 0.99 }] },
         ]}
         testID="google-signin"
       >
@@ -53,10 +68,9 @@ export function SocialAuth({ onMessage }: { onMessage?: (m: string) => void }) {
 
       <Pressable
         onPress={apple}
-        style={({ pressed }) => [
+        style={[
           styles.btn,
           { backgroundColor: colors.bgCard, borderColor: colors.border, shadowColor: isDark ? "#000" : "#3C4043" },
-          pressed && { opacity: 0.85, transform: [{ scale: 0.99 }] },
         ]}
         testID="apple-signin"
       >

@@ -83,10 +83,9 @@ export default function SignUp() {
             {/* Back */}
             <Pressable
               onPress={() => router.back()}
-              style={({ pressed }) => [
+              style={[
                 styles.back,
                 { backgroundColor: colors.bgCard, borderColor: colors.border },
-                pressed && { opacity: 0.7 },
               ]}
               hitSlop={8}
               testID="signup-back"
@@ -210,7 +209,7 @@ export default function SignUp() {
               {/* CTA */}
               <Pressable
                 onPress={handleContinue}
-                style={({ pressed }) => [pressed && styles.pressed, { marginTop: spacing.sm }]}
+                style={[{ marginTop: spacing.sm }]}
                 testID="signup-submit"
               >
                 <LinearGradient

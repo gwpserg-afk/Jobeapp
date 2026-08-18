@@ -74,10 +74,9 @@ export default function SignIn() {
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
           <Pressable
             onPress={() => router.back()}
-            style={({ pressed }) => [
+            style={[
               styles.back,
               { backgroundColor: colors.bgCard, borderColor: colors.border },
-              pressed && { opacity: 0.7 },
             ]}
             hitSlop={8}
             testID="signin-back"
@@ -150,7 +149,7 @@ export default function SignIn() {
               <Pressable
                 onPress={handleSignIn}
                 disabled={loading}
-                style={({ pressed }) => [pressed && styles.pressed, { marginTop: spacing.sm }]}
+                style={[{ marginTop: spacing.sm }]}
                 testID="signin-submit"
               >
                 <LinearGradient

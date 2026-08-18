@@ -137,7 +137,7 @@ export default function Profile() {
           <View style={styles.actionRow}>
             <Pressable
               onPress={() => { Haptics.selectionAsync(); router.push("/(app)/edit-profile"); }}
-              style={({ pressed }) => [styles.editBtn, { backgroundColor: colors.primary, shadowColor: colors.primary }, pressed && { opacity: 0.88, transform: [{ scale: 0.99 }] }]}
+              style={[styles.editBtn, { backgroundColor: colors.primary, shadowColor: colors.primary }]}
               testID="profile-edit"
             >
               <Pencil size={17} color="#fff" strokeWidth={2.6} />

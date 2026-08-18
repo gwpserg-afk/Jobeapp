@@ -126,7 +126,16 @@ export async function signInWithGoogle() {
   if (result.type !== "success") return result;
 
   const cookie = extractCookieParam(result.url);
-  if (!cookie) return result;
-  storage.setItem(COOKIE_NAME, mergeSetCookie(cookie, storage.getItem(COOKIE_NAME) ?? undefined));
+  if (cookie) {
+    storage.setItem(COOKIE_NAME, mergeSetCookie(cookie, storage.getItem(COOKIE_NAME) ?? undefined));
+  }
+  notifySessionChanged();
   return result;
+}
+
+// Tell better-auth's reactive store the session cookie changed so every
+// `useSession()` hook refetches (this is what flips the app to signed-in).
+export function notifySessionChanged() {
+  const store = (authClient as unknown as { $store?: { notify?: (signal: string) => void } }).$store;
+  store?.notify?.("$sessionSignal");
 }

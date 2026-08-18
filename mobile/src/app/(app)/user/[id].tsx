@@ -159,12 +159,11 @@ export default function UserProfile() {
           <View style={styles.actionRow}>
             <Pressable
               onPress={() => followMutation.mutate()}
-              style={({ pressed }) => [
+              style={[
                 styles.followBtn,
                 follow?.isFollowing
                   ? { backgroundColor: colors.bgElevated, borderColor: colors.border, borderWidth: 1 }
                   : { backgroundColor: colors.primary, shadowColor: colors.primary },
-                pressed && { opacity: 0.88, transform: [{ scale: 0.99 }] },
               ]}
               testID="follow-btn"
             >

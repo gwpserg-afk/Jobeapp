@@ -45,10 +45,9 @@ export default function Welcome() {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
               toggleTheme();
             }}
-            style={({ pressed }) => [
+            style={[
               styles.iconBtn,
               { backgroundColor: colors.bgCard, borderColor: colors.border },
-              pressed && { opacity: 0.7 },
             ]}
             hitSlop={8}
             testID="theme-toggle"
@@ -93,7 +92,7 @@ export default function Welcome() {
         <View style={styles.actions}>
           <Pressable
             onPress={getStarted}
-            style={({ pressed }) => [pressed && styles.pressed]}
+            style={[]}
             testID="cta-get-started"
           >
             <LinearGradient

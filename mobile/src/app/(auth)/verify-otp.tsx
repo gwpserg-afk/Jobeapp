@@ -109,10 +109,9 @@ export default function VerifyOtp() {
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
           <Pressable
             onPress={() => router.back()}
-            style={({ pressed }) => [
+            style={[
               styles.back,
               { backgroundColor: colors.bgCard, borderColor: colors.border },
-              pressed && { opacity: 0.7 },
             ]}
             hitSlop={8}
             testID="verify-back"
@@ -179,7 +178,7 @@ export default function VerifyOtp() {
             <Pressable
               onPress={() => submit(code)}
               disabled={loading || code.length !== LEN}
-              style={({ pressed }) => [pressed && styles.pressed, { width: "100%", marginTop: spacing.xl }]}
+              style={[{ width: "100%", marginTop: spacing.xl }]}
               testID="verify-submit"
             >
               <LinearGradient

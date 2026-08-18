@@ -22,6 +22,35 @@ Positioning rules (honest, pre-launch): **social-first (100%)**, **Senegal-first
 Dakar"), **no fabricated numbers/stats**, keep AI off the home screen. Languages: FR (default) /
 EN / 中文. Brand: green + blue + navy (full palette below). IG: instagram.com/jobeapp (other socials "soon").
 
+## ⚠️ 2026-08-18: METRO STALE-BUNDLE PLAYBOOK (read this first if "my code isn't on the device")
+**Symptom:** source edits (logo, buttons, code fixes) DON'T show on the phone even after a full
+Expo Go reload, and JS errors point at OLD line numbers. Wasted ~4 rounds telling Serg to "reload."
+**Root cause:** the Metro dev server was serving a **frozen/corrupted bundle**. Its log showed
+`Bundled index.ts (1 module)` — a healthy build is **~3700 modules**.
+**Diagnose FAST (don't repeat my mistakes):**
+1. `tail /private/tmp/jobe-expo.log | sed 's/\x1b\[[0-9;]*m//g'` → check the **module count**. `(1 module)` = broken.
+2. Grep the **exact** artifact the device loads, not a lookalike. Get its URL from the manifest:
+   `curl -s -H "Expo-Platform: ios" http://localhost:8081/ | python3 -c "import sys,json;print(json.load(sys.stdin)['launchAsset']['url'])"`
+   → it's `/index.ts.bundle?...transform.bytecode=1...` = **Hermes BYTECODE**, so grepping it for text/`testID` is useless (all 0 — false alarm). `/index.bundle?platform=ios&dev=true` is a DIFFERENT artifact — don't trust it.
+3. Confirm source has your change on disk (`grep` the .ts file) before blaming the device.
+**Fix:** restart Metro with a clean cache:
+`pkill -f "node_modules/.bin/expo"; pkill -f "@expo/ngrok-bin"` then
+`cd mobile && nohup bun node_modules/.bin/expo start --tunnel --port 8081 --clear > /private/tmp/jobe-expo.log 2>&1 &`
+wait for "Tunnel ready", then `curl` the device bundle URL → expect ~3700 modules. Tunnel URL stays
+`ijq7jxc-...exp.direct` (ngrok reuses it). NOTE: node_modules patches also only take effect after `--clear`
+(Metro caches node_modules). CLAUDE.md says don't touch the dev server, but if it's provably broken, restarting is the fix.
+
+## 2026-08-18: Google sign-in COMPLETES + username/phone onboarding + button layout fix
+- **Google now actually signs in.** `signInWithGoogle()` stores the cookie then calls
+  `notifySessionChanged()` (`authClient.$store.notify("$sessionSignal")`) so `useSession()` refetches.
+  `SocialAuth.google()` awaits `getSession()`, then: no `username` → `/(auth)/complete-profile`, else → app.
+- **New `(auth)/complete-profile.tsx`** — Google users pick **username (required) + phone (optional,
+  PhoneInput)**, prefilled name; `updateUser({name,username,phone})` → `/(app)/(tabs)/`. i18n cp_* (EN/FR/中).
+- **Button layout bug fixed:** all auth Pressables used `style={({pressed}) => [...]}` (function form).
+  **NativeWind v4 drops function styles** → buttons rendered unstyled/stacked (logo above text, no border).
+  Converted every `pressed &&` function-style to plain arrays across sign-in/up, welcome, verify-otp,
+  profile, user/[id], SocialAuth. Google/Apple now render as proper inline bordered pills.
+
 ## 2026-08-18 (cont'd): OAuth fixed in OUR code + dashboard to Dec 2026 launch
 - **Google OAuth crash — fixed for real in `mobile/src/lib/auth.ts` (source, not node_modules).**
   The node_modules patch was inert: Metro **caches node_modules and won't re-transform** an edited file
