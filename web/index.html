@@ -683,25 +683,6 @@
         <span class="ov-pill action"><span class="ic">⬆︎</span> <span data-i18n="ov_export">Export snapshot</span></span>
       </div>
 
-      <!-- hero trend chart -->
-      <div class="card" style="margin-bottom:16px">
-        <div class="trend-head">
-          <div>
-            <div class="card-title" data-i18n="momentum">Build momentum</div>
-            <div class="card-sub" style="margin-bottom:0" data-i18n="momentum_sub">Cumulative progress toward launch · weekly</div>
-          </div>
-          <div class="trend-seg">
-            <button class="on" data-i18n="tr_progress">Progress</button>
-            <button data-i18n="tr_screens">Screens</button>
-          </div>
-        </div>
-        <div class="trend-metrics">
-          <span class="trend-big" style="color:var(--green)" id="tr-big">15%</span>
-          <span class="trend-tag up" id="tr-tag">↑ <span data-i18n="tr_delta">+9 pts this month</span></span>
-        </div>
-        <svg class="trend-chart" id="trend-chart" viewBox="0 0 720 200" preserveAspectRatio="none" aria-hidden="true"></svg>
-        <div class="trend-x" id="trend-x"></div>
-      </div>
 
       <!-- KPI cards -->
       <div class="section-header"><span class="section-title" data-i18n="key_metrics">Key metrics</span></div>
@@ -709,11 +690,11 @@
         <div class="stat-card">
           <div class="stat-top">
             <div class="stat-ic">🏗️</div>
-            <span class="delta up" id="d-build">↑ +9pts</span>
+            <span class="delta up" id="d-build">↑ on track</span>
           </div>
           <div class="stat-label" data-i18n="build_progress">Build progress</div>
-          <div class="stat-value" style="color:var(--green)">15%</div>
-          <div class="stat-foot" data-i18n="kpi_phase2">Phase 2 in progress</div>
+          <div class="stat-value" style="color:var(--green)">70%</div>
+          <div class="stat-foot" data-i18n="kpi_phase2">Phase 5 · polishing for beta</div>
         </div>
         <div class="stat-card">
           <div class="stat-top">
@@ -731,7 +712,7 @@
           </div>
           <div class="stat-label" data-i18n="deadline">Days to launch</div>
           <div class="stat-value" style="color:var(--yellow)" id="countdown">—</div>
-          <div class="stat-foot" data-i18n="kpi_deadline">End of July 2026</div>
+          <div class="stat-foot" data-i18n="kpi_deadline">Beta Oct · launch December 2026</div>
         </div>
         <div class="stat-card">
           <div class="stat-top">
@@ -753,11 +734,11 @@
 
         <div class="card">
           <div class="card-title" data-i18n="phase_progress">Progress by phase</div>
-          <div class="card-sub" data-i18n="phase_sub">Target: launch end of July</div>
+          <div class="card-sub" data-i18n="phase_sub">Feature-complete · beta Oct 2026 · launch Dec 2026</div>
           <div id="phase-list"></div>
           <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
-            <div class="progress-label" style="margin-bottom:8px"><span data-i18n="overall">Overall progress</span><span style="color:var(--green)">15%</span></div>
-            <div class="progress-bar" style="height:10px"><div class="progress-fill" style="width:15%"></div></div>
+            <div class="progress-label" style="margin-bottom:8px"><span data-i18n="overall">Overall progress</span><span style="color:var(--green)">70%</span></div>
+            <div class="progress-bar" style="height:10px"><div class="progress-fill" style="width:70%"></div></div>
           </div>
         </div>
       </div>
@@ -767,12 +748,12 @@
         <div class="card">
           <div class="card-title" data-i18n="brk_title">Module breakdown</div>
           <div class="trend-metrics" style="margin:8px 0 0">
-            <span class="trend-big" style="font-size:26px">63%</span>
+            <span class="trend-big" style="font-size:26px">78%</span>
             <span class="trend-tag up">↑ <span data-i18n="brk_delta">on track</span></span>
           </div>
           <div class="brk-bar">
-            <span style="flex:0 0 55%;background:var(--green)"></span>
-            <span style="flex:0 0 20%;background:var(--yellow)"></span>
+            <span style="flex:0 0 78%;background:var(--green)"></span>
+            <span style="flex:0 0 15%;background:var(--yellow)"></span>
             <span style="flex:1;background:var(--elevated)"></span>
           </div>
           <div class="brk-legend">
@@ -780,9 +761,9 @@
             <span class="lg"><i style="background:var(--yellow)"></i> <span data-i18n="brk_wip">In progress</span></span>
             <span class="lg"><i style="background:var(--elevated)"></i> <span data-i18n="brk_todo">To do</span></span>
           </div>
-          <div class="brk-row"><span class="nm">⚙️ Backend · API</span><span class="pc" style="color:var(--green)">92%</span></div>
-          <div class="brk-row"><span class="nm">📱 Mobile app</span><span class="pc" style="color:var(--yellow)">48%</span></div>
-          <div class="brk-row"><span class="nm">🌐 Marketing site</span><span class="pc" style="color:var(--green)">80%</span></div>
+          <div class="brk-row"><span class="nm">⚙️ Backend · API</span><span class="pc" style="color:var(--green)">96%</span></div>
+          <div class="brk-row"><span class="nm">📱 Mobile app</span><span class="pc" style="color:var(--green)">78%</span></div>
+          <div class="brk-row"><span class="nm">🌐 Marketing site</span><span class="pc" style="color:var(--green)">92%</span></div>
         </div>
 
         <div class="card">
@@ -817,7 +798,7 @@
             </div>
             <div class="chips">
               <span class="chip green" data-i18n="server_online">● Server online</span>
-              <span class="chip blue">Expo SDK 54</span>
+              <span class="chip blue">Expo SDK 53</span>
               <span class="chip">iOS</span>
               <span class="chip">Android</span>
               <span class="chip">Web</span>
@@ -873,7 +854,7 @@
     <!-- ═══ ROADMAP ═══ -->
     <div class="page" id="page-roadmap">
       <div class="card">
-        <div class="card-title" data-i18n="roadmap_title">Roadmap · End of July 2026</div>
+        <div class="card-title" data-i18n="roadmap_title">Roadmap · Build → Beta → Launch</div>
         <div class="card-sub" data-i18n="roadmap_sub">4 phases for a full production launch</div>
         <div class="roadmap-list" id="roadmap-list"></div>
       </div>
@@ -915,7 +896,7 @@
           <div class="card-title" data-i18n="frontend">Frontend · Mobile</div>
           <div class="card-sub">React Native</div>
           <div class="tag-grid">
-            <span class="tag">Expo SDK 54</span><span class="tag">React Native 0.81</span><span class="tag">Expo Router</span>
+            <span class="tag">Expo SDK 53</span><span class="tag">React Native 0.76</span><span class="tag">Expo Router</span>
             <span class="tag">TypeScript</span><span class="tag">Zustand</span><span class="tag">React Query</span>
             <span class="tag">expo-linear-gradient</span><span class="tag">expo-blur</span><span class="tag">Better Auth Client</span>
           </div>
@@ -1107,48 +1088,50 @@ const T = {
     build_sub:"Better Auth + Prisma · Hono backend · 100% social network for Senegal's entrepreneurs. Check off as you go.",
     buildplan:[
       {phase:"Phase 1 — Foundation", items:[
-        ["bp1","Monorepo + GitHub + Expo SDK 54 (file routing)"],
-        ["bp2","Design system — dark/light, brand green + navy, fonts"],
-        ["bp3","i18n FR/EN/中文 across the app"],
-        ["bp4","Welcome screen — text wordmark, single portal ✓"],
-        ["bp5","Sign-up + sign-in — username/name/email/password ✓"]
+        ["bp1","Monorepo + GitHub + Expo SDK 53 (file routing)"],
+        ["bp2","Design system — dark/light, brand green + blue + navy, fonts"],
+        ["bp3","i18n FR / EN / 中文 across the whole app"],
+        ["bp4","Welcome screen — text wordmark, single portal"],
+        ["bp5","Sign-up + sign-in — username / name / email / password"]
       ]},
       {phase:"Phase 2 — Auth & Data", items:[
-        ["bp6","Better Auth — email/password + OTP ✓"],
-        ["bp7","Prisma schema + SQLite (dev) — 31 models ✓"],
-        ["bp8","Username + account type (personal / business) ✓"],
-        ["bp9","Public backend URL (deploy) + secure session on device"],
-        ["bp10","SQLite → Postgres / Neon for production"]
+        ["bp6","Better Auth — email/password + phone OTP"],
+        ["bp7","Google sign-in (OAuth) — in-app browser flow"],
+        ["bp8","Prisma schema — 30+ models (full social graph)"],
+        ["bp9","Public backend deployed (Render) + secure device session"],
+        ["bp10","Postgres production database"]
       ]},
       {phase:"Phase 3 — Social Core", items:[
-        ["bp11","Home feed — real posts API, pull-to-refresh, infinite scroll"],
-        ["bp12","Create post — text + photo upload (an opportunity = a post)"],
+        ["bp11","Home feed — real posts API, pull-to-refresh"],
+        ["bp12","Create post — text + photo upload"],
         ["bp13","Engagement — like, comment threads, repost"],
-        ["bp14","Profiles — avatar, bio, your posts, edit profile"],
-        ["bp15","Follow / connect — follow system + 'following' feed"]
+        ["bp14","Profiles — avatar, bio, posts, edit profile"],
+        ["bp15","Follow / connect + public profiles"]
       ]},
       {phase:"Phase 4 — Connect & Grow", items:[
         ["bp16","Discover — find entrepreneurs & businesses, search"],
-        ["bp17","Direct messages — 1:1 real-time chat"],
-        ["bp18","Groups / communities — by sector, city, interest"],
-        ["bp19","Notifications — likes, comments, follows, DMs + push"],
-        ["bp20","Business profiles — company page, verified badge (B2B/B2C)"]
+        ["bp17","Direct messages — 1:1 chat"],
+        ["bp18","Notifications — likes, comments, follows, DMs + push"],
+        ["bp19","In-app translate (posts & messages)"],
+        ["bp20","Groups / communities — by sector, city, interest"]
       ]},
       {phase:"Phase 5 — Polish & Launch", items:[
-        ["bp21","Onboarding — interests + suggested follows (fix cold-start)"],
-        ["bp22","Safety — moderation, reporting, blocking, privacy"],
-        ["bp23","Analytics + admin metrics (signups, retention, active users)"],
-        ["bp24","Closed beta — 50 testers, 3 months, feedback loop"],
-        ["bp25","App Store + Play Store + Senegal launch"]
+        ["bp21","Safety — moderation, reporting, blocking"],
+        ["bp22","Settings + account management"],
+        ["bp23","Founders dashboard — progress, health, reports"],
+        ["bp24","Onboarding — interests + suggested follows"],
+        ["bp25","Design polish pass — 10× every screen"],
+        ["bp26","Closed beta — testers (October 2026)"],
+        ["bp27","App Store + Play Store + Senegal launch (December 2026)"]
       ]}
     ],
     confidential:"Confidential · Founders only", online:"App online",
-    kpis:"KPIs · July 2026", build_progress:"Build progress", screens_done:"Screens done",
+    kpis:"Key metrics · 2026", build_progress:"Build progress", screens_done:"Screens done",
     deadline:"Deadline", target_market:"Target market",
-    kpi_phase2:"Phase 2 in progress", kpi_screens:"7 in progress · 24 total",
-    kpi_deadline:"App build target", kpi_market:"Senegal only · Dakar first",
+    kpi_phase2:"Phase 5 · polishing for beta", kpi_screens:"almost all screens built",
+    kpi_deadline:"Beta Oct · launch December 2026", kpi_market:"Senegal only · Dakar first",
     recent_activity:"Recent activity", recent_sub:"Latest project updates",
-    phase_progress:"Progress by phase", phase_sub:"App build mid-2026 · launch late 2026 / 2027", overall:"Overall progress",
+    phase_progress:"Progress by phase", phase_sub:"Feature-complete · beta Oct 2026 · launch Dec 2026", overall:"Overall progress",
     test_app:"Test the mobile app", test_sub:"Scan with Expo Go (iOS or Android). Update the tunnel URL if it changes.",
     qr_desc:"Open Expo Go and scan. The URL changes on every restart — paste the new one below.",
     server_online:"● Server online", update:"Update",
@@ -1172,47 +1155,51 @@ const T = {
     // phase bars
     phases:[
       {label:"Phase 1 · Foundations", pct:100, color:""},
-      {label:"Phase 2 · Design & UI", pct:30, color:""},
-      {label:"Phase 3 · Features", pct:10, color:"blue"},
-      {label:"Phase 4 · Launch", pct:5, color:"yellow"}
+      {label:"Phase 2 · Auth & Data", pct:100, color:""},
+      {label:"Phase 3 · Social core", pct:95, color:""},
+      {label:"Phase 4 · Connect & grow", pct:80, color:"blue"},
+      {label:"Phase 5 · Polish & launch", pct:35, color:"yellow"}
     ],
     activity:[
-      {strong:"Waitlist autoreply + phone", note:"Resend welcome email, optional phone field", dot:"green", time:"Today", side:"marketing"},
-      {strong:"Custom site animations", note:"blur reveal, 3D phone tilt, button sheen", dot:"blue", time:"Today", side:"marketing"},
-      {strong:"Conversion polish", note:"hero CTA to waitlist, founding-member section", dot:"green", time:"Today", side:"marketing"},
-      {strong:"SEO + social share image", note:"OG image, meta, sitemap, robots", dot:"blue", time:"This week", side:"marketing"},
-      {strong:"New sign-up screen", note:"username/name/email/pass, premium UI", dot:"green", time:"Today", side:"app"},
-      {strong:"Added username to backend", note:"Better Auth field + Prisma, verified", dot:"green", time:"Today", side:"app"},
-      {strong:"Welcome screen rebuilt", note:"text wordmark, one portal, on device ✓", dot:"green", time:"Today", side:"app"},
-      {strong:"Fixed 3 device crashes", note:"stale server, reanimated, expo-network", dot:"blue", time:"Today", side:"app"},
-      {strong:"Live feed wired", note:"real posts API, like, composer", dot:"blue", time:"Today", side:"app"},
-      {strong:"Marketing site live", note:"jobeapp.com — home, contact, download", dot:"green", time:"This week", side:"marketing"},
-      {strong:"Download page built", note:"store badges, coming-soon, FR/EN/中", dot:"blue", time:"This week", side:"marketing"},
-      {strong:"Repositioned 100% social", note:"entrepreneurs, B2B/B2C/C2B/C2C", dot:"yellow", time:"This week", side:"marketing"}
+      {strong:"Real logo added to app", note:"hard-hat icon on home header, transparent", dot:"green", time:"Today", side:"app"},
+      {strong:"Founders dashboard redesign", note:"KPIs, live health, module breakdown", dot:"blue", time:"Today", side:"marketing"},
+      {strong:"Google sign-in fixed", note:"self-driven OAuth browser (expo-web-browser)", dot:"green", time:"Today", side:"app"},
+      {strong:"Sign-in buttons polished", note:"Google + Apple matched, light & dark", dot:"green", time:"Today", side:"app"},
+      {strong:"Notifications + push", note:"likes, comments, follows, DMs + badge", dot:"green", time:"This week", side:"app"},
+      {strong:"Direct messaging live", note:"1:1 chat, real API, translate", dot:"green", time:"This week", side:"app"},
+      {strong:"Profiles + follow loop", note:"avatar, bio, public profiles, edit", dot:"green", time:"This week", side:"app"},
+      {strong:"Safety layer shipped", note:"AI moderation, reporting, blocking", dot:"green", time:"This week", side:"app"},
+      {strong:"Country-code phone input", note:"Senegal default, searchable dial codes", dot:"blue", time:"This week", side:"app"},
+      {strong:"Backend deployed (Render)", note:"Postgres prod DB, public URL", dot:"green", time:"This week", side:"app"},
+      {strong:"Marketing site live", note:"jobeapp.com — home, contact, download", dot:"green", time:"This month", side:"marketing"},
+      {strong:"Repositioned 100% social", note:"entrepreneurs, B2B/B2C/C2B/C2C", dot:"green", time:"This month", side:"marketing"}
     ],
     screens:[
-      {name:"Welcome screen", note:"rebuilt, text wordmark, on device ✓", status:"done"},
-      {name:"Sign up", note:"username/name/email/pass, premium UI", status:"done"},
-      {name:"Home feed", note:"live API wired, design polish next", status:"in_progress"},
-      {name:"Sign in / OTP", note:"works, redesign pending", status:"in_progress"},
-      {name:"Create post", note:"composer built, wired to API", status:"in_progress"},
-      {name:"Discover", note:"real data, design pending", status:"next"},
-      {name:"Chat / messages", note:"to wire to real API", status:"next"},
-      {name:"Profile", note:"to rebuild", status:"next"}
+      {name:"Welcome screen", note:"text wordmark, single portal", status:"done"},
+      {name:"Sign up / sign in", note:"username, email, phone OTP, Google", status:"done"},
+      {name:"Home feed", note:"live posts, like, repost, logo header", status:"done"},
+      {name:"Create post", note:"text + photo upload, wired to API", status:"done"},
+      {name:"Profile + edit profile", note:"avatar, bio, stats, public profiles", status:"done"},
+      {name:"Discover", note:"find people & businesses, search", status:"done"},
+      {name:"Chat / messages", note:"1:1 chat, real API, translate", status:"done"},
+      {name:"Notifications", note:"real feed, unread badge, push", status:"done"},
+      {name:"Settings", note:"theme, language, account, blocked", status:"done"},
+      {name:"Onboarding", note:"interests + suggested follows", status:"next"},
+      {name:"Design polish pass", note:"10× every screen for beta", status:"in_progress"}
     ],
     backend:[
-      {name:"Auth endpoints (Better Auth)", status:"done"},
-      {name:"Prisma + SQLite", status:"done"},
-      {name:"Posts / feed API", status:"done"},
-      {name:"Public backend URL (deploy)", status:"next"},
-      {name:"Messaging WebSocket", status:"next"},
-      {name:"SQLite → Postgres/Neon (prod)", status:"next"}
+      {name:"Auth (Better Auth) — email, OTP, Google", status:"done"},
+      {name:"Prisma — 30+ models (social graph)", status:"done"},
+      {name:"Posts / feed / engagement API", status:"done"},
+      {name:"Messaging + notifications API", status:"done"},
+      {name:"Deployed on Render + Postgres (prod)", status:"done"},
+      {name:"Moderation / reporting / safety", status:"done"}
     ],
     roadmap:[
-      {icon:"✅", title:"Phase 1 — Foundations", desc:"Expo Router, OTP auth, dark/light mode, Hono backend, Prisma, tunnels, i18n FR/EN/ZH", badge:"done"},
-      {icon:"🎨", title:"Phase 2 — Design & UI", desc:"Cal AI welcome screen, immersive home feed, jobs search, candidate profile, logo & branding", badge:"in_progress"},
-      {icon:"⚡", title:"Phase 3 — Key Features", desc:"Recruiter dashboard, real-time messaging, AI matching, CV upload, push notifications", badge:"next"},
-      {icon:"🚀", title:"Phase 4 — Launch", desc:"jobeapp.com marketing site, App Store + Play Store, Senegal campaign, premium, analytics", badge:"next"}
+      {icon:"✅", title:"Phase 1–2 — Foundations & Auth", desc:"Expo Router, dark/light, i18n, Better Auth (email/OTP/Google), Prisma, Render + Postgres", badge:"done"},
+      {icon:"✅", title:"Phase 3 — Social core", desc:"Feed, posts, likes, comments, reposts, profiles, follow, public profiles", badge:"done"},
+      {icon:"⚡", title:"Phase 4 — Connect & grow", desc:"Discover, direct messages, notifications + push, in-app translate, groups next", badge:"in_progress"},
+      {icon:"🚀", title:"Phase 5 — Polish → Beta → Launch", desc:"Design polish, onboarding, closed beta Oct 2026, App Store + Play Store, Senegal launch Dec 2026", badge:"next"}
     ],
     refs:["Bold typography, clean dark, minimal","Immersive dark, floating glass UI, premium","Tight spacing, sharp type hierarchy","Bold numbers, trust signals","Black & white, geometric, high contrast","Gradient accents, polished, developer-grade","Vibrant fintech, bold cards, motion","Native feel, crisp icons, dark elegance","Playful gradients, soft shadows, fresh","Friendly mascot, rounded, energetic"],
     colorNames:["Primary Green (dark)","Primary Green (light)","Blue Secondary","Background Dark"],
@@ -1222,27 +1209,25 @@ const T = {
     links:{link_site:"jobeapp.com — Marketing site", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — Code repository", link_vercel:"Vercel — Dashboard hosting", link_expo:"Expo app — tunnel URL", link_expodev:"Expo Dev — Build & distribution"},
     tasks:{
       todo:[
-        {id:"t-github", title:"Connect GitHub → Vercel", desc:"Push repo, link to Vercel for auto-deploy on every commit", color:"red"},
-        {id:"t-subdomain", title:"Set up team.jobeapp.com", desc:"Add subdomain DNS → point to Vercel for this dashboard", color:"red"},
-        {id:"t-recruiter", title:"Recruiter dashboard screens", desc:"Post job, view applications, candidate search", color:"muted"},
-        {id:"t-messaging", title:"Real messaging (WebSocket)", desc:"Replace mock messages with live chat", color:"muted"},
-        {id:"t-ai", title:"AI job matching (OpenAI)", desc:"Connect OpenAI to match candidates with jobs", color:"muted"}
+        {id:"t-beta", title:"Closed beta — October 2026", desc:"Invite first testers, feedback loop before launch", color:"red"},
+        {id:"t-onboarding", title:"Onboarding flow", desc:"Pick interests + suggested follows (fix cold-start)", color:"muted"},
+        {id:"t-groups", title:"Groups / communities", desc:"By sector, city, interest", color:"muted"},
+        {id:"t-store", title:"App Store + Play Store", desc:"Store listings, review, Senegal launch (Dec 2026)", color:"muted"}
       ],
       progress:[
-        {id:"t-welcome", title:"Welcome screen", desc:"Cal AI style — design done, need onboarding flow", pct:"30%", color:"blue"},
-        {id:"t-feed", title:"Home feed", desc:"Mock data — need real API, create post, stories", pct:"30%", color:"blue"},
-        {id:"t-jobs", title:"Jobs search", desc:"Mock data — need real jobs API, filters, detail screen", pct:"30%", color:"blue"},
-        {id:"t-profile", title:"Profile screen", desc:"UI shell — need CV upload, edit flow, real stats", pct:"30%", color:"blue"},
-        {id:"t-dashboard", title:"Internal dashboard", desc:"This page — ongoing improvements", pct:"70%", color:"blue"}
+        {id:"t-polish", title:"Design polish pass", desc:"10× every screen — premium, consistent, for beta", pct:"55%", color:"blue"},
+        {id:"t-dashboard", title:"Founders dashboard", desc:"This page — KPIs, live health, build plan", pct:"85%", color:"blue"},
+        {id:"t-brand", title:"Brand & assets", desc:"Logo in app, icons, store screenshots", pct:"60%", color:"blue"}
       ],
       done:[
-        {id:"t-tunnel", title:"Expo Go tunnel working", desc:"App loads on phone via ngrok tunnel", color:"green"},
-        {id:"t-vibecode", title:"Remove Vibecode dependencies", desc:"Clean codebase, no legacy imports", color:"green"},
-        {id:"t-crashes", title:"Fix app crashes", desc:"expo-network patch, reanimated removed", color:"green"},
-        {id:"t-darkmode", title:"Dark mode + theme system", desc:"Zustand store, green/blue palette, default dark", color:"green"},
-        {id:"t-i18n", title:"FR / EN / 中文 i18n", desc:"Full 3-language system across all screens", color:"green"},
-        {id:"t-logo", title:"Logo integrated", desc:"logo-dark.png + logo-light.png switching", color:"green"},
-        {id:"t-backend", title:"Backend + auth working", desc:"Hono + Prisma + Better Auth email OTP", color:"green"}
+        {id:"t-auth", title:"Auth — email, phone OTP, Google", desc:"Better Auth + self-driven Google OAuth", color:"green"},
+        {id:"t-backend", title:"Backend deployed + Postgres", desc:"Hono + Prisma on Render, production DB", color:"green"},
+        {id:"t-social", title:"Social core", desc:"Feed, posts, likes, comments, reposts", color:"green"},
+        {id:"t-profiles", title:"Profiles + follow", desc:"Avatar, bio, edit, public profiles, discover", color:"green"},
+        {id:"t-messaging", title:"Messaging + translate", desc:"1:1 chat, real API, in-app translation", color:"green"},
+        {id:"t-notifs", title:"Notifications + push", desc:"Likes, comments, follows, DMs + badge", color:"green"},
+        {id:"t-safety", title:"Safety layer", desc:"AI moderation, reporting, blocking", color:"green"},
+        {id:"t-i18n", title:"FR / EN / 中文 i18n", desc:"Full 3-language system across all screens", color:"green"}
       ]
     },
     pageTitles:{overview:"Overview", app:"Mobile App", reports:"Reports", roadmap:"Roadmap", build:"Build Plan", mytasks:"My To-Do", design:"Design & Brand", stack:"Tech Stack", marketing:"Marketing", links:"Links", tasks:"Tasks"}
@@ -1263,48 +1248,50 @@ const T = {
     build_sub:"Better Auth + Prisma · backend Hono · réseau 100% social pour les entrepreneurs sénégalais. Cochez au fur et à mesure.",
     buildplan:[
       {phase:"Phase 1 — Fondations", items:[
-        ["bp1","Monorepo + GitHub + Expo SDK 54 (routing fichiers)"],
-        ["bp2","Design system — sombre/clair, vert + bleu marine, polices"],
-        ["bp3","i18n FR/EN/中文 dans toute l'app"],
-        ["bp4","Écran d'accueil — wordmark texte, portail unique ✓"],
-        ["bp5","Inscription + connexion — username/nom/email/mot de passe ✓"]
+        ["bp1","Monorepo + GitHub + Expo SDK 53 (routing fichiers)"],
+        ["bp2","Design system — sombre/clair, vert + bleu + marine, polices"],
+        ["bp3","i18n FR / EN / 中文 dans toute l'app"],
+        ["bp4","Écran d'accueil — wordmark texte, portail unique"],
+        ["bp5","Inscription + connexion — username / nom / email / mot de passe"]
       ]},
       {phase:"Phase 2 — Auth & Données", items:[
-        ["bp6","Better Auth — email/mot de passe + OTP ✓"],
-        ["bp7","Schéma Prisma + SQLite (dev) — 31 modèles ✓"],
-        ["bp8","Username + type de compte (personnel / entreprise) ✓"],
-        ["bp9","URL backend publique (déploiement) + session sécurisée sur l'appareil"],
-        ["bp10","SQLite → Postgres / Neon pour la production"]
+        ["bp6","Better Auth — email/mot de passe + OTP téléphone"],
+        ["bp7","Connexion Google (OAuth) — navigateur in-app"],
+        ["bp8","Schéma Prisma — 30+ modèles (graphe social complet)"],
+        ["bp9","Backend public déployé (Render) + session sécurisée"],
+        ["bp10","Base de données Postgres (production)"]
       ]},
       {phase:"Phase 3 — Cœur social", items:[
-        ["bp11","Fil d'actualité — API posts réelle, pull-to-refresh, scroll infini"],
-        ["bp12","Créer un post — texte + photo (une opportunité = un post)"],
+        ["bp11","Fil d'actualité — API posts réelle, pull-to-refresh"],
+        ["bp12","Créer un post — texte + photo"],
         ["bp13","Engagement — like, fils de commentaires, repost"],
-        ["bp14","Profils — avatar, bio, tes posts, édition du profil"],
-        ["bp15","Suivre / connecter — système de follow + fil 'abonnements'"]
+        ["bp14","Profils — avatar, bio, posts, édition du profil"],
+        ["bp15","Suivre / connecter + profils publics"]
       ]},
       {phase:"Phase 4 — Connecter & Grandir", items:[
         ["bp16","Découvrir — trouver entrepreneurs & entreprises, recherche"],
-        ["bp17","Messages directs — chat 1:1 en temps réel"],
-        ["bp18","Groupes / communautés — par secteur, ville, intérêt"],
-        ["bp19","Notifications — likes, commentaires, follows, DMs + push"],
-        ["bp20","Profils entreprise — page société, badge vérifié (B2B/B2C)"]
+        ["bp17","Messages directs — chat 1:1"],
+        ["bp18","Notifications — likes, commentaires, follows, DMs + push"],
+        ["bp19","Traduction in-app (posts & messages)"],
+        ["bp20","Groupes / communautés — par secteur, ville, intérêt"]
       ]},
       {phase:"Phase 5 — Polish & Lancement", items:[
-        ["bp21","Onboarding — intérêts + suggestions de follow (anti page vide)"],
-        ["bp22","Sécurité — modération, signalement, blocage, confidentialité"],
-        ["bp23","Analytics + métriques admin (inscriptions, rétention, actifs)"],
-        ["bp24","Bêta fermée — 50 testeurs, 3 mois, boucle de feedback"],
-        ["bp25","App Store + Play Store + lancement Sénégal"]
+        ["bp21","Sécurité — modération, signalement, blocage"],
+        ["bp22","Paramètres + gestion du compte"],
+        ["bp23","Dashboard fondateurs — progrès, santé, signalements"],
+        ["bp24","Onboarding — intérêts + suggestions de follow"],
+        ["bp25","Passe de polish design — 10× chaque écran"],
+        ["bp26","Bêta fermée — testeurs (octobre 2026)"],
+        ["bp27","App Store + Play Store + lancement Sénégal (décembre 2026)"]
       ]}
     ],
     confidential:"Confidentiel · Fondateurs seulement", online:"App en ligne",
-    kpis:"KPIs · Juillet 2026", build_progress:"Avancement build", screens_done:"Écrans terminés",
+    kpis:"Indicateurs clés · 2026", build_progress:"Avancement build", screens_done:"Écrans terminés",
     deadline:"Deadline", target_market:"Marché cible",
-    kpi_phase2:"Phase 2 en cours", kpi_screens:"7 en cours · 24 total",
-    kpi_deadline:"Objectif build app", kpi_market:"Sénégal uniquement · Dakar d'abord",
+    kpi_phase2:"Phase 5 · polish avant bêta", kpi_screens:"presque tous les écrans faits",
+    kpi_deadline:"Bêta oct. · lancement décembre 2026", kpi_market:"Sénégal uniquement · Dakar d'abord",
     recent_activity:"Activité récente", recent_sub:"Dernières mises à jour du projet",
-    phase_progress:"Avancement par phase", phase_sub:"Build app mi-2026 · lancement fin 2026 / 2027", overall:"Avancement global",
+    phase_progress:"Avancement par phase", phase_sub:"Fonctionnalités prêtes · bêta oct. 2026 · lancement déc. 2026", overall:"Avancement global",
     test_app:"Tester l'application mobile", test_sub:"Scannez avec Expo Go (iOS ou Android). Mettez à jour l'URL tunnel si elle change.",
     qr_desc:"Ouvrez Expo Go et scannez. L'URL change à chaque redémarrage — collez la nouvelle ci-dessous.",
     server_online:"● Serveur actif", update:"Mettre à jour",
@@ -1327,47 +1314,51 @@ const T = {
     day:"j", days_left:"restants",
     phases:[
       {label:"Phase 1 · Fondations", pct:100, color:""},
-      {label:"Phase 2 · Design & UI", pct:30, color:""},
-      {label:"Phase 3 · Fonctionnalités", pct:10, color:"blue"},
-      {label:"Phase 4 · Launch", pct:5, color:"yellow"}
+      {label:"Phase 2 · Auth & Données", pct:100, color:""},
+      {label:"Phase 3 · Cœur social", pct:95, color:""},
+      {label:"Phase 4 · Connecter & grandir", pct:80, color:"blue"},
+      {label:"Phase 5 · Polish & lancement", pct:35, color:"yellow"}
     ],
     activity:[
-      {strong:"Liste d'attente + auto-réponse", note:"email de bienvenue Resend, champ téléphone", dot:"green", time:"Aujourd'hui", side:"marketing"},
-      {strong:"Animations personnalisées", note:"révélation floue, téléphone 3D, brillance bouton", dot:"blue", time:"Aujourd'hui", side:"marketing"},
-      {strong:"Optimisation conversion", note:"CTA héro vers liste, section membre fondateur", dot:"green", time:"Aujourd'hui", side:"marketing"},
-      {strong:"SEO + image de partage", note:"image OG, méta, sitemap, robots", dot:"blue", time:"Cette semaine", side:"marketing"},
-      {strong:"Nouvel écran d'inscription", note:"username/nom/email/mdp, UI premium", dot:"green", time:"Aujourd'hui", side:"app"},
-      {strong:"Username ajouté au backend", note:"champ Better Auth + Prisma, vérifié", dot:"green", time:"Aujourd'hui", side:"app"},
-      {strong:"Écran d'accueil refait", note:"wordmark texte, un portail, sur tél ✓", dot:"green", time:"Aujourd'hui", side:"app"},
-      {strong:"3 crashs appareil corrigés", note:"serveur, reanimated, expo-network", dot:"blue", time:"Aujourd'hui", side:"app"},
-      {strong:"Fil connecté à l'API", note:"vrais posts, like, composer", dot:"blue", time:"Aujourd'hui", side:"app"},
-      {strong:"Site marketing en ligne", note:"jobeapp.com — accueil, contact, download", dot:"green", time:"Cette semaine", side:"marketing"},
-      {strong:"Page de téléchargement", note:"badges stores, bientôt, FR/EN/中", dot:"blue", time:"Cette semaine", side:"marketing"},
-      {strong:"Repositionné 100% social", note:"entrepreneurs, B2B/B2C/C2B/C2C", dot:"yellow", time:"Cette semaine", side:"marketing"}
+      {strong:"Vrai logo ajouté à l'app", note:"icône casque sur l'en-tête accueil, transparent", dot:"green", time:"Aujourd'hui", side:"app"},
+      {strong:"Refonte dashboard fondateurs", note:"KPIs, santé en direct, répartition modules", dot:"blue", time:"Aujourd'hui", side:"marketing"},
+      {strong:"Connexion Google corrigée", note:"navigateur OAuth maison (expo-web-browser)", dot:"green", time:"Aujourd'hui", side:"app"},
+      {strong:"Boutons de connexion soignés", note:"Google + Apple assortis, clair & sombre", dot:"green", time:"Aujourd'hui", side:"app"},
+      {strong:"Notifications + push", note:"likes, commentaires, follows, DMs + badge", dot:"green", time:"Cette semaine", side:"app"},
+      {strong:"Messagerie directe en ligne", note:"chat 1:1, API réelle, traduction", dot:"green", time:"Cette semaine", side:"app"},
+      {strong:"Profils + boucle de follow", note:"avatar, bio, profils publics, édition", dot:"green", time:"Cette semaine", side:"app"},
+      {strong:"Couche de sécurité livrée", note:"modération IA, signalement, blocage", dot:"green", time:"Cette semaine", side:"app"},
+      {strong:"Champ téléphone indicatif", note:"Sénégal par défaut, indicatifs cherchables", dot:"blue", time:"Cette semaine", side:"app"},
+      {strong:"Backend déployé (Render)", note:"base Postgres prod, URL publique", dot:"green", time:"Cette semaine", side:"app"},
+      {strong:"Site marketing en ligne", note:"jobeapp.com — accueil, contact, download", dot:"green", time:"Ce mois-ci", side:"marketing"},
+      {strong:"Repositionné 100% social", note:"entrepreneurs, B2B/B2C/C2B/C2C", dot:"green", time:"Ce mois-ci", side:"marketing"}
     ],
     screens:[
-      {name:"Écran d'accueil", note:"refait, wordmark texte, sur tél ✓", status:"done"},
-      {name:"Inscription", note:"username/nom/email/mdp, UI premium", status:"done"},
-      {name:"Fil d'actualité", note:"API connectée, polish design à venir", status:"in_progress"},
-      {name:"Connexion / OTP", note:"fonctionne, redesign à venir", status:"in_progress"},
-      {name:"Créer un post", note:"composer fait, connecté à l'API", status:"in_progress"},
-      {name:"Découvrir", note:"vraies données, design à venir", status:"next"},
-      {name:"Chat / messages", note:"à connecter à l'API", status:"next"},
-      {name:"Profil", note:"à refaire", status:"next"}
+      {name:"Écran d'accueil", note:"wordmark texte, portail unique", status:"done"},
+      {name:"Inscription / connexion", note:"username, email, OTP téléphone, Google", status:"done"},
+      {name:"Fil d'actualité", note:"posts en direct, like, repost, logo en-tête", status:"done"},
+      {name:"Créer un post", note:"texte + photo, connecté à l'API", status:"done"},
+      {name:"Profil + édition", note:"avatar, bio, stats, profils publics", status:"done"},
+      {name:"Découvrir", note:"trouver gens & entreprises, recherche", status:"done"},
+      {name:"Chat / messages", note:"chat 1:1, API réelle, traduction", status:"done"},
+      {name:"Notifications", note:"fil réel, badge non-lus, push", status:"done"},
+      {name:"Paramètres", note:"thème, langue, compte, bloqués", status:"done"},
+      {name:"Onboarding", note:"intérêts + suggestions de follow", status:"next"},
+      {name:"Passe de polish design", note:"10× chaque écran pour la bêta", status:"in_progress"}
     ],
     backend:[
-      {name:"Endpoints auth (Better Auth)", status:"done"},
-      {name:"Prisma + SQLite", status:"done"},
-      {name:"API posts / fil", status:"done"},
-      {name:"URL backend publique (déploiement)", status:"next"},
-      {name:"Messagerie WebSocket", status:"next"},
-      {name:"SQLite → Postgres/Neon (prod)", status:"next"}
+      {name:"Auth (Better Auth) — email, OTP, Google", status:"done"},
+      {name:"Prisma — 30+ modèles (graphe social)", status:"done"},
+      {name:"API posts / fil / engagement", status:"done"},
+      {name:"API messagerie + notifications", status:"done"},
+      {name:"Déployé sur Render + Postgres (prod)", status:"done"},
+      {name:"Modération / signalement / sécurité", status:"done"}
     ],
     roadmap:[
-      {icon:"✅", title:"Phase 1 — Fondations", desc:"Expo Router, auth OTP, mode sombre/clair, backend Hono, Prisma, tunnels, i18n FR/EN/ZH", badge:"done"},
-      {icon:"🎨", title:"Phase 2 — Design & UI", desc:"Écran d'accueil style Cal AI, fil immersif, recherche d'emplois, profil candidat, logo & branding", badge:"in_progress"},
-      {icon:"⚡", title:"Phase 3 — Fonctionnalités clés", desc:"Dashboard recruteur, messagerie temps réel, matching IA, upload CV, notifications push", badge:"next"},
-      {icon:"🚀", title:"Phase 4 — Launch", desc:"Site marketing jobeapp.com, App Store + Play Store, campagne Sénégal, premium, analytics", badge:"next"}
+      {icon:"✅", title:"Phase 1–2 — Fondations & Auth", desc:"Expo Router, sombre/clair, i18n, Better Auth (email/OTP/Google), Prisma, Render + Postgres", badge:"done"},
+      {icon:"✅", title:"Phase 3 — Cœur social", desc:"Fil, posts, likes, commentaires, reposts, profils, follow, profils publics", badge:"done"},
+      {icon:"⚡", title:"Phase 4 — Connecter & grandir", desc:"Découvrir, messages directs, notifications + push, traduction in-app, groupes ensuite", badge:"in_progress"},
+      {icon:"🚀", title:"Phase 5 — Polish → Bêta → Lancement", desc:"Polish design, onboarding, bêta fermée oct. 2026, App Store + Play Store, lancement Sénégal déc. 2026", badge:"next"}
     ],
     refs:["Typographie bold, dark épuré, minimal","Dark immersif, UI verre flottant, premium","Espacement serré, hiérarchie typographique nette","Chiffres bold, signaux de confiance","Noir & blanc, géométrique, fort contraste","Accents dégradés, soigné, qualité dev","Fintech vibrant, cartes bold, mouvement","Sensation native, icônes nettes, élégance sombre","Dégradés ludiques, ombres douces, frais","Mascotte sympa, arrondi, énergique"],
     colorNames:["Vert primaire (sombre)","Vert primaire (clair)","Bleu secondaire","Fond sombre"],
@@ -1377,27 +1368,25 @@ const T = {
     links:{link_site:"jobeapp.com — Site marketing", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — Dépôt de code", link_vercel:"Vercel — Hébergement dashboard", link_expo:"App Expo — URL tunnel", link_expodev:"Expo Dev — Build & distribution"},
     tasks:{
       todo:[
-        {id:"t-github", title:"Connecter GitHub → Vercel", desc:"Push du repo, lier à Vercel pour auto-déploiement à chaque commit", color:"red"},
-        {id:"t-subdomain", title:"Configurer team.jobeapp.com", desc:"Ajouter le DNS du sous-domaine → pointer vers Vercel pour ce dashboard", color:"red"},
-        {id:"t-recruiter", title:"Écrans dashboard recruteur", desc:"Publier une offre, voir les candidatures, recherche de candidats", color:"muted"},
-        {id:"t-messaging", title:"Messagerie réelle (WebSocket)", desc:"Remplacer les messages fictifs par un chat en direct", color:"muted"},
-        {id:"t-ai", title:"Matching IA (OpenAI)", desc:"Connecter OpenAI pour matcher candidats et emplois", color:"muted"}
+        {id:"t-beta", title:"Bêta fermée — octobre 2026", desc:"Inviter les premiers testeurs, boucle de feedback avant lancement", color:"red"},
+        {id:"t-onboarding", title:"Flux d'onboarding", desc:"Choisir intérêts + suggestions de follow (anti page vide)", color:"muted"},
+        {id:"t-groups", title:"Groupes / communautés", desc:"Par secteur, ville, intérêt", color:"muted"},
+        {id:"t-store", title:"App Store + Play Store", desc:"Fiches stores, review, lancement Sénégal (déc. 2026)", color:"muted"}
       ],
       progress:[
-        {id:"t-welcome", title:"Écran d'accueil", desc:"Style Cal AI — design fait, flux d'onboarding à faire", pct:"30%", color:"blue"},
-        {id:"t-feed", title:"Fil d'actualité", desc:"Données fictives — API réelle, création de post, stories", pct:"30%", color:"blue"},
-        {id:"t-jobs", title:"Recherche d'emplois", desc:"Données fictives — API réelle, filtres, écran détail", pct:"30%", color:"blue"},
-        {id:"t-profile", title:"Écran profil", desc:"Coquille UI — upload CV, flux d'édition, vraies stats", pct:"30%", color:"blue"},
-        {id:"t-dashboard", title:"Dashboard interne", desc:"Cette page — améliorations continues", pct:"70%", color:"blue"}
+        {id:"t-polish", title:"Passe de polish design", desc:"10× chaque écran — premium, cohérent, pour la bêta", pct:"55%", color:"blue"},
+        {id:"t-dashboard", title:"Dashboard fondateurs", desc:"Cette page — KPIs, santé en direct, plan de build", pct:"85%", color:"blue"},
+        {id:"t-brand", title:"Marque & assets", desc:"Logo dans l'app, icônes, captures pour stores", pct:"60%", color:"blue"}
       ],
       done:[
-        {id:"t-tunnel", title:"Tunnel Expo Go fonctionnel", desc:"L'app se charge sur le téléphone via le tunnel ngrok", color:"green"},
-        {id:"t-vibecode", title:"Retirer dépendances Vibecode", desc:"Codebase propre, aucun import legacy", color:"green"},
-        {id:"t-crashes", title:"Corriger les crashs de l'app", desc:"patch expo-network, reanimated retiré", color:"green"},
-        {id:"t-darkmode", title:"Mode sombre + système de thème", desc:"Store Zustand, palette vert/bleu, sombre par défaut", color:"green"},
-        {id:"t-i18n", title:"i18n FR / EN / 中文", desc:"Système 3 langues complet sur tous les écrans", color:"green"},
-        {id:"t-logo", title:"Logo intégré", desc:"bascule logo-dark.png + logo-light.png", color:"green"},
-        {id:"t-backend", title:"Backend + auth fonctionnels", desc:"Hono + Prisma + Better Auth OTP email", color:"green"}
+        {id:"t-auth", title:"Auth — email, OTP tél., Google", desc:"Better Auth + OAuth Google maison", color:"green"},
+        {id:"t-backend", title:"Backend déployé + Postgres", desc:"Hono + Prisma sur Render, base de prod", color:"green"},
+        {id:"t-social", title:"Cœur social", desc:"Fil, posts, likes, commentaires, reposts", color:"green"},
+        {id:"t-profiles", title:"Profils + follow", desc:"Avatar, bio, édition, profils publics, découvrir", color:"green"},
+        {id:"t-messaging", title:"Messagerie + traduction", desc:"Chat 1:1, API réelle, traduction in-app", color:"green"},
+        {id:"t-notifs", title:"Notifications + push", desc:"Likes, commentaires, follows, DMs + badge", color:"green"},
+        {id:"t-safety", title:"Couche de sécurité", desc:"Modération IA, signalement, blocage", color:"green"},
+        {id:"t-i18n", title:"i18n FR / EN / 中文", desc:"Système 3 langues complet sur tous les écrans", color:"green"}
       ]
     },
     pageTitles:{overview:"Vue d'ensemble", app:"Application mobile", reports:"Signalements", roadmap:"Roadmap", build:"Plan de build", mytasks:"Mes tâches", design:"Design & Brand", stack:"Stack technique", marketing:"Marketing", links:"Liens", tasks:"Tâches"}
@@ -1418,48 +1407,50 @@ const T = {
     build_sub:"Better Auth + Prisma · Hono 后端 · 为塞内加尔创业者打造的100%社交网络。完成后打勾。",
     buildplan:[
       {phase:"第1阶段 — 基础", items:[
-        ["bp1","单一代码库 + GitHub + Expo SDK 54（文件路由）"],
-        ["bp2","设计系统 — 深/浅色、品牌绿+海军蓝、字体"],
-        ["bp3","全应用 i18n FR/EN/中文"],
-        ["bp4","欢迎页 — 文字标识，单一入口 ✓"],
-        ["bp5","注册 + 登录 — 用户名/姓名/邮箱/密码 ✓"]
+        ["bp1","单一代码库 + GitHub + Expo SDK 53（文件路由）"],
+        ["bp2","设计系统 — 深/浅色、品牌绿+蓝+海军蓝、字体"],
+        ["bp3","全应用 i18n FR / EN / 中文"],
+        ["bp4","欢迎页 — 文字标识，单一入口"],
+        ["bp5","注册 + 登录 — 用户名 / 姓名 / 邮箱 / 密码"]
       ]},
       {phase:"第2阶段 — 认证与数据", items:[
-        ["bp6","Better Auth — 邮箱/密码 + OTP ✓"],
-        ["bp7","Prisma 架构 + SQLite（开发）— 31个模型 ✓"],
-        ["bp8","用户名 + 账户类型（个人 / 企业）✓"],
-        ["bp9","公开后端地址（部署）+ 真机安全会话"],
-        ["bp10","SQLite → Postgres / Neon 用于生产"]
+        ["bp6","Better Auth — 邮箱/密码 + 手机 OTP"],
+        ["bp7","Google 登录（OAuth）— 应用内浏览器"],
+        ["bp8","Prisma 架构 — 30+ 模型（完整社交图谱）"],
+        ["bp9","公开后端已部署（Render）+ 真机安全会话"],
+        ["bp10","Postgres 生产数据库"]
       ]},
       {phase:"第3阶段 — 社交核心", items:[
-        ["bp11","动态流 — 真实帖子 API、下拉刷新、无限滚动"],
-        ["bp12","发帖 — 文字 + 图片（机会 = 一条帖子）"],
+        ["bp11","动态流 — 真实帖子 API、下拉刷新"],
+        ["bp12","发帖 — 文字 + 图片上传"],
         ["bp13","互动 — 点赞、评论楼层、转发"],
-        ["bp14","个人资料 — 头像、简介、你的帖子、编辑资料"],
-        ["bp15","关注 / 连接 — 关注系统 + “关注”动态流"]
+        ["bp14","个人资料 — 头像、简介、帖子、编辑资料"],
+        ["bp15","关注 / 连接 + 公开资料"]
       ]},
       {phase:"第4阶段 — 连接与成长", items:[
         ["bp16","发现 — 寻找创业者和企业、搜索"],
-        ["bp17","私信 — 一对一实时聊天"],
-        ["bp18","群组 / 社区 — 按行业、城市、兴趣"],
-        ["bp19","通知 — 点赞、评论、关注、私信 + 推送"],
-        ["bp20","企业资料 — 公司页、认证徽章（B2B/B2C）"]
+        ["bp17","私信 — 一对一聊天"],
+        ["bp18","通知 — 点赞、评论、关注、私信 + 推送"],
+        ["bp19","应用内翻译（帖子和消息）"],
+        ["bp20","群组 / 社区 — 按行业、城市、兴趣"]
       ]},
       {phase:"第5阶段 — 打磨与发布", items:[
-        ["bp21","引导 — 兴趣 + 推荐关注（解决冷启动）"],
-        ["bp22","安全 — 审核、举报、屏蔽、隐私"],
-        ["bp23","分析 + 管理指标（注册、留存、活跃用户）"],
-        ["bp24","封闭测试 — 50名测试者、3个月、反馈循环"],
-        ["bp25","App Store + Play Store + 塞内加尔发布"]
+        ["bp21","安全 — 审核、举报、屏蔽"],
+        ["bp22","设置 + 账户管理"],
+        ["bp23","创始人仪表板 — 进度、健康、举报"],
+        ["bp24","引导 — 兴趣 + 推荐关注"],
+        ["bp25","设计打磨 — 每个页面提升 10 倍"],
+        ["bp26","封闭测试 — 测试者（2026年10月）"],
+        ["bp27","App Store + Play Store + 塞内加尔发布（2026年12月）"]
       ]}
     ],
     confidential:"保密 · 仅创始人", online:"应用在线",
-    kpis:"KPI · 2026年7月", build_progress:"构建进度", screens_done:"已完成页面",
+    kpis:"关键指标 · 2026", build_progress:"构建进度", screens_done:"已完成页面",
     deadline:"截止日期", target_market:"目标市场",
-    kpi_phase2:"第2阶段进行中", kpi_screens:"7个进行中 · 共24个",
-    kpi_deadline:"应用构建目标", kpi_market:"仅塞内加尔 · 达喀尔优先",
+    kpi_phase2:"第5阶段 · 为测试打磨", kpi_screens:"几乎所有页面已完成",
+    kpi_deadline:"10月测试 · 2026年12月发布", kpi_market:"仅塞内加尔 · 达喀尔优先",
     recent_activity:"最新动态", recent_sub:"项目最新更新",
-    phase_progress:"各阶段进度", phase_sub:"应用构建2026年中 · 2026末/2027发布", overall:"总体进度",
+    phase_progress:"各阶段进度", phase_sub:"功能基本完成 · 2026年10月测试 · 12月发布", overall:"总体进度",
     test_app:"测试移动应用", test_sub:"使用Expo Go扫描（iOS或Android）。如隧道URL变化请更新。",
     qr_desc:"打开Expo Go并扫描。每次重启服务器URL会改变，请在下方粘贴新的URL。",
     server_online:"● 服务器在线", update:"更新",
@@ -1482,47 +1473,51 @@ const T = {
     day:"天", days_left:"剩余",
     phases:[
       {label:"第1阶段 · 基础", pct:100, color:""},
-      {label:"第2阶段 · 设计与UI", pct:30, color:""},
-      {label:"第3阶段 · 功能", pct:10, color:"blue"},
-      {label:"第4阶段 · 发布", pct:5, color:"yellow"}
+      {label:"第2阶段 · 认证与数据", pct:100, color:""},
+      {label:"第3阶段 · 社交核心", pct:95, color:""},
+      {label:"第4阶段 · 连接与成长", pct:80, color:"blue"},
+      {label:"第5阶段 · 打磨与发布", pct:35, color:"yellow"}
     ],
     activity:[
-      {strong:"等候名单 + 自动回复", note:"Resend 欢迎邮件，可选电话字段", dot:"green", time:"今天", side:"marketing"},
-      {strong:"自定义网站动画", note:"模糊显现、3D手机倾斜、按钮光泽", dot:"blue", time:"今天", side:"marketing"},
-      {strong:"转化优化", note:"主页CTA → 名单，创始成员板块", dot:"green", time:"今天", side:"marketing"},
-      {strong:"SEO + 社交分享图", note:"OG图片、元数据、sitemap、robots", dot:"blue", time:"本周", side:"marketing"},
-      {strong:"全新注册页面", note:"用户名/姓名/邮箱/密码，高级UI", dot:"green", time:"今天", side:"app"},
-      {strong:"后端添加用户名", note:"Better Auth 字段 + Prisma，已验证", dot:"green", time:"今天", side:"app"},
-      {strong:"重建欢迎页面", note:"文字标识，单一入口，真机 ✓", dot:"green", time:"今天", side:"app"},
-      {strong:"修复3个真机崩溃", note:"服务器、reanimated、expo-network", dot:"blue", time:"今天", side:"app"},
-      {strong:"动态流接入API", note:"真实帖子、点赞、发布", dot:"blue", time:"今天", side:"app"},
-      {strong:"营销网站上线", note:"jobeapp.com — 首页、联系、下载", dot:"green", time:"本周", side:"marketing"},
-      {strong:"下载页面完成", note:"商店徽章、即将上线、FR/EN/中", dot:"blue", time:"本周", side:"marketing"},
-      {strong:"重新定位100%社交", note:"创业者，B2B/B2C/C2B/C2C", dot:"yellow", time:"本周", side:"marketing"}
+      {strong:"应用加入真实Logo", note:"首页头部安全帽图标，透明背景", dot:"green", time:"今天", side:"app"},
+      {strong:"创始人仪表板改版", note:"KPI、实时健康、模块分解", dot:"blue", time:"今天", side:"marketing"},
+      {strong:"修复 Google 登录", note:"自建 OAuth 浏览器（expo-web-browser）", dot:"green", time:"今天", side:"app"},
+      {strong:"登录按钮打磨", note:"Google + Apple 统一，深浅色", dot:"green", time:"今天", side:"app"},
+      {strong:"通知 + 推送", note:"点赞、评论、关注、私信 + 徽章", dot:"green", time:"本周", side:"app"},
+      {strong:"私信上线", note:"一对一聊天、真实API、翻译", dot:"green", time:"本周", side:"app"},
+      {strong:"个人资料 + 关注", note:"头像、简介、公开资料、编辑", dot:"green", time:"本周", side:"app"},
+      {strong:"安全层上线", note:"AI审核、举报、屏蔽", dot:"green", time:"本周", side:"app"},
+      {strong:"国家区号电话输入", note:"默认塞内加尔，可搜索区号", dot:"blue", time:"本周", side:"app"},
+      {strong:"后端已部署（Render）", note:"Postgres 生产库、公开URL", dot:"green", time:"本周", side:"app"},
+      {strong:"营销网站上线", note:"jobeapp.com — 首页、联系、下载", dot:"green", time:"本月", side:"marketing"},
+      {strong:"重新定位100%社交", note:"创业者，B2B/B2C/C2B/C2C", dot:"green", time:"本月", side:"marketing"}
     ],
     screens:[
-      {name:"欢迎页面", note:"已重建，文字标识，真机 ✓", status:"done"},
-      {name:"注册", note:"用户名/姓名/邮箱/密码，高级UI", status:"done"},
-      {name:"动态流", note:"已接入API，设计优化待办", status:"in_progress"},
-      {name:"登录 / OTP", note:"可用，待重新设计", status:"in_progress"},
-      {name:"发布帖子", note:"发布器完成，已接API", status:"in_progress"},
-      {name:"发现", note:"真实数据，设计待办", status:"next"},
-      {name:"聊天 / 消息", note:"待接入真实API", status:"next"},
-      {name:"个人资料", note:"待重建", status:"next"}
+      {name:"欢迎页面", note:"文字标识，单一入口", status:"done"},
+      {name:"注册 / 登录", note:"用户名、邮箱、手机OTP、Google", status:"done"},
+      {name:"动态流", note:"实时帖子、点赞、转发、Logo头部", status:"done"},
+      {name:"发布帖子", note:"文字 + 图片上传，已接API", status:"done"},
+      {name:"资料 + 编辑资料", note:"头像、简介、数据、公开资料", status:"done"},
+      {name:"发现", note:"寻找用户和企业、搜索", status:"done"},
+      {name:"聊天 / 消息", note:"一对一聊天、真实API、翻译", status:"done"},
+      {name:"通知", note:"真实动态、未读徽章、推送", status:"done"},
+      {name:"设置", note:"主题、语言、账户、屏蔽", status:"done"},
+      {name:"引导", note:"兴趣 + 推荐关注", status:"next"},
+      {name:"设计打磨", note:"为测试将每页提升10倍", status:"in_progress"}
     ],
     backend:[
-      {name:"认证端点 (Better Auth)", status:"done"},
-      {name:"Prisma + SQLite", status:"done"},
-      {name:"帖子 / 动态 API", status:"done"},
-      {name:"公开后端地址（部署）", status:"next"},
-      {name:"消息 WebSocket", status:"next"},
-      {name:"SQLite → Postgres/Neon（生产）", status:"next"}
+      {name:"认证 (Better Auth) — 邮箱、OTP、Google", status:"done"},
+      {name:"Prisma — 30+ 模型（社交图谱）", status:"done"},
+      {name:"帖子 / 动态 / 互动 API", status:"done"},
+      {name:"消息 + 通知 API", status:"done"},
+      {name:"部署于 Render + Postgres（生产）", status:"done"},
+      {name:"审核 / 举报 / 安全", status:"done"}
     ],
     roadmap:[
-      {icon:"✅", title:"第1阶段 — 基础", desc:"Expo Router、OTP认证、深/浅色模式、Hono后端、Prisma、隧道、国际化 FR/EN/ZH", badge:"done"},
-      {icon:"🎨", title:"第2阶段 — 设计与UI", desc:"Cal AI风格欢迎页、沉浸式动态流、职位搜索、候选人简介、Logo与品牌", badge:"in_progress"},
-      {icon:"⚡", title:"第3阶段 — 核心功能", desc:"招聘方仪表板、实时消息、AI匹配、简历上传、推送通知", badge:"next"},
-      {icon:"🚀", title:"第4阶段 — 发布", desc:"jobeapp.com营销网站、App Store + Play Store、塞内加尔推广、高级版、分析", badge:"next"}
+      {icon:"✅", title:"第1–2阶段 — 基础与认证", desc:"Expo Router、深/浅色、国际化、Better Auth（邮箱/OTP/Google）、Prisma、Render + Postgres", badge:"done"},
+      {icon:"✅", title:"第3阶段 — 社交核心", desc:"动态流、帖子、点赞、评论、转发、资料、关注、公开资料", badge:"done"},
+      {icon:"⚡", title:"第4阶段 — 连接与成长", desc:"发现、私信、通知 + 推送、应用内翻译、群组待办", badge:"in_progress"},
+      {icon:"🚀", title:"第5阶段 — 打磨 → 测试 → 发布", desc:"设计打磨、引导、2026年10月封闭测试、App Store + Play Store、2026年12月塞内加尔发布", badge:"next"}
     ],
     refs:["粗体排版，简洁深色，极简","深色沉浸式，浮动玻璃UI，高级感","紧凑间距，清晰的字体层次","粗体数字，信任信号","黑白配色，几何感，高对比","渐变点缀，精致，开发者级","活力金融科技，醒目卡片，动效","原生质感，清晰图标，深色优雅","俏皮渐变，柔和阴影，清新","友好吉祥物，圆润，活力"],
     colorNames:["主绿色（深色）","主绿色（浅色）","辅助蓝色","深色背景"],
@@ -1532,27 +1527,25 @@ const T = {
     links:{link_site:"jobeapp.com — 营销网站", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — 代码仓库", link_vercel:"Vercel — 仪表板托管", link_expo:"Expo 应用 — 隧道URL", link_expodev:"Expo Dev — 构建与分发"},
     tasks:{
       todo:[
-        {id:"t-github", title:"连接 GitHub → Vercel", desc:"推送仓库，链接到Vercel实现每次提交自动部署", color:"red"},
-        {id:"t-subdomain", title:"设置 team.jobeapp.com", desc:"添加子域名DNS → 指向Vercel托管此仪表板", color:"red"},
-        {id:"t-recruiter", title:"招聘方仪表板页面", desc:"发布职位、查看申请、候选人搜索", color:"muted"},
-        {id:"t-messaging", title:"实时消息 (WebSocket)", desc:"用实时聊天替换模拟消息", color:"muted"},
-        {id:"t-ai", title:"AI 职位匹配 (OpenAI)", desc:"连接OpenAI匹配候选人与职位", color:"muted"}
+        {id:"t-beta", title:"封闭测试 — 2026年10月", desc:"邀请首批测试者，发布前反馈循环", color:"red"},
+        {id:"t-onboarding", title:"引导流程", desc:"选择兴趣 + 推荐关注（解决冷启动）", color:"muted"},
+        {id:"t-groups", title:"群组 / 社区", desc:"按行业、城市、兴趣", color:"muted"},
+        {id:"t-store", title:"App Store + Play Store", desc:"商店页、审核、塞内加尔发布（2026年12月）", color:"muted"}
       ],
       progress:[
-        {id:"t-welcome", title:"欢迎页面", desc:"Cal AI风格 — 设计完成，需要引导流程", pct:"30%", color:"blue"},
-        {id:"t-feed", title:"动态流", desc:"模拟数据 — 需要真实API、发帖、故事", pct:"30%", color:"blue"},
-        {id:"t-jobs", title:"职位搜索", desc:"模拟数据 — 需要真实职位API、筛选、详情页", pct:"30%", color:"blue"},
-        {id:"t-profile", title:"个人资料页", desc:"UI框架 — 需要简历上传、编辑流程、真实数据", pct:"30%", color:"blue"},
-        {id:"t-dashboard", title:"内部仪表板", desc:"此页面 — 持续改进中", pct:"70%", color:"blue"}
+        {id:"t-polish", title:"设计打磨", desc:"每页提升10倍 — 高级、一致，为测试准备", pct:"55%", color:"blue"},
+        {id:"t-dashboard", title:"创始人仪表板", desc:"此页面 — KPI、实时健康、构建计划", pct:"85%", color:"blue"},
+        {id:"t-brand", title:"品牌与素材", desc:"应用内Logo、图标、商店截图", pct:"60%", color:"blue"}
       ],
       done:[
-        {id:"t-tunnel", title:"Expo Go 隧道正常", desc:"应用通过ngrok隧道在手机上加载", color:"green"},
-        {id:"t-vibecode", title:"移除 Vibecode 依赖", desc:"干净的代码库，无遗留导入", color:"green"},
-        {id:"t-crashes", title:"修复应用崩溃", desc:"expo-network补丁，移除reanimated", color:"green"},
-        {id:"t-darkmode", title:"深色模式 + 主题系统", desc:"Zustand存储，绿/蓝配色，默认深色", color:"green"},
-        {id:"t-i18n", title:"FR / EN / 中文 国际化", desc:"所有页面完整的3语言系统", color:"green"},
-        {id:"t-logo", title:"集成 Logo", desc:"logo-dark.png + logo-light.png 切换", color:"green"},
-        {id:"t-backend", title:"后端 + 认证正常", desc:"Hono + Prisma + Better Auth 邮箱OTP", color:"green"}
+        {id:"t-auth", title:"认证 — 邮箱、手机OTP、Google", desc:"Better Auth + 自建 Google OAuth", color:"green"},
+        {id:"t-backend", title:"后端已部署 + Postgres", desc:"Hono + Prisma 于 Render，生产数据库", color:"green"},
+        {id:"t-social", title:"社交核心", desc:"动态流、帖子、点赞、评论、转发", color:"green"},
+        {id:"t-profiles", title:"资料 + 关注", desc:"头像、简介、编辑、公开资料、发现", color:"green"},
+        {id:"t-messaging", title:"消息 + 翻译", desc:"一对一聊天、真实API、应用内翻译", color:"green"},
+        {id:"t-notifs", title:"通知 + 推送", desc:"点赞、评论、关注、私信 + 徽章", color:"green"},
+        {id:"t-safety", title:"安全层", desc:"AI审核、举报、屏蔽", color:"green"},
+        {id:"t-i18n", title:"FR / EN / 中文 国际化", desc:"所有页面完整的3语言系统", color:"green"}
       ]
     },
     pageTitles:{overview:"概览", app:"移动应用", reports:"举报", roadmap:"路线图", build:"构建计划", mytasks:"我的待办", design:"设计与品牌", stack:"技术栈", marketing:"市场营销", links:"链接", tasks:"任务"}
@@ -1741,7 +1734,9 @@ function updateTaskBadge() {
 }
 
 /* ── PERSONAL TO-DO (per person, saved locally per browser) ── */
-let people = JSON.parse(localStorage.getItem('jobe-people') || '["Serg","Co-founder"]');
+let people = JSON.parse(localStorage.getItem('jobe-people') || '["Serg"]');
+// One-time cleanup: drop legacy team members so only Serg remains.
+if (Array.isArray(people) && people.some(p => p !== 'Serg')) { people = ['Serg']; localStorage.setItem('jobe-people', JSON.stringify(people)); }
 let activePerson = localStorage.getItem('jobe-active-person') || people[0];
 let myTodos = JSON.parse(localStorage.getItem('jobe-mytodos') || '{}');
 
@@ -1828,6 +1823,17 @@ function updateMyTaskBadge() {
 
 /* ── BUILD PLAN (checkable, saved locally) ── */
 let buildChecked = JSON.parse(localStorage.getItem('build-checked') || '{}');
+// Everything shipped so far (bp1–bp23). bp24 onboarding, bp25 polish pass,
+// bp26 beta, bp27 launch stay open. Seeded once (versioned) so it reflects reality
+// on every founder's browser without wiping later manual toggles.
+(function seedBuild(){
+  const DONE = ["bp1","bp2","bp3","bp4","bp5","bp6","bp7","bp8","bp9","bp10","bp11","bp12","bp13","bp14","bp15","bp16","bp17","bp18","bp19","bp20","bp21","bp22","bp23"];
+  if (localStorage.getItem('build-seed') !== 'dec2026') {
+    DONE.forEach(id => { buildChecked[id] = true; });
+    localStorage.setItem('build-checked', JSON.stringify(buildChecked));
+    localStorage.setItem('build-seed', 'dec2026');
+  }
+})();
 function renderBuildPlan() {
   const t = T[currentLang];
   const wrap = document.getElementById('build-list');
@@ -1962,7 +1968,7 @@ function closeSidebar() { document.getElementById('sidebar').classList.remove('o
 
 /* ── COUNTDOWN ── */
 function updateCountdown() {
-  const target = new Date('2026-07-31T23:59:59');
+  const target = new Date('2026-12-31T23:59:59');
   const now = new Date();
   const days = Math.max(0, Math.ceil((target - now) / 86400000));
   const cd = document.getElementById('countdown');
@@ -2011,39 +2017,9 @@ window.addEventListener('load', () => {
   const mi = document.getElementById('mytask-input');
   if (mi) mi.addEventListener('keydown', e => { if (e.key === 'Enter') addPersonalTodo(); });
 
-  renderTrend();
   loadHealth();
   setInterval(loadHealth, 60000);          // re-check backend health every minute
 });
-
-/* ── OVERVIEW: build-momentum trend chart ── */
-function renderTrend() {
-  const svg = document.getElementById('trend-chart');
-  const xEl = document.getElementById('trend-x');
-  if (!svg) return;
-  // cumulative build progress by week (real internal project tracking, ends at 15%)
-  const data = [1, 2, 4, 5, 7, 8, 10, 11, 13, 15];
-  const labels = ['W1','','W3','','W5','','W7','','W9','Now'];
-  const W = 720, H = 200, pad = 6;
-  const max = 24; // headroom toward launch
-  const step = (W - pad * 2) / (data.length - 1);
-  const pts = data.map((v, i) => [pad + i * step, H - pad - (v / max) * (H - pad * 2)]);
-  const line = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
-  const area = `M${pts[0][0]} ${H} ` + pts.map(p => `L${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ') + ` L${pts[pts.length-1][0]} ${H} Z`;
-  const last = pts[pts.length - 1];
-  svg.innerHTML = `
-    <defs>
-      <linearGradient id="tg" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="var(--green)" stop-opacity="0.28"/>
-        <stop offset="100%" stop-color="var(--green)" stop-opacity="0"/>
-      </linearGradient>
-    </defs>
-    ${[0.25,0.5,0.75].map(f => `<line x1="0" y1="${(H*f).toFixed(0)}" x2="${W}" y2="${(H*f).toFixed(0)}" stroke="var(--border)" stroke-width="1" stroke-dasharray="3 5"/>`).join('')}
-    <path d="${area}" fill="url(#tg)"/>
-    <path d="${line}" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="6" fill="var(--green)" stroke="var(--card)" stroke-width="3"/>`;
-  if (xEl) xEl.innerHTML = labels.map(l => `<span>${l}</span>`).join('');
-}
 
 /* ── OVERVIEW: live system health ── */
 const HEALTH_API = "https://jobe-backend-6aox.onrender.com";

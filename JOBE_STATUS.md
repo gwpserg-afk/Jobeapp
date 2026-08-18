@@ -22,6 +22,23 @@ Positioning rules (honest, pre-launch): **social-first (100%)**, **Senegal-first
 Dakar"), **no fabricated numbers/stats**, keep AI off the home screen. Languages: FR (default) /
 EN / 中文. Brand: green + blue + navy (full palette below). IG: instagram.com/jobeapp (other socials "soon").
 
+## 2026-08-18 (cont'd): OAuth fixed in OUR code + dashboard to Dec 2026 launch
+- **Google OAuth crash — fixed for real in `mobile/src/lib/auth.ts` (source, not node_modules).**
+  The node_modules patch was inert: Metro **caches node_modules and won't re-transform** an edited file
+  there, so the crash kept firing at `client.js:259`. New approach: `signInWithGoogle()` calls
+  `authClient.signIn.social({ ..., disableRedirect: true })` so @better-auth/expo NEVER opens its own
+  browser (skips the dynamic `import("expo-web-browser")`), then WE open the OAuth proxy with the
+  statically-imported `WebBrowser` and persist the cookie (replicated `getSetCookie`/`getOAuthStateValue`
+  + `/expo-authorization-proxy`). Lives in `src/` → Metro re-bundles on reload. Typecheck + bundle clean.
+- **Dashboard (`web/index.html`) — big content refresh, all 3 langs (EN/FR/中):**
+  - Launch deadline → **December 2026** (countdown target 2026-12-31); **beta October 2026**.
+  - Build plan rewritten to reality (bp1–bp27), SDK 53 (not 54), RN 0.76; **bp1–bp23 auto-checked**
+    (seeded once via `build-seed=dec2026`); bp24 onboarding, bp25 polish, bp26 beta, bp27 launch open.
+  - Overview: **removed the "Build momentum" trend chart** (Serg's call); build progress 15→70%,
+    module breakdown 63→78%, phases updated to 5 (P1-2 done, P3 95%, P4 80%, P5 35%).
+  - Activity / screens / backend / roadmap / tasks board all rewritten to current state.
+  - **"Viewing as" people trimmed to Serg only** (removed Co-founder / Moha; one-time localStorage cleanup).
+
 ## 2026-08-18: REAL fix for Google OAuth crash + matched social buttons
 - **`expo-web-browser` crash FIXED at the root.** The eager `import "expo-web-browser"` (index.ts) did
   NOT help — better-auth's `@better-auth/expo/dist/client.js` uses `await import("expo-web-browser")`
