@@ -32,7 +32,7 @@ EN / 中文. Brand: green + blue + navy (full palette below). IG: instagram.com/
   + `/expo-authorization-proxy`). Lives in `src/` → Metro re-bundles on reload. Typecheck + bundle clean.
 - **Dashboard (`web/index.html`) — big content refresh, all 3 langs (EN/FR/中):**
   - Launch deadline → **December 2026** (countdown target 2026-12-31); **beta October 2026**.
-  - Build plan rewritten to reality (bp1–bp27), SDK 53 (not 54), RN 0.76; **bp1–bp23 auto-checked**
+  - Build plan rewritten to reality (bp1–bp27), SDK 54, RN 0.81 (CORRECTED 2026-08-18: package.json says expo 54.0.22 / RN 0.81.5 — the mobile CLAUDE.md 'SDK 53' is stale); **bp1–bp23 auto-checked**
     (seeded once via `build-seed=dec2026`); bp24 onboarding, bp25 polish, bp26 beta, bp27 launch open.
   - Overview: **removed the "Build momentum" trend chart** (Serg's call); build progress 15→70%,
     module breakdown 63→78%, phases updated to 5 (P1-2 done, P3 95%, P4 80%, P5 35%).
