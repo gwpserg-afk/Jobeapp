@@ -40,33 +40,32 @@ export function SocialAuth({ onMessage }: { onMessage?: (m: string) => void }) {
         disabled={loading}
         style={({ pressed }) => [
           styles.btn,
-          styles.googleBtn,
-          { backgroundColor: "#FFFFFF", borderColor: "#DADCE0" },
-          pressed && { opacity: 0.9, transform: [{ scale: 0.99 }] },
+          { backgroundColor: colors.bgCard, borderColor: colors.border, shadowColor: isDark ? "#000" : "#3C4043" },
+          pressed && { opacity: 0.85, transform: [{ scale: 0.99 }] },
         ]}
         testID="google-signin"
       >
         <View style={styles.iconSlot}>
-          {loading ? <ActivityIndicator size="small" color="#4285F4" /> : <GoogleLogo size={20} />}
+          {loading ? <ActivityIndicator size="small" color={colors.textSecondary} /> : <GoogleLogo size={20} />}
         </View>
-        <Text style={[styles.btnText, { color: "#1F1F1F" }]}>{t.su_google}</Text>
+        <Text style={[styles.btnText, { color: colors.textPrimary }]}>{t.su_google}</Text>
       </Pressable>
 
       <Pressable
         onPress={apple}
         style={({ pressed }) => [
           styles.btn,
-          { backgroundColor: "#000000", borderColor: "#000000" },
-          pressed && { opacity: 0.9, transform: [{ scale: 0.99 }] },
+          { backgroundColor: colors.bgCard, borderColor: colors.border, shadowColor: isDark ? "#000" : "#3C4043" },
+          pressed && { opacity: 0.85, transform: [{ scale: 0.99 }] },
         ]}
         testID="apple-signin"
       >
         <View style={styles.iconSlot}>
-          <Apple size={20} color="#fff" strokeWidth={0} fill="#fff" />
+          <Apple size={20} color={colors.textPrimary} strokeWidth={0} fill={colors.textPrimary} />
         </View>
-        <Text style={[styles.btnText, { color: "#fff" }]}>{t.su_apple}</Text>
-        <View style={styles.soon}>
-          <Text style={styles.soonText}>{t.d_soon}</Text>
+        <Text style={[styles.btnText, { color: colors.textPrimary }]}>{t.su_apple}</Text>
+        <View style={[styles.soon, { backgroundColor: colors.bgElevated, borderColor: colors.border }]}>
+          <Text style={[styles.soonText, { color: colors.textMuted }]}>{t.d_soon}</Text>
         </View>
       </Pressable>
     </View>
@@ -77,21 +76,14 @@ const styles = StyleSheet.create({
   wrap: { gap: spacing.sm },
   btn: {
     flexDirection: "row", alignItems: "center", justifyContent: "center",
-    height: 52, borderRadius: radius.lg, borderWidth: 1, paddingHorizontal: spacing.lg,
-  },
-  googleBtn: {
-    borderWidth: 1.5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 3,
+    height: 52, borderRadius: radius.lg, borderWidth: 1.5, paddingHorizontal: spacing.lg,
+    shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.12, shadowRadius: 6, elevation: 2,
   },
   iconSlot: { width: 24, alignItems: "center", justifyContent: "center", marginRight: spacing.sm },
   btnText: { fontSize: fonts.sizes.base, fontWeight: fonts.weights.bold, letterSpacing: 0.2 },
   soon: {
     position: "absolute", right: 14, paddingHorizontal: 8, paddingVertical: 3,
-    borderRadius: radius.full, backgroundColor: "rgba(255,255,255,0.18)",
+    borderRadius: radius.full, borderWidth: 1,
   },
-  soonText: { color: "#fff", fontSize: 10, fontWeight: "700" },
+  soonText: { fontSize: 10, fontWeight: "700" },
 });

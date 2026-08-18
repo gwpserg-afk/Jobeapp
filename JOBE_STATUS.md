@@ -22,6 +22,22 @@ Positioning rules (honest, pre-launch): **social-first (100%)**, **Senegal-first
 Dakar"), **no fabricated numbers/stats**, keep AI off the home screen. Languages: FR (default) /
 EN / 中文. Brand: green + blue + navy (full palette below). IG: instagram.com/jobeapp (other socials "soon").
 
+## 2026-08-18: REAL fix for Google OAuth crash + matched social buttons
+- **`expo-web-browser` crash FIXED at the root.** The eager `import "expo-web-browser"` (index.ts) did
+  NOT help — better-auth's `@better-auth/expo/dist/client.js` uses `await import("expo-web-browser")`
+  inside node_modules, which **Metro does not trace**, so it threw "Requiring unknown module". 
+  Fix = **direct node_modules patch** (same precedent as the existing `getCookie` `PATCHED (Jobé)` guard):
+  added a static `import * as JobeExpoWebBrowser from "expo-web-browser"` at the top of client.js and
+  replaced the `await import(...)/__require(...)` block with `let Browser = JobeExpoWebBrowser;`.
+  ⚠️ **Not committed (node_modules is gitignored) and won't survive `bun install` / EAS builds.** Re-apply
+  if deps are reinstalled; migrate to a persistent solution (own OAuth flow or patch-package) before a
+  production EAS build. Metro rebuilds clean (200); reaches device on reload.
+- **Social buttons (`SocialAuth.tsx`) now a matched, theme-aware pair.** Both Google + Apple use
+  `colors.bgCard` bg, `colors.border` (1.5px), `colors.textPrimary` text + soft shadow → identical shape,
+  visible & clean in **light and dark**. Google keeps the multicolor G; Apple mark uses textPrimary.
+- Debug note: dev bundle **strips testIDs**, so grepping the served bundle for testIDs is useless for
+  freshness checks (all return 0). Use string literals from node_modules instead.
+
 ## 2026-08-17: Dashboard pro-redesign + Google button + OAuth crash
 - **Founders dashboard (`web/index.html`) Overview rebuilt** to a pro analytics layout (per Serg's reference):
   toolbar row, hero **"Build momentum" SVG trend chart**, KPI cards with **icon badges + delta chips**,
