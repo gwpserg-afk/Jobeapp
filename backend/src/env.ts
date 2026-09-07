@@ -29,6 +29,19 @@ const envSchema = z.object({
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
 
+  // Twilio SMS (phone OTP). All optional — when unset, phone-verify falls back
+  // to a dev flow (code logged/accepted locally) so the app runs without SMS.
+  TWILIO_ACCOUNT_SID: z.string().optional(),
+  TWILIO_AUTH_TOKEN: z.string().optional(),
+  TWILIO_MESSAGING_SERVICE_SID: z.string().optional(),
+  TWILIO_FROM_NUMBER: z.string().optional(),
+
+  // Cloudinary (image hosting). Optional — when unset, images fall back to the
+  // existing base64/local storage so nothing breaks before it's configured.
+  CLOUDINARY_CLOUD_NAME: z.string().optional(),
+  CLOUDINARY_API_KEY: z.string().optional(),
+  CLOUDINARY_API_SECRET: z.string().optional(),
+
 });
 
 /**

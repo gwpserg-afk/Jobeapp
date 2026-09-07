@@ -1,7 +1,45 @@
 # Jobé — Working Status & Notes
 
 > Persistent cross-chat notes. Not served on the site (Vercel roots are `marketing/` and `web/`).
-> Last updated: 2026-08-17
+> Last updated: 2026-09-05
+
+## 🏁 LAUNCH CHECKLIST (started 2026-09-05) — final stretch to publish
+Backend LIVE on Render (Postgres, /health 200). Mobile ~90% built + wired to live backend
+(feed/discover/create/profile/follow/comments/chat/notifications all REAL; only Jobs tab is mock + hidden).
+
+**PHASE 1 — production-safe build ✅ DONE (2026-09-05)**
+- ✅ Durable login patches: captured the 3 @better-auth/expo node_modules fixes (expo-web-browser static
+  import, expo-network skip, getCookie null-guard) into `mobile/patches/@better-auth%2Fexpo@1.5.1.patch`
+  via `bun patch` → registered in package.json `patchedDependencies`. Survives reinstall + EAS cloud builds.
+  (This was the #1 blocker — login would've crashed in a real build.)
+- ✅ App IDs: `app.json` ios.bundleIdentifier + android.package = `com.jobeapp.jobe` (PERMANENT once published).
+- ✅ Icon/splash: generated `assets/icon.png` (1024, white bg + emblem), `adaptive-icon.png` (Android),
+  `splash-icon.png` (emblem) with Pillow from the emblem in `jobe-icon.png`; wired icon + expo-splash-screen
+  plugin (white / dark #0D0D0F) + android.adaptiveIcon in app.json.
+- ✅ iOS permission strings (FR) added to ios.infoPlist (camera + photo library) + ITSAppUsesNonExemptEncryption=false.
+- ✅ Backend cleanup: ALREADY clean — 0 vibecode refs in backend/src, no studio script, ADMIN_KEY has no
+  insecure default (rejects when env unset). Nothing to do.
+- NOTE: mobile/CLAUDE.md still lists app.json/patches as "forbidden" — legacy Vibecode boilerplate, overridden
+  (we're out of Vibecode; editing is required for a real build).
+
+**PHASE 2 — swap demo pieces for real services 🔑 needs Serg accounts (NEXT)**
+- ⬜ Real SMS OTP (replace `111111` DEV_CODE). Must cover **Senegal +221 + France +33 + West Africa**.
+  Provider choice open: Twilio (easiest/global) vs Infobip/Termii/Africa's Talking (better WA deliverability/rate).
+  Better Auth phone plugin just needs a sendOTP() calling the provider API — any provider works.
+- ⬜ Real phone login (remove `{digits}@phone.jobe.app` email hack).
+- ⬜ Photo hosting: move base64-in-DB images → Cloudinary (free tier; Serg can view/manage in Cloudinary console).
+
+**PHASE 3 — full on-device QA (everything before Phase 4)**
+- ⬜ Regression on Serg's iPhone: signup→post→like→comment→follow→chat→notifications→profile (many recent
+  fixes verified by typecheck/bundle only, not on device).
+
+**PHASE 4 — publish 🔑 (the real work)**
+- 🟡 Apple Developer: Serg enrolling as **Individual** (2026-09-05). Free Expo account needed for EAS.
+- ⬜ Install eas-cli + `eas init`; EAS build iOS → TestFlight (Serg+cofounder+50). Android APK free.
+- ⬜ Store listing: screenshots, description, privacy policy URL, category, age rating → App Store review.
+
+**PHASE 5 — launch:** flip beta→public, point marketing "Download" at real store link. Dashboard target Dec 2026.
+
 
 ## What Jobé is  ⭐ DIRECTION UPDATED 2026-06-25
 Mobile-app-first **professional social network** for Senegal — now **100% social** (the job

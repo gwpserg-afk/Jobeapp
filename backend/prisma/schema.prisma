@@ -352,7 +352,7 @@ model Notification {
 model PhoneOtp {
   id        String   @id @default(cuid())
   phone     String   @unique
-  otp       String
+  codeHash  String
   expiresAt DateTime
   attempts  Int      @default(0)
   createdAt DateTime @default(now())
