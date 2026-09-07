@@ -1,0 +1,67 @@
+diff --git a/dist/client.js b/dist/client.js
+index 95d09477aa152b81457fbcaebc5e665e64f50ade..86a44d70c6857acc11bf2b6ccb7f942235a302ed 100644
+--- a/dist/client.js
++++ b/dist/client.js
+@@ -4,6 +4,11 @@ import Constants from "expo-constants";
+ import * as Linking from "expo-linking";
+ import { AppState, Platform } from "react-native";
+ import { kFocusManager, kOnlineManager } from "better-auth/client";
++// PATCHED (Jobé): static import so Metro bundles expo-web-browser. The original
++// `await import("expo-web-browser")` / `__require(...)` below is NOT traced by Metro
++// (it's inside node_modules), so Google OAuth crashed with "Requiring unknown module
++// 'expo-web-browser'". Using this static reference guarantees the module is resolved.
++import * as JobeExpoWebBrowser from "expo-web-browser";
+ 
+ //#region \0rolldown/runtime.js
+ var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, { get: (a, b) => (typeof require !== "undefined" ? require : a)[b] }) : x)(function(x) {
+@@ -60,14 +65,11 @@ var ExpoOnlineManager = class {
+ 		this.listeners.forEach((listener) => listener(online));
+ 	}
+ 	setup() {
+-		import("expo-network").then(({ addNetworkStateListener }) => {
+-			const subscription = addNetworkStateListener((state) => {
+-				this.setOnline(!!state.isInternetReachable);
+-			});
+-			this.unsubscribe = () => subscription.remove();
+-		}).catch(() => {
+-			this.setOnline(true);
+-		});
++		// PATCHED (Jobé): skip dynamic __require("expo-network"). Metro can't bundle the
++		// string require; the unknownModuleError escapes the try/catch and crashes the app
++		// on authClient.useSession(). Online-manager is non-essential — assume online.
++		// See JOBE_STATUS.md "expo-network crash".
++		this.setOnline(true);
+ 		return () => {
+ 			this.unsubscribe?.();
+ 		};
+@@ -111,7 +113,11 @@ function getCookie(cookie) {
+ 	try {
+ 		parsed = JSON.parse(cookie);
+ 	} catch {}
++	if (!parsed || typeof parsed !== "object") parsed = {};
+ 	return Object.entries(parsed).reduce((acc, [key, value]) => {
++		// PATCHED (Jobé): guard null/non-object entries — a stored cookie can contain a
++		// null value which crashes `value.expires` ("Cannot read property 'expires' of null").
++		if (!value || typeof value !== "object") return acc;
+ 		if (value.expires && new Date(value.expires) < /* @__PURE__ */ new Date()) return acc;
+ 		return acc ? `${acc}; ${key}=${value.value}` : `${key}=${value.value}`;
+ 	}, "");
+@@ -250,16 +256,8 @@ const expoClient = (opts) => {
+ 				if (context.data?.redirect && (context.request.url.toString().includes("/sign-in") || context.request.url.toString().includes("/link-social")) && !context.request?.body.includes("idToken")) {
+ 					const to = JSON.parse(context.request.body)?.callbackURL;
+ 					const signInURL = context.data?.url;
+-					let Browser = void 0;
+-					try {
+-						Browser = await import("expo-web-browser");
+-					} catch {
+-						try {
+-							Browser = __require("expo-web-browser");
+-						} catch (error) {
+-							throw new Error("\"expo-web-browser\" is not installed as a dependency!", { cause: error });
+-						}
+-					}
++					// PATCHED (Jobé): use the statically-imported module (see top of file).
++					let Browser = JobeExpoWebBrowser;
+ 					if (Platform.OS === "android") try {
+ 						Browser.dismissAuthSession();
+ 					} catch {}

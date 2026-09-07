@@ -42,7 +42,6 @@
     "@shopify/flash-list": "2.0.2",
     "@shopify/react-native-skia": "2.2.21",
     "@tanstack/react-query": "5.90.2",
-
     "better-auth": "^1.5.1",
     "burnt": "0.13.0",
     "clsx": "2.1.1",
@@ -187,6 +186,7 @@
     "@react-native-menu/menu@1.2.2": "patches/@react-native-menu%2Fmenu@1.2.2.patch",
     "react-native@0.81.5": "patches/react-native@0.81.5.patch",
     "@expo/cli@54.0.15": "patches/@expo%2Fcli@54.0.15.patch",
-    "expo-asset@12.0.9": "patches/expo-asset@12.0.9.patch"
+    "expo-asset@12.0.9": "patches/expo-asset@12.0.9.patch",
+    "@better-auth/expo@1.5.1": "patches/@better-auth%2Fexpo@1.5.1.patch"
   }
 }

@@ -5,15 +5,39 @@
     "scheme": "jobe",
     "version": "1.0.0",
     "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jobeapp.jobe",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Jobé utilise l'appareil photo pour votre photo de profil, vos publications et la vérification d'identité.",
+        "NSPhotoLibraryUsageDescription": "Jobé accède à vos photos pour votre photo de profil et vos publications.",
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.jobeapp.jobe",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#FFFFFF",
+          "dark": { "backgroundColor": "#0D0D0F" }
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     }
