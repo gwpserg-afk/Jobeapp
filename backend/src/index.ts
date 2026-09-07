@@ -7,6 +7,7 @@ import { authMiddleware } from "./middleware";
 import { followRouter } from "./routes/follow";
 import { blockRouter } from "./routes/block";
 import { prisma } from "./prisma";
+import { uploadImage, cloudinaryConfigured } from "./lib/cloudinary";
 import type { Variables } from "./types";
 
 // Route imports
@@ -184,6 +185,16 @@ app.post("/api/upload", async (c) => {
   }
 
   const blob = file as Blob;
+
+  // Prefer Cloudinary (persistent). Local disk is ephemeral on Render, so
+  // locally-stored files vanish on every deploy — Cloudinary fixes that.
+  if (cloudinaryConfigured()) {
+    const buf = Buffer.from(await blob.arrayBuffer());
+    const dataUri = `data:${blob.type || "image/jpeg"};base64,${buf.toString("base64")}`;
+    const url = await uploadImage(dataUri, "jobe/uploads");
+    return c.json({ data: { id: url, url, name: url, contentType: blob.type } });
+  }
+
   const ext = (blob.type.split("/")[1] ?? "bin").replace("jpeg", "jpg");
   const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
   const uploadsDir = new URL("../../uploads", import.meta.url).pathname;

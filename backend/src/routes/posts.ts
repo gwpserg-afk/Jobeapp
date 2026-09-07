@@ -5,6 +5,7 @@ import { prisma } from "../prisma";
 import type { Variables } from "../types";
 import { containsProfanity, getProfanityError, moderateAI } from "../utils/profanityFilter";
 import { notify } from "../utils/notify";
+import { uploadImage, isDataUri } from "../lib/cloudinary";
 
 const router = new Hono<{ Variables: Variables }>();
 
@@ -174,11 +175,17 @@ router.post(
       return c.json({ error: { message: getProfanityError(), code: "MODERATION" } }, 422);
     }
 
+    // Move base64 photos off the DB → Cloudinary (falls back to base64 if unset)
+    let imageUrl = data.imageUrl ?? null;
+    if (imageUrl && isDataUri(imageUrl)) {
+      imageUrl = await uploadImage(imageUrl, "jobe/posts");
+    }
+
     const post = await prisma.post.create({
       data: {
         userId: user.id,
         content: data.content,
-        imageUrl: data.imageUrl ?? null,
+        imageUrl,
       },
     });
 
