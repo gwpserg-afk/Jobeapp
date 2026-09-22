@@ -704,7 +704,7 @@
           </div>
           <div class="stat-label" data-i18n="deadline">Days to launch</div>
           <div class="stat-value" style="color:var(--yellow)" id="countdown">—</div>
-          <div class="stat-foot" data-i18n="kpi_deadline">Beta Oct · launch December 2026</div>
+          <div class="stat-foot" data-i18n="kpi_deadline">Beta Oct 31 · launch December 2026</div>
         </div>
         <div class="stat-card">
           <div class="stat-top">
@@ -726,7 +726,7 @@
 
         <div class="card">
           <div class="card-title" data-i18n="phase_progress">Progress by phase</div>
-          <div class="card-sub" data-i18n="phase_sub">Feature-complete · beta Oct 2026 · launch Dec 2026</div>
+          <div class="card-sub" data-i18n="phase_sub">Feature-complete · beta Oct 31 · launch Dec 2026</div>
           <div id="phase-list"></div>
           <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
             <div class="progress-label" style="margin-bottom:8px"><span data-i18n="overall">Overall progress</span><span style="color:var(--green)">70%</span></div>
@@ -1113,7 +1113,7 @@ const T = {
         ["bp23","Founders dashboard — progress, health, reports"],
         ["bp24","Onboarding — interests + suggested follows"],
         ["bp25","Design polish pass — 10× every screen"],
-        ["bp26","Closed beta — testers (October 2026)"],
+        ["bp26","Closed beta — testers (October 31, 2026)"],
         ["bp27","App Store + Play Store + Senegal launch (December 2026)"]
       ]}
     ],
@@ -1121,9 +1121,9 @@ const T = {
     kpis:"Key metrics · 2026", build_progress:"Build progress", screens_done:"Screens done",
     deadline:"Deadline", target_market:"Target market",
     kpi_phase2:"Phase 5 · polishing for beta", kpi_screens:"almost all screens built",
-    kpi_deadline:"Beta Oct · launch December 2026", kpi_market:"Senegal only · Dakar first",
+    kpi_deadline:"Beta Oct 31 · launch December 2026", kpi_market:"Senegal only · Dakar first",
     recent_activity:"Recent activity", recent_sub:"Latest project updates",
-    phase_progress:"Progress by phase", phase_sub:"Feature-complete · beta Oct 2026 · launch Dec 2026", overall:"Overall progress",
+    phase_progress:"Progress by phase", phase_sub:"Feature-complete · beta Oct 31 · launch Dec 2026", overall:"Overall progress",
     test_app:"Test the mobile app", test_sub:"Scan with Expo Go (iOS or Android). Update the tunnel URL if it changes.",
     qr_desc:"Open Expo Go and scan. The URL changes on every restart — paste the new one below.",
     server_online:"● Server online", update:"Update",
@@ -1153,18 +1153,21 @@ const T = {
       {label:"Phase 5 · Polish & launch", pct:35, color:"yellow"}
     ],
     activity:[
-      {strong:"Real logo added to app", note:"hard-hat icon on home header, transparent", dot:"green", time:"Today", side:"app"},
-      {strong:"Founders dashboard redesign", note:"KPIs, live health, module breakdown", dot:"blue", time:"Today", side:"marketing"},
-      {strong:"Google sign-in fixed", note:"self-driven OAuth browser (expo-web-browser)", dot:"green", time:"Today", side:"app"},
-      {strong:"Sign-in buttons polished", note:"Google + Apple matched, light & dark", dot:"green", time:"Today", side:"app"},
-      {strong:"Notifications + push", note:"likes, comments, follows, DMs + badge", dot:"green", time:"This week", side:"app"},
-      {strong:"Direct messaging live", note:"1:1 chat, real API, translate", dot:"green", time:"This week", side:"app"},
-      {strong:"Profiles + follow loop", note:"avatar, bio, public profiles, edit", dot:"green", time:"This week", side:"app"},
-      {strong:"Safety layer shipped", note:"AI moderation, reporting, blocking", dot:"green", time:"This week", side:"app"},
-      {strong:"Country-code phone input", note:"Senegal default, searchable dial codes", dot:"blue", time:"This week", side:"app"},
-      {strong:"Backend deployed (Render)", note:"Postgres prod DB, public URL", dot:"green", time:"This week", side:"app"},
-      {strong:"Marketing site live", note:"jobeapp.com — home, contact, download", dot:"green", time:"This month", side:"marketing"},
-      {strong:"Repositioned 100% social", note:"entrepreneurs, B2B/B2C/C2B/C2C", dot:"green", time:"This month", side:"marketing"}
+      {strong:"SMS OTP via Twilio", note:"live send through Messaging Service, hashed codes; US carrier reg pending", dot:"blue", time:"Sep 22", side:"app"},
+      {strong:"Image uploads via Cloudinary", note:"post photos hosted on Cloudinary, persist across deploys", dot:"green", time:"Sep 22", side:"app"},
+      {strong:"Security hardening", note:"removed hardcoded SMS key, all secrets moved to env", dot:"green", time:"Sep 22", side:"app"},
+      {strong:"Real logo added to app", note:"hard-hat icon on home header, transparent", dot:"green", time:"Aug 18", side:"app"},
+      {strong:"Founders dashboard redesign", note:"KPIs, live health, module breakdown", dot:"blue", time:"Aug 18", side:"marketing"},
+      {strong:"Google sign-in fixed", note:"self-driven OAuth browser (expo-web-browser)", dot:"green", time:"Aug 18", side:"app"},
+      {strong:"Sign-in buttons polished", note:"Google + Apple matched, light & dark", dot:"green", time:"Aug 18", side:"app"},
+      {strong:"Notifications + push", note:"likes, comments, follows, DMs + badge", dot:"green", time:"Aug 2026", side:"app"},
+      {strong:"Direct messaging live", note:"1:1 chat, real API, translate", dot:"green", time:"Aug 2026", side:"app"},
+      {strong:"Profiles + follow loop", note:"avatar, bio, public profiles, edit", dot:"green", time:"Aug 2026", side:"app"},
+      {strong:"Safety layer shipped", note:"AI moderation, reporting, blocking", dot:"green", time:"Aug 2026", side:"app"},
+      {strong:"Country-code phone input", note:"Senegal default, searchable dial codes", dot:"blue", time:"Aug 2026", side:"app"},
+      {strong:"Backend deployed (Render)", note:"Postgres prod DB, public URL", dot:"green", time:"Aug 2026", side:"app"},
+      {strong:"Marketing site live", note:"jobeapp.com — home, contact, download", dot:"green", time:"Jun 2026", side:"marketing"},
+      {strong:"Repositioned 100% social", note:"entrepreneurs, B2B/B2C/C2B/C2C", dot:"green", time:"Jun 2026", side:"marketing"}
     ],
     screens:[
       {name:"Welcome screen", note:"text wordmark, single portal", status:"done"},
@@ -1191,7 +1194,7 @@ const T = {
       {icon:"✅", title:"Phase 1–2 — Foundations & Auth", desc:"Expo Router, dark/light, i18n, Better Auth (email/OTP/Google), Prisma, Render + Postgres", badge:"done"},
       {icon:"✅", title:"Phase 3 — Social core", desc:"Feed, posts, likes, comments, reposts, profiles, follow, public profiles", badge:"done"},
       {icon:"⚡", title:"Phase 4 — Connect & grow", desc:"Discover, direct messages, notifications + push, in-app translate, groups next", badge:"in_progress"},
-      {icon:"🚀", title:"Phase 5 — Polish → Beta → Launch", desc:"Design polish, onboarding, closed beta Oct 2026, App Store + Play Store, Senegal launch Dec 2026", badge:"next"}
+      {icon:"🚀", title:"Phase 5 — Polish → Beta → Launch", desc:"Design polish, onboarding, closed beta Oct 31, App Store + Play Store, Senegal launch Dec 2026", badge:"next"}
     ],
     refs:["Bold typography, clean dark, minimal","Immersive dark, floating glass UI, premium","Tight spacing, sharp type hierarchy","Bold numbers, trust signals","Black & white, geometric, high contrast","Gradient accents, polished, developer-grade","Vibrant fintech, bold cards, motion","Native feel, crisp icons, dark elegance","Playful gradients, soft shadows, fresh","Friendly mascot, rounded, energetic"],
     colorNames:["Primary Green (dark)","Primary Green (light)","Blue Secondary","Background Dark"],
@@ -1201,7 +1204,7 @@ const T = {
     links:{link_site:"jobeapp.com — Marketing site", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — Code repository", link_vercel:"Vercel — Dashboard hosting", link_expo:"Expo app — tunnel URL", link_expodev:"Expo Dev — Build & distribution"},
     tasks:{
       todo:[
-        {id:"t-beta", title:"Closed beta — October 2026", desc:"Invite first testers, feedback loop before launch", color:"red"},
+        {id:"t-beta", title:"Closed beta — October 31, 2026", desc:"Invite first testers, feedback loop before launch", color:"red"},
         {id:"t-onboarding", title:"Onboarding flow", desc:"Pick interests + suggested follows (fix cold-start)", color:"muted"},
         {id:"t-groups", title:"Groups / communities", desc:"By sector, city, interest", color:"muted"},
         {id:"t-store", title:"App Store + Play Store", desc:"Store listings, review, Senegal launch (Dec 2026)", color:"muted"}
@@ -1273,7 +1276,7 @@ const T = {
         ["bp23","Dashboard fondateurs — progrès, santé, signalements"],
         ["bp24","Onboarding — intérêts + suggestions de follow"],
         ["bp25","Passe de polish design — 10× chaque écran"],
-        ["bp26","Bêta fermée — testeurs (octobre 2026)"],
+        ["bp26","Bêta fermée — testeurs (31 octobre 2026)"],
         ["bp27","App Store + Play Store + lancement Sénégal (décembre 2026)"]
       ]}
     ],
@@ -1281,9 +1284,9 @@ const T = {
     kpis:"Indicateurs clés · 2026", build_progress:"Avancement build", screens_done:"Écrans terminés",
     deadline:"Deadline", target_market:"Marché cible",
     kpi_phase2:"Phase 5 · polish avant bêta", kpi_screens:"presque tous les écrans faits",
-    kpi_deadline:"Bêta oct. · lancement décembre 2026", kpi_market:"Sénégal uniquement · Dakar d'abord",
+    kpi_deadline:"Bêta 31 oct. · lancement décembre 2026", kpi_market:"Sénégal uniquement · Dakar d'abord",
     recent_activity:"Activité récente", recent_sub:"Dernières mises à jour du projet",
-    phase_progress:"Avancement par phase", phase_sub:"Fonctionnalités prêtes · bêta oct. 2026 · lancement déc. 2026", overall:"Avancement global",
+    phase_progress:"Avancement par phase", phase_sub:"Fonctionnalités prêtes · bêta 31 oct. · lancement déc. 2026", overall:"Avancement global",
     test_app:"Tester l'application mobile", test_sub:"Scannez avec Expo Go (iOS ou Android). Mettez à jour l'URL tunnel si elle change.",
     qr_desc:"Ouvrez Expo Go et scannez. L'URL change à chaque redémarrage — collez la nouvelle ci-dessous.",
     server_online:"● Serveur actif", update:"Mettre à jour",
@@ -1312,18 +1315,21 @@ const T = {
       {label:"Phase 5 · Polish & lancement", pct:35, color:"yellow"}
     ],
     activity:[
-      {strong:"Vrai logo ajouté à l'app", note:"icône casque sur l'en-tête accueil, transparent", dot:"green", time:"Aujourd'hui", side:"app"},
-      {strong:"Refonte dashboard fondateurs", note:"KPIs, santé en direct, répartition modules", dot:"blue", time:"Aujourd'hui", side:"marketing"},
-      {strong:"Connexion Google corrigée", note:"navigateur OAuth maison (expo-web-browser)", dot:"green", time:"Aujourd'hui", side:"app"},
-      {strong:"Boutons de connexion soignés", note:"Google + Apple assortis, clair & sombre", dot:"green", time:"Aujourd'hui", side:"app"},
-      {strong:"Notifications + push", note:"likes, commentaires, follows, DMs + badge", dot:"green", time:"Cette semaine", side:"app"},
-      {strong:"Messagerie directe en ligne", note:"chat 1:1, API réelle, traduction", dot:"green", time:"Cette semaine", side:"app"},
-      {strong:"Profils + boucle de follow", note:"avatar, bio, profils publics, édition", dot:"green", time:"Cette semaine", side:"app"},
-      {strong:"Couche de sécurité livrée", note:"modération IA, signalement, blocage", dot:"green", time:"Cette semaine", side:"app"},
-      {strong:"Champ téléphone indicatif", note:"Sénégal par défaut, indicatifs cherchables", dot:"blue", time:"Cette semaine", side:"app"},
-      {strong:"Backend déployé (Render)", note:"base Postgres prod, URL publique", dot:"green", time:"Cette semaine", side:"app"},
-      {strong:"Site marketing en ligne", note:"jobeapp.com — accueil, contact, download", dot:"green", time:"Ce mois-ci", side:"marketing"},
-      {strong:"Repositionné 100% social", note:"entrepreneurs, B2B/B2C/C2B/C2C", dot:"green", time:"Ce mois-ci", side:"marketing"}
+      {strong:"OTP SMS via Twilio", note:"envoi en direct via Messaging Service, codes hachés ; enreg. opérateur US en attente", dot:"blue", time:"22 sept.", side:"app"},
+      {strong:"Upload d'images via Cloudinary", note:"photos des posts hébergées sur Cloudinary, persistent aux déploiements", dot:"green", time:"22 sept.", side:"app"},
+      {strong:"Renforcement sécurité", note:"clé SMS en dur supprimée, secrets déplacés en env", dot:"green", time:"22 sept.", side:"app"},
+      {strong:"Vrai logo ajouté à l'app", note:"icône casque sur l'en-tête accueil, transparent", dot:"green", time:"18 août", side:"app"},
+      {strong:"Refonte dashboard fondateurs", note:"KPIs, santé en direct, répartition modules", dot:"blue", time:"18 août", side:"marketing"},
+      {strong:"Connexion Google corrigée", note:"navigateur OAuth maison (expo-web-browser)", dot:"green", time:"18 août", side:"app"},
+      {strong:"Boutons de connexion soignés", note:"Google + Apple assortis, clair & sombre", dot:"green", time:"18 août", side:"app"},
+      {strong:"Notifications + push", note:"likes, commentaires, follows, DMs + badge", dot:"green", time:"août 2026", side:"app"},
+      {strong:"Messagerie directe en ligne", note:"chat 1:1, API réelle, traduction", dot:"green", time:"août 2026", side:"app"},
+      {strong:"Profils + boucle de follow", note:"avatar, bio, profils publics, édition", dot:"green", time:"août 2026", side:"app"},
+      {strong:"Couche de sécurité livrée", note:"modération IA, signalement, blocage", dot:"green", time:"août 2026", side:"app"},
+      {strong:"Champ téléphone indicatif", note:"Sénégal par défaut, indicatifs cherchables", dot:"blue", time:"août 2026", side:"app"},
+      {strong:"Backend déployé (Render)", note:"base Postgres prod, URL publique", dot:"green", time:"août 2026", side:"app"},
+      {strong:"Site marketing en ligne", note:"jobeapp.com — accueil, contact, download", dot:"green", time:"juin 2026", side:"marketing"},
+      {strong:"Repositionné 100% social", note:"entrepreneurs, B2B/B2C/C2B/C2C", dot:"green", time:"juin 2026", side:"marketing"}
     ],
     screens:[
       {name:"Écran d'accueil", note:"wordmark texte, portail unique", status:"done"},
@@ -1350,7 +1356,7 @@ const T = {
       {icon:"✅", title:"Phase 1–2 — Fondations & Auth", desc:"Expo Router, sombre/clair, i18n, Better Auth (email/OTP/Google), Prisma, Render + Postgres", badge:"done"},
       {icon:"✅", title:"Phase 3 — Cœur social", desc:"Fil, posts, likes, commentaires, reposts, profils, follow, profils publics", badge:"done"},
       {icon:"⚡", title:"Phase 4 — Connecter & grandir", desc:"Découvrir, messages directs, notifications + push, traduction in-app, groupes ensuite", badge:"in_progress"},
-      {icon:"🚀", title:"Phase 5 — Polish → Bêta → Lancement", desc:"Polish design, onboarding, bêta fermée oct. 2026, App Store + Play Store, lancement Sénégal déc. 2026", badge:"next"}
+      {icon:"🚀", title:"Phase 5 — Polish → Bêta → Lancement", desc:"Polish design, onboarding, bêta fermée 31 oct. 2026, App Store + Play Store, lancement Sénégal déc. 2026", badge:"next"}
     ],
     refs:["Typographie bold, dark épuré, minimal","Dark immersif, UI verre flottant, premium","Espacement serré, hiérarchie typographique nette","Chiffres bold, signaux de confiance","Noir & blanc, géométrique, fort contraste","Accents dégradés, soigné, qualité dev","Fintech vibrant, cartes bold, mouvement","Sensation native, icônes nettes, élégance sombre","Dégradés ludiques, ombres douces, frais","Mascotte sympa, arrondi, énergique"],
     colorNames:["Vert primaire (sombre)","Vert primaire (clair)","Bleu secondaire","Fond sombre"],
@@ -1360,7 +1366,7 @@ const T = {
     links:{link_site:"jobeapp.com — Site marketing", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — Dépôt de code", link_vercel:"Vercel — Hébergement dashboard", link_expo:"App Expo — URL tunnel", link_expodev:"Expo Dev — Build & distribution"},
     tasks:{
       todo:[
-        {id:"t-beta", title:"Bêta fermée — octobre 2026", desc:"Inviter les premiers testeurs, boucle de feedback avant lancement", color:"red"},
+        {id:"t-beta", title:"Bêta fermée — 31 octobre 2026", desc:"Inviter les premiers testeurs, boucle de feedback avant lancement", color:"red"},
         {id:"t-onboarding", title:"Flux d'onboarding", desc:"Choisir intérêts + suggestions de follow (anti page vide)", color:"muted"},
         {id:"t-groups", title:"Groupes / communautés", desc:"Par secteur, ville, intérêt", color:"muted"},
         {id:"t-store", title:"App Store + Play Store", desc:"Fiches stores, review, lancement Sénégal (déc. 2026)", color:"muted"}
@@ -1432,7 +1438,7 @@ const T = {
         ["bp23","创始人仪表板 — 进度、健康、举报"],
         ["bp24","引导 — 兴趣 + 推荐关注"],
         ["bp25","设计打磨 — 每个页面提升 10 倍"],
-        ["bp26","封闭测试 — 测试者（2026年10月）"],
+        ["bp26","封闭测试 — 测试者（2026年10月31日）"],
         ["bp27","App Store + Play Store + 塞内加尔发布（2026年12月）"]
       ]}
     ],
@@ -1440,9 +1446,9 @@ const T = {
     kpis:"关键指标 · 2026", build_progress:"构建进度", screens_done:"已完成页面",
     deadline:"截止日期", target_market:"目标市场",
     kpi_phase2:"第5阶段 · 为测试打磨", kpi_screens:"几乎所有页面已完成",
-    kpi_deadline:"10月测试 · 2026年12月发布", kpi_market:"仅塞内加尔 · 达喀尔优先",
+    kpi_deadline:"10月31日测试 · 2026年12月发布", kpi_market:"仅塞内加尔 · 达喀尔优先",
     recent_activity:"最新动态", recent_sub:"项目最新更新",
-    phase_progress:"各阶段进度", phase_sub:"功能基本完成 · 2026年10月测试 · 12月发布", overall:"总体进度",
+    phase_progress:"各阶段进度", phase_sub:"功能基本完成 · 2026年10月31日测试 · 12月发布", overall:"总体进度",
     test_app:"测试移动应用", test_sub:"使用Expo Go扫描（iOS或Android）。如隧道URL变化请更新。",
     qr_desc:"打开Expo Go并扫描。每次重启服务器URL会改变，请在下方粘贴新的URL。",
     server_online:"● 服务器在线", update:"更新",
@@ -1471,18 +1477,21 @@ const T = {
       {label:"第5阶段 · 打磨与发布", pct:35, color:"yellow"}
     ],
     activity:[
-      {strong:"应用加入真实Logo", note:"首页头部安全帽图标，透明背景", dot:"green", time:"今天", side:"app"},
-      {strong:"创始人仪表板改版", note:"KPI、实时健康、模块分解", dot:"blue", time:"今天", side:"marketing"},
-      {strong:"修复 Google 登录", note:"自建 OAuth 浏览器（expo-web-browser）", dot:"green", time:"今天", side:"app"},
-      {strong:"登录按钮打磨", note:"Google + Apple 统一，深浅色", dot:"green", time:"今天", side:"app"},
-      {strong:"通知 + 推送", note:"点赞、评论、关注、私信 + 徽章", dot:"green", time:"本周", side:"app"},
-      {strong:"私信上线", note:"一对一聊天、真实API、翻译", dot:"green", time:"本周", side:"app"},
-      {strong:"个人资料 + 关注", note:"头像、简介、公开资料、编辑", dot:"green", time:"本周", side:"app"},
-      {strong:"安全层上线", note:"AI审核、举报、屏蔽", dot:"green", time:"本周", side:"app"},
-      {strong:"国家区号电话输入", note:"默认塞内加尔，可搜索区号", dot:"blue", time:"本周", side:"app"},
-      {strong:"后端已部署（Render）", note:"Postgres 生产库、公开URL", dot:"green", time:"本周", side:"app"},
-      {strong:"营销网站上线", note:"jobeapp.com — 首页、联系、下载", dot:"green", time:"本月", side:"marketing"},
-      {strong:"重新定位100%社交", note:"创业者，B2B/B2C/C2B/C2C", dot:"green", time:"本月", side:"marketing"}
+      {strong:"Twilio 短信验证码", note:"通过 Messaging Service 实时发送，验证码哈希存储；美国运营商注册待完成", dot:"blue", time:"9月22日", side:"app"},
+      {strong:"Cloudinary 图片上传", note:"帖子图片托管于 Cloudinary，部署后依然保留", dot:"green", time:"9月22日", side:"app"},
+      {strong:"安全加固", note:"移除硬编码短信密钥，密钥全部移入环境变量", dot:"green", time:"9月22日", side:"app"},
+      {strong:"应用加入真实Logo", note:"首页头部安全帽图标，透明背景", dot:"green", time:"8月18日", side:"app"},
+      {strong:"创始人仪表板改版", note:"KPI、实时健康、模块分解", dot:"blue", time:"8月18日", side:"marketing"},
+      {strong:"修复 Google 登录", note:"自建 OAuth 浏览器（expo-web-browser）", dot:"green", time:"8月18日", side:"app"},
+      {strong:"登录按钮打磨", note:"Google + Apple 统一，深浅色", dot:"green", time:"8月18日", side:"app"},
+      {strong:"通知 + 推送", note:"点赞、评论、关注、私信 + 徽章", dot:"green", time:"2026年8月", side:"app"},
+      {strong:"私信上线", note:"一对一聊天、真实API、翻译", dot:"green", time:"2026年8月", side:"app"},
+      {strong:"个人资料 + 关注", note:"头像、简介、公开资料、编辑", dot:"green", time:"2026年8月", side:"app"},
+      {strong:"安全层上线", note:"AI审核、举报、屏蔽", dot:"green", time:"2026年8月", side:"app"},
+      {strong:"国家区号电话输入", note:"默认塞内加尔，可搜索区号", dot:"blue", time:"2026年8月", side:"app"},
+      {strong:"后端已部署（Render）", note:"Postgres 生产库、公开URL", dot:"green", time:"2026年8月", side:"app"},
+      {strong:"营销网站上线", note:"jobeapp.com — 首页、联系、下载", dot:"green", time:"2026年6月", side:"marketing"},
+      {strong:"重新定位100%社交", note:"创业者，B2B/B2C/C2B/C2C", dot:"green", time:"2026年6月", side:"marketing"}
     ],
     screens:[
       {name:"欢迎页面", note:"文字标识，单一入口", status:"done"},
@@ -1509,7 +1518,7 @@ const T = {
       {icon:"✅", title:"第1–2阶段 — 基础与认证", desc:"Expo Router、深/浅色、国际化、Better Auth（邮箱/OTP/Google）、Prisma、Render + Postgres", badge:"done"},
       {icon:"✅", title:"第3阶段 — 社交核心", desc:"动态流、帖子、点赞、评论、转发、资料、关注、公开资料", badge:"done"},
       {icon:"⚡", title:"第4阶段 — 连接与成长", desc:"发现、私信、通知 + 推送、应用内翻译、群组待办", badge:"in_progress"},
-      {icon:"🚀", title:"第5阶段 — 打磨 → 测试 → 发布", desc:"设计打磨、引导、2026年10月封闭测试、App Store + Play Store、2026年12月塞内加尔发布", badge:"next"}
+      {icon:"🚀", title:"第5阶段 — 打磨 → 测试 → 发布", desc:"设计打磨、引导、2026年10月31日封闭测试、App Store + Play Store、2026年12月塞内加尔发布", badge:"next"}
     ],
     refs:["粗体排版，简洁深色，极简","深色沉浸式，浮动玻璃UI，高级感","紧凑间距，清晰的字体层次","粗体数字，信任信号","黑白配色，几何感，高对比","渐变点缀，精致，开发者级","活力金融科技，醒目卡片，动效","原生质感，清晰图标，深色优雅","俏皮渐变，柔和阴影，清新","友好吉祥物，圆润，活力"],
     colorNames:["主绿色（深色）","主绿色（浅色）","辅助蓝色","深色背景"],
@@ -1519,7 +1528,7 @@ const T = {
     links:{link_site:"jobeapp.com — 营销网站", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — 代码仓库", link_vercel:"Vercel — 仪表板托管", link_expo:"Expo 应用 — 隧道URL", link_expodev:"Expo Dev — 构建与分发"},
     tasks:{
       todo:[
-        {id:"t-beta", title:"封闭测试 — 2026年10月", desc:"邀请首批测试者，发布前反馈循环", color:"red"},
+        {id:"t-beta", title:"封闭测试 — 2026年10月31日", desc:"邀请首批测试者，发布前反馈循环", color:"red"},
         {id:"t-onboarding", title:"引导流程", desc:"选择兴趣 + 推荐关注（解决冷启动）", color:"muted"},
         {id:"t-groups", title:"群组 / 社区", desc:"按行业、城市、兴趣", color:"muted"},
         {id:"t-store", title:"App Store + Play Store", desc:"商店页、审核、塞内加尔发布（2026年12月）", color:"muted"}
