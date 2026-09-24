@@ -7,6 +7,7 @@
   <link rel="icon" type="image/png" href="jobe-logo-3.png" />
   <link rel="apple-touch-icon" href="jobe-logo-3.png" />
   <script src="qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root[data-theme="dark"] {
       --bg: #0D0D0F;
@@ -330,6 +331,12 @@
       background: var(--elevated); border: 1px solid var(--border); font-size: 16px;
     }
     .delta { font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 3px; }
+    /* ── v2 bento sparkline mini-charts ── */
+    .stat-spark { margin-top: 12px; }
+    .stat-spark svg { width: 100%; height: 38px; display: block; overflow: visible; }
+    .stat-spark .ln { fill: none; stroke-width: 2.25; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+    .stat-spark .dot { transition: r .2s; }
+    .stat-card:hover .stat-spark .dot { r: 3.4; }
     .delta.up { color: var(--green); }
     .delta.down { color: var(--red); }
     .delta.flat { color: var(--muted); }
@@ -363,6 +370,43 @@
     /* ── GRID ── */
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    /* ── v2 founders accountability board ── */
+    .founders-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .founder-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .founder-av { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 16px; color: #fff; flex: none; box-shadow: 0 4px 12px rgba(0,0,0,.25); }
+    .founder-name { font-weight: 700; font-size: 15px; color: var(--text); line-height: 1.1; }
+    .founder-role { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+    .founder-prog { margin-left: auto; text-align: right; }
+    .founder-prog b { font-size: 15px; color: var(--sub); }
+    .founder-prog span { display: block; font-size: 10.5px; color: var(--muted); }
+    .ft { display: flex; align-items: flex-start; gap: 9px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13px; }
+    .ft:first-of-type { border-top: none; }
+    .ft-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex: none; }
+    .ft-title { color: var(--text); line-height: 1.35; }
+    .ft-title.done { color: var(--muted); text-decoration: line-through; }
+    .ft-status { margin-left: auto; font-size: 10px; font-weight: 800; letter-spacing: .3px; padding: 2px 8px; border-radius: 20px; white-space: nowrap; text-transform: uppercase; }
+    /* ── v2 team tasks (collaborative) ── */
+    .team-head { display: flex; align-items: flex-start; gap: 12px; justify-content: space-between; flex-wrap: wrap; margin-bottom: 14px; }
+    .team-me { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+    .team-me b { color: var(--text); }
+    .founder-av.sm { width: 26px; height: 26px; font-size: 11px; box-shadow: none; }
+    .team-flag { display: inline-block; font-size: 11px; font-weight: 600; color: var(--yellow); background: color-mix(in srgb, var(--yellow) 14%, transparent); padding: 4px 11px; border-radius: 20px; margin-bottom: 12px; }
+    .team-form { display: flex; gap: 8px; flex-wrap: wrap; }
+    .team-form .mytask-input { flex: 1; min-width: 180px; }
+    .team-sel { height: 42px; border-radius: 10px; border: 1px solid var(--border); background: var(--elevated); color: var(--text); padding: 0 10px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .team-cad { margin-bottom: 14px; }
+    .team-cad:last-child { margin-bottom: 0; }
+    .team-cad-h { font-size: 11px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .team-task { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); }
+    .team-cad .team-task:first-of-type { border-top: none; }
+    .team-check { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--border-light); display: grid; place-items: center; font-size: 12px; color: transparent; cursor: pointer; flex: none; }
+    .team-task.done .team-check { background: var(--green); border-color: var(--green); color: #fff; }
+    .team-task.done .team-task-title { text-decoration: line-through; color: var(--muted); }
+    .team-task-title { flex: 1; font-size: 13.5px; color: var(--text); }
+    .team-del { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; line-height: 1; opacity: .45; padding: 0 2px; }
+    .team-del:hover { opacity: 1; color: var(--red); }
+    .team-empty { color: var(--muted); font-size: 13px; padding: 6px 0; }
+    @media (max-width: 600px) { .team-form .mytask-input { min-width: 100%; } .team-sel { flex: 1; } }
 
     /* aurora glow behind glass — richer + alive so the glass refracts color */
     body::before {
@@ -687,6 +731,7 @@
           <div class="stat-label" data-i18n="build_progress">Build progress</div>
           <div class="stat-value" style="color:var(--green)">70%</div>
           <div class="stat-foot" data-i18n="kpi_phase2">Phase 5 · polishing for beta</div>
+          <div class="stat-spark"><svg viewBox="0 0 100 38" preserveAspectRatio="none"><defs><linearGradient id="sp1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--green)" stop-opacity=".38"/><stop offset="1" stop-color="var(--green)" stop-opacity="0"/></linearGradient></defs><polygon fill="url(#sp1)" points="0,31 14,29 28,25 42,22 56,16 70,13 84,8 100,5 100,38 0,38"/><polyline class="ln" stroke="var(--green)" points="0,31 14,29 28,25 42,22 56,16 70,13 84,8 100,5"/><circle class="dot" cx="100" cy="5" r="2.4" fill="var(--green)"/></svg></div>
         </div>
         <div class="stat-card">
           <div class="stat-top">
@@ -696,6 +741,7 @@
           <div class="stat-label" data-i18n="screens_done">Screens done</div>
           <div class="stat-value" id="screens-kpi">0</div>
           <div class="stat-foot"><span id="screens-kpi-sub" data-i18n="kpi_screens">7 in progress · 24 total</span></div>
+          <div class="stat-spark"><svg viewBox="0 0 100 38" preserveAspectRatio="none"><defs><linearGradient id="sp2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--blue)" stop-opacity=".38"/><stop offset="1" stop-color="var(--blue)" stop-opacity="0"/></linearGradient></defs><polygon fill="url(#sp2)" points="0,33 14,31 28,28 42,24 56,20 70,15 84,11 100,7 100,38 0,38"/><polyline class="ln" stroke="var(--blue)" points="0,33 14,31 28,28 42,24 56,20 70,15 84,11 100,7"/><circle class="dot" cx="100" cy="7" r="2.4" fill="var(--blue)"/></svg></div>
         </div>
         <div class="stat-card">
           <div class="stat-top">
@@ -705,6 +751,7 @@
           <div class="stat-label" data-i18n="deadline">Days to launch</div>
           <div class="stat-value" style="color:var(--yellow)" id="countdown">—</div>
           <div class="stat-foot" data-i18n="kpi_deadline">Beta Oct 31 · launch December 2026</div>
+          <div class="stat-spark"><svg viewBox="0 0 100 38" preserveAspectRatio="none"><defs><linearGradient id="sp3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--yellow)" stop-opacity=".38"/><stop offset="1" stop-color="var(--yellow)" stop-opacity="0"/></linearGradient></defs><polygon fill="url(#sp3)" points="0,6 14,9 28,12 42,15 56,20 70,25 84,29 100,32 100,38 0,38"/><polyline class="ln" stroke="var(--yellow)" points="0,6 14,9 28,12 42,15 56,20 70,25 84,29 100,32"/><circle class="dot" cx="100" cy="32" r="2.4" fill="var(--yellow)"/></svg></div>
         </div>
         <div class="stat-card">
           <div class="stat-top">
@@ -714,6 +761,7 @@
           <div class="stat-label" data-i18n="backend_kpi">Backend health</div>
           <div class="stat-value" id="health-kpi" style="color:var(--muted)">—</div>
           <div class="stat-foot" id="health-kpi-sub" data-i18n="kpi_health">Checking API…</div>
+          <div class="stat-spark"><svg viewBox="0 0 100 38" preserveAspectRatio="none"><defs><linearGradient id="sp4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--green)" stop-opacity=".32"/><stop offset="1" stop-color="var(--green)" stop-opacity="0"/></linearGradient></defs><polygon fill="url(#sp4)" points="0,13 12,13 19,4 25,22 31,13 60,13 68,4 74,22 80,13 100,13 100,38 0,38"/><polyline class="ln" stroke="var(--green)" points="0,13 12,13 19,4 25,22 31,13 60,13 68,4 74,22 80,13 100,13"/><circle class="dot" cx="100" cy="13" r="2.4" fill="var(--green)"/></svg></div>
         </div>
       </div>
 
@@ -898,15 +946,15 @@
           <div class="card-sub">Node / Bun</div>
           <div class="tag-grid">
             <span class="tag">Hono</span><span class="tag">Bun runtime</span><span class="tag">Prisma ORM</span>
-            <span class="tag">SQLite (dev)</span><span class="tag">Better Auth</span><span class="tag">OpenAI API</span>
-            <span class="tag">Cloudflare Tunnel</span>
+            <span class="tag">PostgreSQL (prod)</span><span class="tag">Better Auth</span><span class="tag">OpenAI API</span>
+            <span class="tag">Twilio SMS</span><span class="tag">Cloudinary</span><span class="tag">Cloudflare Tunnel</span>
           </div>
         </div>
         <div class="card">
           <div class="card-title" data-i18n="infra">Infra & Tools</div>
           <div class="card-sub">DevOps</div>
           <div class="tag-grid">
-            <span class="tag">Vercel</span><span class="tag">GitHub</span><span class="tag">ngrok tunnel</span>
+            <span class="tag">Vercel</span><span class="tag">Render</span><span class="tag">Supabase</span><span class="tag">GitHub</span><span class="tag">ngrok tunnel</span>
             <span class="tag">Expo Go</span><span class="tag">Claude Code</span>
           </div>
         </div>
@@ -931,6 +979,7 @@
 
     <!-- ═══ TASKS ═══ -->
     <div class="page" id="page-tasks">
+      <div id="founders-board-wrap" style="margin-bottom:20px"></div>
       <div class="task-progress-bar">
         <span class="task-progress-label" data-i18n="task_progress">Task completion</span>
         <div class="progress-bar"><div class="progress-fill" id="task-fill" style="width:0%"></div></div>
@@ -992,6 +1041,9 @@
       </div>
     </div>
 
+    <!-- ═══ TEAM TASKS ═══ -->
+    <div class="page" id="page-team"></div>
+
     <!-- ═══ LINKS ═══ -->
     <div class="page" id="page-links">
       <div class="card">
@@ -1025,8 +1077,8 @@ const BRAND = {
     { name: "Arc Browser", dot: "blue" }, { name: "Duolingo", dot: "green" }
   ],
   markets: [
-    { flag: "🇸🇳", name: "Sénégal", dot: "green" }, { flag: "🇨🇮", name: "Côte d'Ivoire", dot: "blue" },
-    { flag: "🇲🇱", name: "Mali", dot: "yellow" }, { flag: "🇬🇳", name: "Guinée", dot: "yellow" }
+    { flag: "🇸🇳", name: "Sénégal", dot: "green" }, { flag: "🇸🇳", name: "Sénégal", dot: "blue" },
+    { flag: "🇸🇳", name: "Sénégal", dot: "yellow" }, { flag: "🇸🇳", name: "Sénégal", dot: "yellow" }
   ],
   channels: [
     { name: "TikTok / Instagram" }, { name: "WhatsApp" }, { name: "LinkedIn" },
@@ -1041,6 +1093,8 @@ const BRAND = {
     { icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>', href: "https://www.instagram.com/jobeapp", key: "link_instagram" },
     { icon: "⚙", href: "https://github.com/gwpserg-afk/Jobeapp", key: "link_github" },
     { icon: "▲", href: "https://vercel.com", key: "link_vercel" },
+    { icon: "◆", href: "https://dashboard.render.com", key: "link_render" },
+    { icon: "⚡", href: "https://supabase.com/dashboard", key: "link_supabase" },
     { icon: "📱", href: null, key: "link_expo" },
     { icon: "⬡", href: "https://expo.dev", key: "link_expodev" }
   ]
@@ -1055,6 +1109,7 @@ const NAV = [
   { id: "build", icon: "🧱", key: "nav_build", badgeId: "nav-build-badge" },
   { section: "nav_personal" },
   { id: "mytasks", icon: "🙋", key: "nav_mytasks", badgeId: "nav-mytask-badge" },
+  { id: "team", icon: "👥", key: "nav_team" },
   { section: "nav_product" },
   { id: "design", icon: "✦", key: "nav_design" },
   { id: "stack", icon: "⚙", key: "nav_stack" },
@@ -1070,7 +1125,7 @@ const T = {
     dashboard:"Internal Dashboard", nav_overview:"Overview", nav_home:"Home", nav_app:"Application",
     nav_roadmap:"Roadmap", nav_product:"Product", nav_design:"Design & Brand", nav_stack:"Stack",
     nav_growth:"Growth", nav_tasks:"Tasks", nav_marketing:"Marketing", nav_links:"Links & Resources",
-    nav_personal:"Personal", nav_mytasks:"My To-Do",
+    nav_personal:"Personal", nav_mytasks:"My To-Do", nav_team:"Team Tasks",
     mytask_title:"My To-Do", mytask_sub:"Your personal checklist — add what you need to do and cross it off.",
     mytask_placeholder:"Type a task and press Enter…", mytask_add:"Add", mytask_clear:"Clear completed",
     mytask_empty:"Nothing yet — add your first task above.", mytask_remaining:"remaining", mytask_done_word:"done",
@@ -1201,7 +1256,7 @@ const T = {
     markets:["Dakar · primary market","Thiès · next","Saint-Louis · later","All Senegal · goal"],
     marketStatus:["active","next","planned","planned"],
     channels:["Job content for Senegal","Job groups, viral sharing","Recruiter B2B side","App store SEO","Universities, Dakar schools"],
-    links:{link_site:"jobeapp.com — Marketing site", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — Code repository", link_vercel:"Vercel — Dashboard hosting", link_expo:"Expo app — tunnel URL", link_expodev:"Expo Dev — Build & distribution"},
+    links:{link_site:"jobeapp.com — Marketing site", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — Code repository", link_vercel:"Vercel — Dashboard hosting", link_render:"Render — Backend & Postgres DB", link_supabase:"Supabase — Dashboard tasks DB", link_expo:"Expo app — tunnel URL", link_expodev:"Expo Dev — Build & distribution"},
     tasks:{
       todo:[
         {id:"t-beta", title:"Closed beta — October 31, 2026", desc:"Invite first testers, feedback loop before launch", color:"red"},
@@ -1225,7 +1280,7 @@ const T = {
         {id:"t-i18n", title:"FR / EN / 中文 i18n", desc:"Full 3-language system across all screens", color:"green"}
       ]
     },
-    pageTitles:{overview:"Overview", app:"Mobile App", reports:"Reports", roadmap:"Roadmap", build:"Build Plan", mytasks:"My To-Do", design:"Design & Brand", stack:"Tech Stack", marketing:"Marketing", links:"Links", tasks:"Tasks"}
+    pageTitles:{overview:"Overview", app:"Mobile App", reports:"Reports", roadmap:"Roadmap", build:"Build Plan", mytasks:"My To-Do", team:"Team Tasks", design:"Design & Brand", stack:"Tech Stack", marketing:"Marketing", links:"Links", tasks:"Tasks"}
   },
 
   fr: {
@@ -1233,7 +1288,7 @@ const T = {
     dashboard:"Dashboard interne", nav_overview:"Vue d'ensemble", nav_home:"Accueil", nav_app:"Application",
     nav_roadmap:"Roadmap", nav_product:"Produit", nav_design:"Design & Brand", nav_stack:"Stack",
     nav_growth:"Croissance", nav_tasks:"Tâches", nav_marketing:"Marketing", nav_links:"Liens & Ressources",
-    nav_personal:"Personnel", nav_mytasks:"Mes tâches",
+    nav_personal:"Personnel", nav_mytasks:"Mes tâches", nav_team:"Tâches d'équipe",
     mytask_title:"Mes tâches", mytask_sub:"Votre check-list personnelle — ajoutez ce que vous devez faire et cochez-le.",
     mytask_placeholder:"Écrivez une tâche et appuyez sur Entrée…", mytask_add:"Ajouter", mytask_clear:"Effacer les terminées",
     mytask_empty:"Rien pour l'instant — ajoutez votre première tâche ci-dessus.", mytask_remaining:"restantes", mytask_done_word:"faites",
@@ -1363,7 +1418,7 @@ const T = {
     markets:["Dakar · marché principal","Thiès · ensuite","Saint-Louis · plus tard","Tout le Sénégal · objectif"],
     marketStatus:["active","next","planned","planned"],
     channels:["Contenus emploi Sénégal","Groupes emploi, partage viral","Côté recruteurs B2B","SEO app store","Universités, écoles Dakar"],
-    links:{link_site:"jobeapp.com — Site marketing", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — Dépôt de code", link_vercel:"Vercel — Hébergement dashboard", link_expo:"App Expo — URL tunnel", link_expodev:"Expo Dev — Build & distribution"},
+    links:{link_site:"jobeapp.com — Site marketing", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — Dépôt de code", link_vercel:"Vercel — Hébergement dashboard", link_render:"Render — Backend & base Postgres", link_supabase:"Supabase — Base de données des tâches", link_expo:"App Expo — URL tunnel", link_expodev:"Expo Dev — Build & distribution"},
     tasks:{
       todo:[
         {id:"t-beta", title:"Bêta fermée — 31 octobre 2026", desc:"Inviter les premiers testeurs, boucle de feedback avant lancement", color:"red"},
@@ -1387,7 +1442,7 @@ const T = {
         {id:"t-i18n", title:"i18n FR / EN / 中文", desc:"Système 3 langues complet sur tous les écrans", color:"green"}
       ]
     },
-    pageTitles:{overview:"Vue d'ensemble", app:"Application mobile", reports:"Signalements", roadmap:"Roadmap", build:"Plan de build", mytasks:"Mes tâches", design:"Design & Brand", stack:"Stack technique", marketing:"Marketing", links:"Liens", tasks:"Tâches"}
+    pageTitles:{overview:"Vue d'ensemble", app:"Application mobile", reports:"Signalements", roadmap:"Roadmap", build:"Plan de build", mytasks:"Mes tâches", team:"Tâches d'équipe", design:"Design & Brand", stack:"Stack technique", marketing:"Marketing", links:"Liens", tasks:"Tâches"}
   },
 
   zh: {
@@ -1395,7 +1450,7 @@ const T = {
     dashboard:"内部仪表板", nav_overview:"概览", nav_home:"首页", nav_app:"应用程序",
     nav_roadmap:"路线图", nav_product:"产品", nav_design:"设计与品牌", nav_stack:"技术栈",
     nav_growth:"增长", nav_tasks:"任务", nav_marketing:"市场营销", nav_links:"链接与资源",
-    nav_personal:"个人", nav_mytasks:"我的待办",
+    nav_personal:"个人", nav_mytasks:"我的待办", nav_team:"团队任务",
     mytask_title:"我的待办", mytask_sub:"你的个人清单 — 添加待办事项并打勾完成。",
     mytask_placeholder:"输入任务并按回车…", mytask_add:"添加", mytask_clear:"清除已完成",
     mytask_empty:"暂无 — 在上方添加你的第一个任务。", mytask_remaining:"剩余", mytask_done_word:"完成",
@@ -1525,7 +1580,7 @@ const T = {
     markets:["达喀尔 · 主要市场","捷斯 · 下一步","圣路易斯 · 之后","全塞内加尔 · 目标"],
     marketStatus:["active","next","planned","planned"],
     channels:["塞内加尔职位内容","求职群组，病毒式分享","招聘方 B2B","应用商店 SEO","达喀尔大学与院校"],
-    links:{link_site:"jobeapp.com — 营销网站", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — 代码仓库", link_vercel:"Vercel — 仪表板托管", link_expo:"Expo 应用 — 隧道URL", link_expodev:"Expo Dev — 构建与分发"},
+    links:{link_site:"jobeapp.com — 营销网站", link_instagram:"Instagram — @jobeapp", link_github:"GitHub — 代码仓库", link_vercel:"Vercel — 仪表板托管", link_render:"Render — 后端与 Postgres 数据库", link_supabase:"Supabase — 仪表板任务数据库", link_expo:"Expo 应用 — 隧道URL", link_expodev:"Expo Dev — 构建与分发"},
     tasks:{
       todo:[
         {id:"t-beta", title:"封闭测试 — 2026年10月31日", desc:"邀请首批测试者，发布前反馈循环", color:"red"},
@@ -1549,7 +1604,7 @@ const T = {
         {id:"t-i18n", title:"FR / EN / 中文 国际化", desc:"所有页面完整的3语言系统", color:"green"}
       ]
     },
-    pageTitles:{overview:"概览", app:"移动应用", reports:"举报", roadmap:"路线图", build:"构建计划", mytasks:"我的待办", design:"设计与品牌", stack:"技术栈", marketing:"市场营销", links:"链接", tasks:"任务"}
+    pageTitles:{overview:"概览", app:"移动应用", reports:"举报", roadmap:"路线图", build:"构建计划", mytasks:"我的待办", team:"团队任务", design:"设计与品牌", stack:"技术栈", marketing:"市场营销", links:"链接", tasks:"任务"}
   }
 };
 
@@ -1679,6 +1734,7 @@ function renderContent() {
   renderTasks();
   renderMyTasks();
   renderBuildPlan();
+  renderTeam();
 }
 
 /* ── TASKS (interactive checkboxes) ── */
@@ -1690,8 +1746,67 @@ function taskItemHTML(task, isDone) {
     <div class="task-body"><div class="road-title">${esc(task.title)}</div><div class="road-desc">${esc(task.desc)}</div>${pct}</div>
   </div>`;
 }
+/* ── v2 founders accountability board ── */
+const FOUNDERS = [
+  {key:'serg', name:'Serg',    initials:'S', color:'--green',  role:{en:'Product & Engineering', fr:'Produit & Ingénierie', zh:'产品与工程'}},
+  {key:'moha', name:'Moha',    initials:'M', color:'--blue',   role:{en:'Operations & Legal',    fr:'Opérations & Légal',   zh:'运营与法务'}},
+  {key:'geo',  name:'Geovani', initials:'G', color:'--yellow', role:{en:'Growth & Marketing',    fr:'Croissance & Marketing', zh:'增长与营销'}},
+];
+const BOARD = [
+  // Serg — product/eng
+  {o:'serg', s:'done',     en:'Backend + Postgres live (Render)',  fr:'Backend + Postgres en ligne (Render)', zh:'后端 + Postgres 上线（Render）'},
+  {o:'serg', s:'done',     en:'Auth — email, phone OTP, Google',   fr:'Auth — email, OTP tél., Google',       zh:'认证 — 邮箱、手机验证码、Google'},
+  {o:'serg', s:'done',     en:'Social core + messaging + safety',  fr:'Cœur social + messagerie + sécurité',  zh:'社交核心 + 私信 + 安全'},
+  {o:'serg', s:'done',     en:'FR / EN / 中文 across all screens', fr:'FR / EN / 中文 sur tous les écrans',   zh:'全部页面 FR / EN / 中文'},
+  {o:'serg', s:'progress', en:'SMS (Twilio) + media (Cloudinary)', fr:'SMS (Twilio) + médias (Cloudinary)',   zh:'短信（Twilio）+ 媒体（Cloudinary）'},
+  {o:'serg', s:'progress', en:'Design polish pass (10× screens)',  fr:'Passe de polish design (10× écrans)',  zh:'设计打磨（每屏 10×）'},
+  {o:'serg', s:'todo',     en:'Onboarding flow',                   fr:'Flux d’onboarding',                    zh:'新手引导流程'},
+  {o:'serg', s:'todo',     en:'EAS build → TestFlight → stores',   fr:'Build EAS → TestFlight → stores',      zh:'EAS 构建 → TestFlight → 商店'},
+  // Moha — ops/legal
+  {o:'moha', s:'done',     en:'Company / LLC registration',        fr:'Enregistrement société / LLC',         zh:'公司 / LLC 注册'},
+  {o:'moha', s:'progress', en:'Apple Dev — Org enroll + D-U-N-S',  fr:'Apple Dev — compte Org + D-U-N-S',     zh:'Apple 开发者 — 企业账号 + D-U-N-S'},
+  {o:'moha', s:'progress', en:'Twilio A2P 10DLC registration',     fr:'Enregistrement Twilio A2P 10DLC',      zh:'Twilio A2P 10DLC 注册'},
+  {o:'moha', s:'todo',     en:'Payments / RevenueCat + billing',   fr:'Paiements / RevenueCat + facturation', zh:'支付 / RevenueCat + 计费'},
+  // Geovani — growth/marketing
+  {o:'geo',  s:'progress', en:'Instagram launch (@jobeapp)',       fr:'Lancement Instagram (@jobeapp)',       zh:'Instagram 启动（@jobeapp）'},
+  {o:'geo',  s:'todo',     en:'Pre-launch waitlist campaign',      fr:'Campagne liste d’attente pré-lancement', zh:'预发布候补名单活动'},
+  {o:'geo',  s:'todo',     en:'First flyer + explainer carousel',  fr:'Premier flyer + carrousel explicatif', zh:'首个宣传图 + 讲解轮播'},
+  {o:'geo',  s:'todo',     en:'Recruit beta testers (Oct 31)',     fr:'Recruter les bêta-testeurs (31 oct.)', zh:'招募测试者（10月31日）'},
+];
+const FT_STATUS = {
+  done:     {c:'--green',  en:'Done',        fr:'Terminé',   zh:'完成'},
+  progress: {c:'--blue',   en:'In progress', fr:'En cours',  zh:'进行中'},
+  todo:     {c:'--yellow', en:'To do',       fr:'À faire',   zh:'待办'},
+};
+const FT_HEAD = {en:'Accountability — by founder', fr:'Responsabilités — par fondateur', zh:'责任分工 — 按创始人'};
+const FT_ORDER = {progress:0, todo:1, done:2};
+function renderFoundersBoard() {
+  const wrap = document.getElementById('founders-board-wrap');
+  if (!wrap) return;
+  const L = currentLang;
+  const cards = FOUNDERS.map(f => {
+    const items = BOARD.filter(b => b.o === f.key).sort((a,b)=>FT_ORDER[a.s]-FT_ORDER[b.s]);
+    const done = items.filter(i => i.s === 'done').length;
+    const rows = items.map(i => {
+      const st = FT_STATUS[i.s];
+      return `<div class="ft">
+        <span class="ft-dot" style="background:var(${st.c})"></span>
+        <span class="ft-title${i.s==='done'?' done':''}">${esc(i[L])}</span>
+        <span class="ft-status" style="color:var(${st.c});background:color-mix(in srgb, var(${st.c}) 16%, transparent)">${esc(st[L])}</span>
+      </div>`;
+    }).join('');
+    return `<div class="card">
+      <div class="founder-head">
+        <div class="founder-av" style="background:linear-gradient(135deg, var(${f.color}), color-mix(in srgb, var(${f.color}) 55%, #000))">${f.initials}</div>
+        <div><div class="founder-name">${f.name}</div><div class="founder-role">${esc(f.role[L])}</div></div>
+        <div class="founder-prog"><b>${done}/${items.length}</b><span>${esc(FT_STATUS.done[L])}</span></div>
+      </div>${rows}</div>`;
+  }).join('');
+  wrap.innerHTML = `<div class="section-header"><span class="section-title">${esc(FT_HEAD[L])}</span></div><div class="founders-board">${cards}</div>`;
+}
 function renderTasks() {
   const t = T[currentLang];
+  renderFoundersBoard();
   document.getElementById('todo-list').innerHTML = t.tasks.todo.map(x => taskItemHTML(x,false)).join('');
   document.getElementById('progress-list').innerHTML = t.tasks.progress.map(x => taskItemHTML(x,false)).join('');
   document.getElementById('done-list').innerHTML = t.tasks.done.map(x => taskItemHTML(x,true)).join('');
@@ -1905,6 +2020,7 @@ function showPage(id) {
   closeSidebar();
   window.scrollTo(0,0);
   if (id === 'reports') initReports();
+  if (id === 'team') fetchTeam();
 }
 
 /* ── REPORTS ── */
@@ -2009,6 +2125,7 @@ window.addEventListener('load', () => {
   if (savedUrl) document.getElementById('expo-url').value = savedUrl;
 
   setLang(currentLang);
+  fetchTeam();                             // load collaborative team tasks (Supabase or local)
   updateQR();
   autoDetectTunnel();                      // refresh QR to live tunnel on load
   setInterval(autoDetectTunnel, 20000);    // keep it live — re-check every 20s
@@ -2062,6 +2179,111 @@ async function loadHealth() {
     if (dHealth) { dHealth.textContent = waking ? '● …' : '● down'; dHealth.className = waking ? 'delta flat' : 'delta down'; }
     setBars(false);
   }
+}
+
+/* ═══════════════ v2 TEAM TASKS (collaborative, Supabase-backed) ═══════════════ */
+/* PASTE YOUR SUPABASE CREDENTIALS HERE (anon public key only — never the service_role key). */
+const SUPABASE_URL = 'https://mgmmsfyhyuzxxhkbixnm.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nbW1zZnloeXV6eHhoa2JpeG5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyMTY3MzgsImV4cCI6MjEwNTc5MjczOH0.BlQbXZoz-x1GgJROOxjYen34z6BPoyG6AbLsozA2ydw';  // anon/public key — safe for browser (RLS-gated)
+let SB = null;
+try { if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) SB = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch (e) { console.warn('Supabase init failed', e); }
+
+const TEAM_I18N = {
+  en:{title:'Team Tasks', sub:'Shared board + personal to-dos — daily, weekly, monthly. Syncs across every founder, any device.', ph:'New task…', add:'Add', share:'Share to all', mine:'Just me', daily:'Daily', weekly:'Weekly', monthly:'Monthly', shared:'Shared board', personal:'Personal', viewing:'Viewing as', empty:'Nothing here yet.', local:'Local preview — add Supabase keys to sync across devices'},
+  fr:{title:"Tâches d'équipe", sub:"Tableau partagé + tâches perso — quotidien, hebdo, mensuel. Synchronisé pour chaque fondateur, sur tout appareil.", ph:'Nouvelle tâche…', add:'Ajouter', share:'Partager à tous', mine:'Moi seulement', daily:'Quotidien', weekly:'Hebdo', monthly:'Mensuel', shared:'Tableau partagé', personal:'Personnel', viewing:'Connecté', empty:'Rien pour le moment.', local:'Aperçu local — ajoutez les clés Supabase pour synchroniser'},
+  zh:{title:'团队任务', sub:'共享看板 + 个人待办 — 每日、每周、每月。所有创始人、任意设备同步。', ph:'新任务…', add:'添加', share:'分享给所有人', mine:'仅自己', daily:'每日', weekly:'每周', monthly:'每月', shared:'共享看板', personal:'个人', viewing:'当前身份', empty:'暂无任务。', local:'本地预览 — 添加 Supabase 密钥即可跨设备同步'}
+};
+const TEAM_CAD = ['daily','weekly','monthly'];
+
+function getCookie(n){ const m = document.cookie.split('; ').find(r => r.startsWith(n+'=')); return m ? decodeURIComponent(m.split('=').slice(1).join('=')) : ''; }
+function currentFounder(){
+  const u = getCookie('jobe_user').toLowerCase();
+  const f = FOUNDERS.find(x => u && (u.includes(x.key) || u.includes(x.name.toLowerCase())));
+  if (f) return f.key;
+  if (u === 'admin') return 'serg';
+  return localStorage.getItem('team-me') || 'serg';
+}
+function isTeamAdmin(){ return currentFounder() === 'serg'; }
+
+let TEAM_TASKS = [];
+function lsTeam(){ try { return JSON.parse(localStorage.getItem('team-tasks') || '[]'); } catch(e){ return []; } }
+function lsSaveTeam(a){ localStorage.setItem('team-tasks', JSON.stringify(a)); }
+async function fetchTeam(){
+  if (SB){
+    const { data, error } = await SB.from('tasks').select('*').order('created_at', { ascending:false });
+    if (error) { console.warn('Supabase fetch error', error); TEAM_TASKS = lsTeam(); }
+    else TEAM_TASKS = data || [];
+  } else { TEAM_TASKS = lsTeam(); }
+  renderTeam();
+}
+async function addTeam(task){
+  if (SB){ const { error } = await SB.from('tasks').insert(task); if (error) alert('Could not save task: ' + error.message); }
+  else { const a = lsTeam(); a.unshift({ ...task, id:'t'+Date.now(), created_at:new Date().toISOString() }); lsSaveTeam(a); }
+  fetchTeam();
+}
+async function toggleTeam(id, done){
+  if (SB){ await SB.from('tasks').update({ done }).eq('id', id); }
+  else { lsSaveTeam(lsTeam().map(x => String(x.id)===String(id) ? { ...x, done } : x)); }
+  fetchTeam();
+}
+async function delTeam(id){
+  if (SB){ await SB.from('tasks').delete().eq('id', id); }
+  else { lsSaveTeam(lsTeam().filter(x => String(x.id)!==String(id))); }
+  fetchTeam();
+}
+function submitTeam(){
+  const inp = document.getElementById('team-input'); if (!inp) return;
+  const title = (inp.value||'').trim(); if (!title) return;
+  addTeam({
+    title,
+    owner: document.getElementById('team-owner').value,
+    cadence: document.getElementById('team-cadence').value,
+    shared: document.getElementById('team-vis').value === 'shared',
+    done: false
+  });
+}
+function teamAvatar(fkey, sm){
+  const f = FOUNDERS.find(x => x.key===fkey) || FOUNDERS[0];
+  return `<span class="founder-av${sm?' sm':''}" style="background:linear-gradient(135deg,var(${f.color}),color-mix(in srgb,var(${f.color}) 55%,#000))" title="${f.name}">${f.initials}</span>`;
+}
+function renderTeam(){
+  const el = document.getElementById('page-team'); if (!el) return;
+  const L = currentLang, tx = TEAM_I18N[L] || TEAM_I18N.en;
+  const me = currentFounder(), admin = isTeamAdmin();
+  const meF = FOUNDERS.find(f => f.key===me) || FOUNDERS[0];
+  const ownerList = admin ? FOUNDERS : FOUNDERS.filter(f => f.key===me);
+  const ownerOpts = ownerList.map(f => `<option value="${f.key}"${f.key===me?' selected':''}>${f.name}</option>`).join('');
+  const shared = TEAM_TASKS.filter(t => t.shared);
+  const personal = TEAM_TASKS.filter(t => !t.shared && (admin || t.owner===me));
+  const row = t => `<div class="team-task${t.done?' done':''}">
+      <span class="team-check" onclick="toggleTeam('${t.id}',${!t.done})">✓</span>
+      ${teamAvatar(t.owner, true)}
+      <span class="team-task-title">${esc(t.title)}</span>
+      <button class="team-del" onclick="delTeam('${t.id}')" title="Delete">×</button>
+    </div>`;
+  const group = list => (TEAM_CAD.map(c => {
+    const items = list.filter(t => t.cadence===c);
+    return items.length ? `<div class="team-cad"><div class="team-cad-h">${tx[c]}</div>${items.map(row).join('')}</div>` : '';
+  }).join('')) || `<div class="team-empty">${tx.empty}</div>`;
+  el.innerHTML = `
+    <div class="card" style="margin-bottom:16px">
+      <div class="team-head">
+        <div><div class="card-title" style="margin-bottom:4px">${tx.title}</div><div class="card-sub" style="margin-bottom:0">${tx.sub}</div></div>
+        <div class="team-me"><span>${tx.viewing}</span>${teamAvatar(me, true)}<b>${meF.name}</b>${admin?' · admin':''}</div>
+      </div>
+      ${SB ? '' : `<div class="team-flag">${tx.local}</div>`}
+      <div class="team-form">
+        <input id="team-input" class="mytask-input" type="text" placeholder="${tx.ph}" onkeydown="if(event.key==='Enter')submitTeam()"/>
+        <select id="team-cadence" class="team-sel"><option value="daily">${tx.daily}</option><option value="weekly" selected>${tx.weekly}</option><option value="monthly">${tx.monthly}</option></select>
+        <select id="team-owner" class="team-sel">${ownerOpts}</select>
+        <select id="team-vis" class="team-sel"><option value="shared">${tx.share}</option><option value="private">${tx.mine}</option></select>
+        <button class="mytask-add-btn" onclick="submitTeam()">${tx.add}</button>
+      </div>
+    </div>
+    <div class="section-header"><span class="section-title">🌍 ${tx.shared}</span></div>
+    <div class="card" style="margin-bottom:18px">${group(shared)}</div>
+    <div class="section-header"><span class="section-title">🔒 ${tx.personal}</span></div>
+    <div class="card">${group(personal)}</div>`;
 }
 </script>
 </body>
