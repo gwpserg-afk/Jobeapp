@@ -139,7 +139,8 @@
     }
     .phone-screen { position:relative; width:100%; height:100%; background:var(--phone-bg); border-radius:36px; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; padding:30px; transition:background .3s; }
     .island { position:absolute; top:13px; left:50%; transform:translateX(-50%); width:88px; height:26px; background:#000; border-radius:999px; z-index:5; }
-    .app-icon { width:84px; height:84px; border-radius:21px; background:linear-gradient(150deg,#1DB954,#0e7a36); display:flex; align-items:center; justify-content:center; color:#fff; font-size:44px; font-weight:900; letter-spacing:-1px; box-shadow:0 16px 34px rgba(29,185,84,.32); }
+    .app-icon { width:84px; height:84px; border-radius:21px; background:#fff; display:flex; align-items:center; justify-content:center; overflow:hidden; box-shadow:0 16px 34px rgba(29,185,84,.32); }
+    .app-icon img { width:100%; height:100%; object-fit:contain; }
     .app-name { font-family:var(--serif); font-size:32px; font-weight:600; letter-spacing:-1px; color:var(--text); }
     .app-name span { color:var(--green); font-style:normal; }
     .get h3 { font-family:var(--serif); }
@@ -276,7 +277,7 @@
       <div class="phone">
         <div class="island"></div>
         <div class="phone-screen">
-          <div class="app-icon">J</div>
+          <div class="app-icon"><img src="logo-head.png" alt="Jobé" /></div>
           <div class="app-name">Job<span>é</span></div>
           <div class="app-tag" data-i18n="pf_tag">Rencontre. Connecte. Saisis l'opportunité.</div>
           <div class="app-pill" data-i18n="pf_pill">iOS · Android · Bientôt</div>

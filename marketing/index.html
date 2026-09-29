@@ -934,11 +934,12 @@
     .app-sheet.show .app-sheet-card { transform: translateY(0); }
     .app-sheet-grip { width: 36px; height: 4px; border-radius: 99px; background: var(--border-l); margin: 0 auto 16px; }
     .app-sheet-ic {
-      width: 52px; height: 52px; border-radius: 15px; margin: 0 auto 12px;
-      background: linear-gradient(135deg, var(--green), var(--blue));
+      width: 56px; height: 56px; border-radius: 16px; margin: 0 auto 12px;
+      background: #fff; border: 1px solid var(--border-l);
       display: flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: 900; font-size: 26px;
+      overflow: hidden;
     }
+    .app-sheet-ic img { width: 100%; height: 100%; object-fit: contain; }
     .app-sheet-h { font-size: 17px; font-weight: 900; letter-spacing: -.4px; color: var(--text); }
     .app-sheet-p { font-size: 12.5px; color: var(--sub); margin: 6px 0 16px; line-height: 1.5; }
     .app-sheet-cta {
@@ -1201,7 +1202,7 @@
             <div class="app-sheet" id="app-sheet" onclick="if(event.target===this)hideAppSheet()">
               <div class="app-sheet-card">
                 <div class="app-sheet-grip"></div>
-                <div class="app-sheet-ic">é</div>
+                <div class="app-sheet-ic"><img src="logo-head.png" alt="Jobé" /></div>
                 <div class="app-sheet-h" data-i18n="as_h">Continue dans l'app</div>
                 <div class="app-sheet-p" data-i18n="as_p">Télécharge Jobé pour interagir, publier et te connecter à ta communauté.</div>
                 <a href="download.html" class="app-sheet-cta" onclick="hideAppSheet()" data-i18n="as_cta">Télécharger l'app →</a>
